@@ -1,1184 +1,1408 @@
 <!DOCTYPE html>
-<!--
-====================================================================================================
-  أكاديمية الهندسة الكهربائية والتقنية - منصة تعليمية كاملة
-====================================================================================================
-
-1. تخصيص Firebase (FIREBASE CONFIG):
-   - تم دمج مفاتيح مشروعك (electro-learn-726ff) بالفعل داخل قسم JavaScript في الأسفل.
-
-2. كيفية جعل مستخدم Admin (ADMIN SYSTEM):
-   - قم بإنشاء حساب جديد من داخل الموقع عبر شاشة "تسجيل جديد".
-   - افتح Firebase Console -> Cloud Firestore -> أدخل على مجموعة "users".
-   - ابحث عن مستند المستخدم الخاص بك وافتح حقل "role".
-   - قم بتغيير قيمته من "user" إلى "admin".
-   - عند إعادة تحميل الموقع، ستظهر لك "لوحة التحكم" تلقائياً في شريط الملاحة.
-
-3. طريقة الرفع المباشر على GitHub Pages:
-   - قم بإنشاء Repository جديد على GitHub باسم مثلاً: electro-learn
-   - ارفع هذا الملف فقط وقم بتسميته: index.html
-   - أذهب إلى Settings -> Pages -> اختر Branch: main / root -> اضغط Save.
-   - سيكون موقعك يعمل مجاناً خلال ثوانٍ معدودة.
-====================================================================================================
--->
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>أكاديمية الهندسة الكهربائية | Electro Learn</title>
-  
-  <!-- Google Fonts: Cairo -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-  
-  <!-- FontAwesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  <!-- Firebase Web SDK v10 (Compat Version for Standalone CDN) -->
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-
-  <style>
-    :root {
-      --primary: #0284c7;
-      --primary-hover: #0369a1;
-      --bg-main: #0f172a;
-      --bg-card: #1e293b;
-      --bg-card-hover: #334155;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --border-color: #334155;
-      --accent-gold: #f59e0b;
-      --accent-green: #10b981;
-      --accent-red: #ef4444;
-      --radius: 12px;
-      --transition: all 0.3s ease;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Cairo', sans-serif;
-    }
-
-    body {
-      background-color: var(--bg-main);
-      color: var(--text-main);
-      line-height: 1.6;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    /* Navbar Header */
-    header {
-      background-color: rgba(30, 41, 59, 0.95);
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid var(--border-color);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-
-    .nav-container {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 1rem 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 1.3rem;
-      font-weight: 800;
-      color: var(--primary);
-    }
-
-    .logo i {
-      font-size: 1.6rem;
-      color: var(--accent-gold);
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 20px;
-      align-items: center;
-      list-style: none;
-    }
-
-    .nav-links a, .nav-links button {
-      color: var(--text-main);
-      font-weight: 600;
-      font-size: 0.95rem;
-      transition: var(--transition);
-      cursor: pointer;
-      background: none;
-      border: none;
-    }
-
-    .nav-links a:hover, .nav-links button:hover {
-      color: var(--primary);
-    }
-
-    .btn-admin {
-      background-color: rgba(245, 158, 11, 0.15) !important;
-      color: var(--accent-gold) !important;
-      padding: 6px 14px;
-      border-radius: 8px;
-      border: 1px solid var(--accent-gold) !important;
-    }
-
-    .btn-admin:hover {
-      background-color: var(--accent-gold) !important;
-      color: #000 !important;
-    }
-
-    /* Hero Section */
-    .hero {
-      padding: 4rem 1.5rem;
-      text-align: center;
-      background: linear-gradient(180deg, rgba(2, 132, 199, 0.1) 0%, rgba(15, 23, 42, 0) 100%);
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .hero h1 {
-      font-size: 2.5rem;
-      font-weight: 800;
-      margin-bottom: 1rem;
-      color: #fff;
-    }
-
-    .hero p {
-      font-size: 1.1rem;
-      color: var(--text-muted);
-      max-width: 700px;
-      margin: 0 auto 2rem auto;
-    }
-
-    /* Container & Layout */
-    .container {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 2rem 1.5rem;
-      flex: 1;
-    }
-
-    .section-title {
-      font-size: 1.6rem;
-      font-weight: 700;
-      margin-bottom: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      border-right: 4px solid var(--primary);
-      padding-right: 12px;
-    }
-
-    /* Categories Grid */
-    .categories-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-      gap: 15px;
-      margin-bottom: 3rem;
-    }
-
-    .category-card {
-      background-color: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius);
-      padding: 1.2rem;
-      text-align: center;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    .category-card:hover, .category-card.active {
-      background-color: var(--primary);
-      border-color: var(--primary);
-      transform: translateY(-3px);
-    }
-
-    .category-card i {
-      font-size: 2rem;
-      margin-bottom: 10px;
-      display: block;
-      color: var(--accent-gold);
-    }
-
-    .category-card:hover i, .category-card.active i {
-      color: #fff;
-    }
-
-    /* Content Cards Grid */
-    .content-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 25px;
-    }
-
-    .content-card {
-      background-color: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      transition: var(--transition);
-      position: relative;
-    }
-
-    .content-card:hover {
-      transform: translateY(-5px);
-      border-color: var(--primary);
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
-    }
-
-    .card-thumb {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-      background-color: #0f172a;
-    }
-
-    .card-body {
-      padding: 1.2rem;
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-    }
-
-    .card-tags {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-
-    .badge {
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: 700;
-    }
-
-    .badge-free {
-      background-color: rgba(16, 185, 129, 0.2);
-      color: var(--accent-green);
-    }
-
-    .badge-premium {
-      background-color: rgba(245, 158, 11, 0.2);
-      color: var(--accent-gold);
-    }
-
-    .category-tag {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-
-    .card-title {
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-      line-height: 1.4;
-    }
-
-    .card-desc {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      margin-bottom: 15px;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    .btn {
-      background-color: var(--primary);
-      color: #fff;
-      padding: 10px 18px;
-      border-radius: 8px;
-      border: none;
-      font-weight: 700;
-      cursor: pointer;
-      transition: var(--transition);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      width: 100%;
-      margin-top: auto;
-    }
-
-    .btn:hover {
-      background-color: var(--primary-hover);
-    }
-
-    .btn-secondary {
-      background-color: transparent;
-      border: 1px solid var(--border-color);
-      color: var(--text-main);
-    }
-
-    .btn-secondary:hover {
-      background-color: var(--bg-card-hover);
-    }
-
-    .btn-danger {
-      background-color: var(--accent-red);
-    }
-
-    .btn-danger:hover {
-      background-color: #dc2626;
-    }
-
-    /* Modals & Views */
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(5px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 2000;
-      opacity: 0;
-      pointer-events: none;
-      transition: var(--transition);
-      padding: 1rem;
-    }
-
-    .modal-overlay.active {
-      opacity: 1;
-      pointer-events: all;
-    }
-
-    .modal-card {
-      background-color: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius);
-      width: 100%;
-      max-width: 600px;
-      max-height: 90vh;
-      overflow-y: auto;
-      padding: 2rem;
-      position: relative;
-    }
-
-    .modal-card.large {
-      max-width: 900px;
-    }
-
-    .close-modal {
-      position: absolute;
-      top: 15px;
-      left: 15px;
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
-
-    /* Form Styles */
-    .form-group {
-      margin-bottom: 1.2rem;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: 600;
-      font-size: 0.9rem;
-    }
-
-    .form-control {
-      width: 100%;
-      padding: 12px;
-      background-color: var(--bg-main);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      color: #fff;
-      font-size: 0.95rem;
-      transition: var(--transition);
-    }
-
-    .form-control:focus {
-      border-color: var(--primary);
-      outline: none;
-    }
-
-    textarea.form-control {
-      resize: vertical;
-      min-height: 90px;
-    }
-
-    /* Viewer Screen */
-    .media-container {
-      width: 100%;
-      border-radius: var(--radius);
-      overflow: hidden;
-      margin-bottom: 1.5rem;
-      background-color: #000;
-    }
-
-    .media-container iframe {
-      width: 100%;
-      height: 450px;
-      border: none;
-    }
-
-    .locked-notice {
-      padding: 3rem;
-      text-align: center;
-      background-color: rgba(245, 158, 11, 0.1);
-      border: 1px dashed var(--accent-gold);
-      border-radius: var(--radius);
-      margin-bottom: 1.5rem;
-    }
-
-    .locked-notice i {
-      font-size: 3rem;
-      color: var(--accent-gold);
-      margin-bottom: 1rem;
-    }
-
-    /* Admin Management Table */
-    .table-responsive {
-      overflow-x: auto;
-      margin-top: 1.5rem;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      text-align: right;
-    }
-
-    th, td {
-      padding: 12px 15px;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    th {
-      background-color: var(--bg-main);
-      color: var(--text-muted);
-    }
-
-    /* Toast Notifications */
-    .toast-container {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      z-index: 3000;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .toast {
-      background-color: var(--bg-card);
-      border: 1px solid var(--border-color);
-      padding: 12px 20px;
-      border-radius: 8px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-width: 250px;
-      animation: slideIn 0.3s ease;
-    }
-
-    .toast.success { border-right: 4px solid var(--accent-green); }
-    .toast.error { border-right: 4px solid var(--accent-red); }
-
-    @keyframes slideIn {
-      from { transform: translateX(-100%); opacity: 0; }
-      to { transform: translateX(0); opacity: 1; }
-    }
-
-    /* Footer */
-    footer {
-      background-color: var(--bg-card);
-      border-top: 1px solid var(--border-color);
-      padding: 2rem 1.5rem;
-      text-align: center;
-      color: var(--text-muted);
-      margin-top: auto;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .nav-container {
-        flex-direction: column;
-        gap: 15px;
-      }
-      .hero h1 {
-        font-size: 1.8rem;
-      }
-      .media-container iframe {
-        height: 250px;
-      }
-    }
-  </style>
-</head>
-<body>
-
-  <!-- Navbar -->
-  <header>
-    <div class="nav-container">
-      <div class="logo">
-        <i class="fa-solid fa-bolt"></i>
-        <span>أكاديمية الهندسة الكهربائية</span>
-      </div>
-      <ul class="nav-links">
-        <li><a href="#" onclick="showSection('home')">الرئيسية</a></li>
-        <li><a href="#categories">الأقسام</a></li>
-        <li id="adminNavBtn" style="display: none;">
-          <button class="btn-admin" onclick="openModal('adminModal')"><i class="fa-solid fa-user-shield"></i> لوحة التحكم</button>
-        </li>
-        <li id="userInfo" style="display: none;">
-          <span id="userName" style="font-size: 0.9rem; color: var(--text-muted);"></span>
-        </li>
-        <li id="loginNavBtn">
-          <button onclick="openModal('authModal')"><i class="fa-solid fa-right-to-bracket"></i> دخول / تسجيل</button>
-        </li>
-        <li id="logoutNavBtn" style="display: none;">
-          <button onclick="handleLogout()"><i class="fa-solid fa-right-from-bracket"></i> خروج</button>
-        </li>
-      </ul>
-    </div>
-  </header>
-
-  <!-- Main Home View -->
-  <main id="homeView">
-    <!-- Hero Section -->
-    <section class="hero">
-      <h1>منصتك المتكاملة للهندسة الكهربائية والأنظمة الحديثة</h1>
-      <p>شروحات متخصصة في التوزيع الكهربائي، إنذار الحريق، التيار الخفيف، وأنظمة الطاقة الشمسية وفقاً للكودات الهندسية.</p>
-    </section>
-
-    <div class="container">
-      <!-- Categories Section -->
-      <h2 class="section-title" id="categories"><i class="fa-solid fa-layer-group"></i> الأقسام الهندسية</h2>
-      <div class="categories-grid" id="categoriesContainer">
-        <!-- JS Dynamic Generation -->
-      </div>
-
-      <!-- Content Section -->
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-        <h2 class="section-title" style="margin-bottom: 0;"><i class="fa-solid fa-book-open"></i> المحتويات والدروس</h2>
-        <span id="currentFilterText" style="color: var(--text-muted); font-size: 0.9rem;">عرض الجميع</span>
-      </div>
-      <div class="content-grid" id="contentGrid">
-        <!-- JS Dynamic Content -->
-      </div>
-    </div>
-  </main>
-
-  <!-- Auth Modal (Login / Register / Forgot Password) -->
-  <div class="modal-overlay" id="authModal">
-    <div class="modal-card">
-      <button class="close-modal" onclick="closeModal('authModal')">&times;</button>
-      
-      <!-- Login View -->
-      <div id="loginFormView">
-        <h2 style="margin-bottom: 1.5rem; text-align: center;"><i class="fa-solid fa-user-lock"></i> تسجيل الدخول</h2>
-        <form onsubmit="handleLogin(event)">
-          <div class="form-group">
-            <label>البريد الإلكتروني</label>
-            <input type="email" id="loginEmail" class="form-control" required placeholder="example@domain.com">
-          </div>
-          <div class="form-group">
-            <label>كلمة المرور</label>
-            <input type="password" id="loginPassword" class="form-control" required placeholder="********">
-          </div>
-          <button type="submit" class="btn" style="margin-bottom: 1rem;">دخول</button>
-        </form>
-        <div style="text-align: center; font-size: 0.9rem;">
-          <a href="#" onclick="toggleAuthView('forgot')" style="color: var(--text-muted);">نسيت كلمة المرور؟</a>
-          <hr style="border-color: var(--border-color); margin: 1rem 0;">
-          <span>ليس لديك حساب؟ </span>
-          <a href="#" onclick="toggleAuthView('register')" style="color: var(--primary); font-weight: bold;">إنشاء حساب جديد</a>
-        </div>
-      </div>
-
-      <!-- Register View -->
-      <div id="registerFormView" style="display: none;">
-        <h2 style="margin-bottom: 1.5rem; text-align: center;"><i class="fa-solid fa-user-plus"></i> حساب جديد</h2>
-        <form onsubmit="handleRegister(event)">
-          <div class="form-group">
-            <label>الاسم بالكامل</label>
-            <input type="text" id="regName" class="form-control" required placeholder="المهندس/..." >
-          </div>
-          <div class="form-group">
-            <label>البريد الإلكتروني</label>
-            <input type="email" id="regEmail" class="form-control" required placeholder="example@domain.com">
-          </div>
-          <div class="form-group">
-            <label>كلمة المرور</label>
-            <input type="password" id="regPassword" class="form-control" required placeholder="********">
-          </div>
-          <div class="form-group">
-            <label>تأكيد كلمة المرور</label>
-            <input type="password" id="regConfirmPassword" class="form-control" required placeholder="********">
-          </div>
-          <button type="submit" class="btn" style="margin-bottom: 1rem;">إنشاء الحساب</button>
-        </form>
-        <div style="text-align: center; font-size: 0.9rem;">
-          <span>لديك حساب بالفعل؟ </span>
-          <a href="#" onclick="toggleAuthView('login')" style="color: var(--primary); font-weight: bold;">تسجيل الدخول</a>
-        </div>
-      </div>
-
-      <!-- Forgot Password View -->
-      <div id="forgotFormView" style="display: none;">
-        <h2 style="margin-bottom: 1.5rem; text-align: center;"><i class="fa-solid fa-key"></i> استعادة كلمة المرور</h2>
-        <form onsubmit="handleForgotPassword(event)">
-          <div class="form-group">
-            <label>البريد الإلكتروني المسجل</label>
-            <input type="email" id="forgotEmail" class="form-control" required placeholder="example@domain.com">
-          </div>
-          <button type="submit" class="btn" style="margin-bottom: 1rem;">إرسال رابط الإعادة</button>
-        </form>
-        <div style="text-align: center; font-size: 0.9rem;">
-          <a href="#" onclick="toggleAuthView('login')" style="color: var(--primary);">العودة لتسجيل الدخول</a>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- Content Viewer Modal -->
-  <div class="modal-overlay" id="contentViewerModal">
-    <div class="modal-card large">
-      <button class="close-modal" onclick="closeModal('contentViewerModal')">&times;</button>
-      <div id="viewerBody">
-        <!-- JS Dynamic Population -->
-      </div>
-    </div>
-  </div>
-
-  <!-- Admin Panel Modal -->
-  <div class="modal-overlay" id="adminModal">
-    <div class="modal-card large">
-      <button class="close-modal" onclick="closeModal('adminModal')">&times;</button>
-      <h2 style="margin-bottom: 1.5rem;"><i class="fa-solid fa-sliders"></i> لوحة تحكم الأدمن</h2>
-      
-      <!-- Tabs -->
-      <div style="display: flex; gap: 10px; margin-bottom: 1.5rem;">
-        <button class="btn" id="addContentTabBtn" onclick="toggleAdminTab('add')">إضافة محتوى جديد</button>
-        <button class="btn btn-secondary" id="manageContentTabBtn" onclick="toggleAdminTab('manage')">إدارة المحتوى</button>
-      </div>
-
-      <!-- Add / Edit Form -->
-      <div id="adminFormTab">
-        <form id="contentForm" onsubmit="handleSaveContent(event)">
-          <input type="hidden" id="editContentId">
-          <div class="form-group">
-            <label>عنوان المحتوى</label>
-            <input type="text" id="contentTitle" class="form-control" required>
-          </div>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-            <div class="form-group">
-              <label>القسم</label>
-              <select id="contentCategory" class="form-control" required>
-                <!-- Categories JS Populated -->
-              </select>
-            </div>
-            <div class="form-group">
-              <label>نوع المحتوى</label>
-              <select id="contentType" class="form-control" required>
-                <option value="free">مجاني (Free)</option>
-                <option value="premium">خاص (Premium)</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group">
-            <label>صورة الغلاف (Thumbnail URL)</label>
-            <input type="url" id="contentThumbnail" class="form-control" placeholder="https://example.com/image.jpg">
-          </div>
-          <div class="form-group">
-            <label>رابط فيديو YouTube</label>
-            <input type="url" id="contentYoutubeUrl" class="form-control" placeholder="https://www.youtube.com/watch?v=...">
-          </div>
-          <div class="form-group">
-            <label>رابط ملف Google Drive</label>
-            <input type="url" id="contentDriveUrl" class="form-control" placeholder="https://drive.google.com/file/d/.../view">
-          </div>
-          <div class="form-group">
-            <label>وصف المحتوى</label>
-            <textarea id="contentDescription" class="form-control" required></textarea>
-          </div>
-          <button type="submit" class="btn" id="saveContentBtn">نشر المحتوى</button>
-        </form>
-      </div>
-
-      <!-- Management Table -->
-      <div id="adminManageTab" style="display: none;">
-        <div class="table-responsive">
-          <table>
-            <thead>
-              <tr>
-                <th>العنوان</th>
-                <th>القسم</th>
-                <th>النوع</th>
-                <th>إجراءات</th>
-              </tr>
-            </thead>
-            <tbody id="adminTableBody">
-              <!-- JS Dynamic Content -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- Toast Notification Container -->
-  <div class="toast-container" id="toastContainer"></div>
-
-  <!-- Footer -->
-  <footer>
-    <p>جميع الحقوق محفوظة &copy; 2026 - منصة أكاديمية الهندسة الكهربائية</p>
-  </footer>
-
-  <!-- Javascript Logic & Firebase Initialization -->
-  <script>
-    /* =================================================================================
-       1. FIREBASE CONFIGURATION & INITIALIZATION
-       ================================================================================= */
-    const firebaseConfig = {
-      apiKey: "AIzaSyCQXR85q0Tmt0QGvPC1u--OuQnDDgB1_qs",
-      authDomain: "electro-learn-726ff.firebaseapp.com",
-      projectId: "electro-learn-726ff",
-      storageBucket: "electro-learn-726ff.firebasestorage.app",
-      messagingSenderId: "856983970238",
-      appId: "1:856983970238:web:4bed21b62986cdc38259ef"
-    };
-
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
-
-    // Application State Variables
-    let currentUser = null;
-    let currentUserRole = "user";
-    let allContents = [];
-    let selectedCategory = "all";
-
-    // Categories List Definition
-    const categories = [
-      { id: "Fire Alarm", name: "إنذار الحريق", icon: "fa-fire-extinguisher" },
-      { id: "Electrical Distribution", name: "التوزيع الكهربائي", icon: "fa-network-wired" },
-      { id: "EMT", name: "المواصير والترنك (EMT)", icon: "fa-grip-lines" },
-      { id: "Solar Energy", name: "الطاقة الشمسية", icon: "fa-solar-panel" },
-      { id: "Low Current", name: "التيار الخفيف", icon: "fa-walkie-talkie" },
-      { id: "BIM", name: "نمذجة المباني (BIM)", icon: "fa-cubes" },
-      { id: "Electrical Design", name: "التصميم الكهربائي", icon: "fa-drafting-compass" }
-    ];
-
-    /* =================================================================================
-       2. APP INITIALIZATION & LISTENERS
-       ================================================================================= */
-    document.addEventListener("DOMContentLoaded", () => {
-      renderCategories();
-      populateCategorySelect();
-      listenToContents();
-
-      // Monitor Firebase Auth State
-      auth.onAuthStateChanged(async (user) => {
-        if (user) {
-          currentUser = user;
-          document.getElementById("loginNavBtn").style.display = "none";
-          document.getElementById("logoutNavBtn").style.display = "block";
-          document.getElementById("userInfo").style.display = "block";
-          document.getElementById("userName").innerText = user.email;
-
-          // Check Admin Role in Firestore
-          try {
-            const userDoc = await db.collection("users").doc(user.uid).get();
-            if (userDoc.exists && userDoc.data().role === "admin") {
-              currentUserRole = "admin";
-              document.getElementById("adminNavBtn").style.display = "block";
-            } else {
-              currentUserRole = "user";
-              document.getElementById("adminNavBtn").style.display = "none";
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أكاديمية التدريب المهني | المنصة الهندسية المتكاملة</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            800: '#0f172a',
+                            900: '#0a0f1d',
+                            950: '#050811'
+                        },
+                        brand: {
+                            blue: '#1d4ed8',
+                            light: '#3b82f6',
+                            gold: '#f59e0b',
+                            emerald: '#10b981'
+                        }
+                    },
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif']
+                    }
+                }
             }
-          } catch (err) {
-            console.error("Error fetching user role:", err);
-          }
-        } else {
-          currentUser = null;
-          currentUserRole = "user";
-          document.getElementById("loginNavBtn").style.display = "block";
-          document.getElementById("logoutNavBtn").style.display = "none";
-          document.getElementById("userInfo").style.display = "none";
-          document.getElementById("adminNavBtn").style.display = "none";
         }
-      });
-    });
+    </script>
+    <!-- FontAwesome & Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        .ticker-wrap { width: 100%; overflow: hidden; background-color: #0f172a; white-space: nowrap; }
+        .ticker-move { display: inline-block; animation: ticker 35s linear infinite; }
+        .ticker-move:hover { animation-play-state: paused; }
+        @keyframes ticker {
+            0% { transform: translate3d(100%, 0, 0); }
+            100% { transform: translate3d(-100%, 0, 0); }
+        }
+        .aspect-video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; }
+        .aspect-video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(226, 232, 240, 0.8); }
+        .sidebar-active { background-color: #1d4ed8; color: #ffffff !important; }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen flex flex-col antialiased selection:bg-brand-blue selection:text-white">
 
-    /* =================================================================================
-       3. AUTHENTICATION HANDLERS
-       ================================================================================= */
-    async function handleLogin(e) {
-      e.preventDefault();
-      const email = document.getElementById("loginEmail").value;
-      const pass = document.getElementById("loginPassword").value;
+    <!-- Breaking News Ticker -->
+    <div id="breaking-news-container" class="ticker-wrap bg-slate-900 text-white text-sm py-2 px-4 border-b border-slate-800 flex items-center z-50">
+        <div class="bg-red-600 text-white text-xs font-extrabold px-3 py-1 rounded shrink-0 ml-3 flex items-center gap-1">
+            <i class="fa-solid fa-bolt animate-pulse"></i> أخبار عاجلة
+        </div>
+        <div class="overflow-hidden w-full">
+            <div id="breaking-news-ticker" class="ticker-move text-slate-200 font-medium">
+                جاري تحميل الأجندة والأخبار الهندسية العاجلة...
+            </div>
+        </div>
+    </div>
 
-      try {
-        await auth.signInWithEmailAndPassword(email, pass);
-        showToast("تم تسجيل الدخول بنجاح!", "success");
-        closeModal("authModal");
-      } catch (err) {
-        showToast(getArabicErrorMessage(err.code), "error");
-      }
-    }
+    <!-- Main Navigation Header -->
+    <header class="sticky top-0 bg-navy-900 text-white shadow-xl z-40 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Logo & Brand Name -->
+                <div class="flex items-center space-x-4 space-x-reverse cursor-pointer" onclick="navigateTo('home')">
+                    <div class="w-12 h-12 bg-gradient-to-br from-brand-blue to-blue-700 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30">
+                        <i class="fa-solid fa-graduation-cap text-2xl text-white"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-black tracking-tight text-white flex items-center gap-2">
+                            أكاديمية التدريب المهني
+                            <span class="text-xs font-semibold bg-brand-gold/20 text-brand-gold border border-brand-gold/30 px-2 py-0.5 rounded-full">هندسة</span>
+                        </h1>
+                        <p class="text-xs text-slate-400">المنصة التعليمية الرقمية المعتمدة للمهندسين</p>
+                    </div>
+                </div>
 
-    async function handleRegister(e) {
-      e.preventDefault();
-      const name = document.getElementById("regName").value;
-      const email = document.getElementById("regEmail").value;
-      const pass = document.getElementById("regPassword").value;
-      const confirmPass = document.getElementById("regConfirmPassword").value;
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden lg:flex items-center space-x-6 space-x-reverse font-semibold text-sm">
+                    <button onclick="navigateTo('home')" class="hover:text-brand-light transition py-2 px-1">الرئيسية</button>
+                    <button onclick="navigateTo('categories')" class="hover:text-brand-light transition py-2 px-1">المجالات الهندسية</button>
+                    <button onclick="navigateTo('library')" class="hover:text-brand-light transition py-2 px-1"><i class="fa-solid fa-book-bookmark ml-1 text-xs"></i> المكتبة الهندسية</button>
+                    <button onclick="navigateTo('jobs')" class="hover:text-brand-light transition py-2 px-1"><i class="fa-solid fa-briefcase ml-1 text-xs"></i> فرص العمل</button>
+                    <button onclick="navigateTo('news-offers')" class="hover:text-brand-light transition py-2 px-1">الأخبار والعروض</button>
+                </nav>
 
-      if (pass !== confirmPass) {
-        showToast("كلمتا المرور غير متطابقتين!", "error");
-        return;
-      }
+                <!-- Header Actions & Search -->
+                <div class="flex items-center gap-3">
+                    <!-- Search Input Trigger -->
+                    <div class="relative hidden sm:block w-48 lg:w-64">
+                        <input type="text" id="global-search-input" onkeyup="handleGlobalSearch(event)" placeholder="ابحث عن دورة، ملف، وظيفة..." 
+                            class="w-full bg-slate-800 text-slate-200 text-xs rounded-lg pl-3 pr-9 py-2 border border-slate-700 focus:outline-none focus:border-brand-light transition">
+                        <i class="fa-solid fa-magnifying-glass absolute right-3 top-2.5 text-slate-400 text-xs"></i>
+                    </div>
 
-      try {
-        const res = await auth.createUserWithEmailAndPassword(email, pass);
-        // Save user profile in Firestore
-        await db.collection("users").doc(res.user.uid).set({
-          name: name,
-          email: email,
-          role: "user", // Default Role
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    <!-- Auth Buttons & User Menu -->
+                    <div id="auth-header-zone" class="flex items-center gap-2">
+                        <button onclick="openAuthModal('login')" class="bg-brand-blue hover:bg-blue-600 text-white font-bold text-xs px-4 py-2.5 rounded-lg shadow-md transition">
+                            <i class="fa-solid fa-right-to-bracket ml-1"></i> دخول
+                        </button>
+                    </div>
+
+                    <!-- Mobile Menu Button -->
+                    <button onclick="toggleMobileMenu()" class="lg:hidden p-2 text-slate-300 hover:text-white text-xl">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Navigation -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-navy-950 border-b border-slate-800 px-4 pt-2 pb-4 space-y-2 text-sm font-semibold">
+            <button onclick="navigateTo('home'); toggleMobileMenu()" class="block w-full text-right py-2 hover:text-brand-light">الرئيسية</button>
+            <button onclick="navigateTo('categories'); toggleMobileMenu()" class="block w-full text-right py-2 hover:text-brand-light">المجالات الهندسية</button>
+            <button onclick="navigateTo('library'); toggleMobileMenu()" class="block w-full text-right py-2 hover:text-brand-light">المكتبة الهندسية</button>
+            <button onclick="navigateTo('jobs'); toggleMobileMenu()" class="block w-full text-right py-2 hover:text-brand-light">فرص العمل</button>
+            <button onclick="navigateTo('news-offers'); toggleMobileMenu()" class="block w-full text-right py-2 hover:text-brand-light">الأخبار والعروض</button>
+            <div class="pt-2 border-t border-slate-800">
+                <input type="text" onkeyup="handleGlobalSearch(event)" placeholder="ابحث في جميع الأقسام..." class="w-full bg-slate-800 text-white text-xs p-2 rounded border border-slate-700">
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER (ROUTER VIEWS) -->
+    <main id="app-content" class="flex-grow">
+        <!-- Views will be dynamically injected here -->
+    </main>
+
+    <!-- Authentication Modal -->
+    <div id="auth-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden relative border border-slate-100">
+            <button onclick="closeAuthModal()" class="absolute left-4 top-4 text-slate-400 hover:text-slate-600 text-lg z-10"><i class="fa-solid fa-xmark"></i></button>
+            
+            <div class="p-8">
+                <div class="text-center mb-6">
+                    <div class="w-12 h-12 bg-brand-blue/10 text-brand-blue rounded-full flex items-center justify-center mx-auto mb-3">
+                        <i class="fa-solid fa-user-shield text-xl"></i>
+                    </div>
+                    <h3 id="auth-modal-title" class="text-2xl font-black text-slate-900">تسجيل الدخول</h3>
+                    <p id="auth-modal-subtitle" class="text-xs text-slate-500 mt-1">أهلاً بك مجدداً في منصة أكاديمية التدريب المهني</p>
+                </div>
+
+                <form id="auth-form" onsubmit="handleAuthSubmit(event)" class="space-y-4">
+                    <div id="name-field-group" class="hidden">
+                        <label class="block text-xs font-bold text-slate-700 mb-1">الاسم بالكامل</label>
+                        <input type="text" id="auth-name" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-brand-blue">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">البريد الإلكتروني</label>
+                        <input type="email" id="auth-email" required class="w-full p-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-brand-blue" placeholder="engineer@example.com">
+                    </div>
+
+                    <div id="password-field-group">
+                        <label class="block text-xs font-bold text-slate-700 mb-1">كلمة المرور</label>
+                        <input type="password" id="auth-password" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-brand-blue" placeholder="••••••••">
+                    </div>
+
+                    <div id="auth-error-msg" class="text-xs text-red-600 font-semibold hidden bg-red-50 p-2 rounded border border-red-200"></div>
+
+                    <button type="submit" id="auth-submit-btn" class="w-full py-3 bg-brand-blue hover:bg-blue-700 text-white font-bold rounded-lg shadow-lg shadow-blue-500/20 transition">
+                        تسجيل الدخول
+                    </button>
+                </form>
+
+                <div class="mt-6 text-center text-xs text-slate-500 flex justify-between items-center border-t pt-4">
+                    <button type="button" onclick="toggleAuthMode('forgot')" id="btn-forgot-pass" class="text-brand-blue hover:underline font-semibold">نسيت كلمة المرور؟</button>
+                    <button type="button" onclick="toggleAuthMode()" id="btn-toggle-auth" class="text-slate-700 hover:text-brand-blue font-bold">إنشاء حساب جديد</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Dynamic Editor Modal -->
+    <div id="admin-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] flex flex-col overflow-hidden border border-slate-100">
+            <div class="p-5 bg-slate-900 text-white flex justify-between items-center">
+                <h3 id="admin-modal-title" class="font-bold text-lg">إدارة العنصر</h3>
+                <button onclick="closeAdminModal()" class="text-slate-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="p-6 overflow-y-auto flex-grow" id="admin-modal-body">
+                <!-- Form Inputs dynamically built via JS -->
+            </div>
+            <div class="p-4 bg-slate-50 border-t flex justify-end gap-3">
+                <button onclick="closeAdminModal()" class="px-5 py-2 text-xs font-bold text-slate-600 hover:bg-slate-200 rounded-lg">إلغاء</button>
+                <button id="admin-modal-save-btn" class="px-6 py-2 text-xs font-bold bg-brand-blue hover:bg-blue-700 text-white rounded-lg shadow">حفظ التغييرات</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed bottom-5 left-5 z-50 space-y-2 pointer-events-none"></div>
+
+    <!-- Footer -->
+    <footer class="bg-navy-950 text-slate-400 text-xs border-t border-slate-800 mt-16">
+        <div class="max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="space-y-4">
+                <div class="flex items-center space-x-2 space-x-reverse">
+                    <div class="w-8 h-8 bg-brand-blue rounded-lg flex items-center justify-center text-white font-bold">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <span class="text-base font-black text-white">أكاديمية التدريب المهني</span>
+                </div>
+                <p class="leading-relaxed">أول منصة رقمية متخصصة في تأهيل المهندسين لسوق العمل بأساليب تطبيقية احترافية ومحتوى هندسي قياسي.</p>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-4 text-sm">روابط السريعة</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" onclick="navigateTo('categories')" class="hover:text-white transition">المجالات الهندسية</a></li>
+                    <li><a href="#" onclick="navigateTo('library')" class="hover:text-white transition">المكتبة الهندسية الرقمية</a></li>
+                    <li><a href="#" onclick="navigateTo('jobs')" class="hover:text-white transition">أحدث فرص العمل</a></li>
+                    <li><a href="#" onclick="navigateTo('news-offers')" class="hover:text-white transition">العروض والتخفيضات</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-4 text-sm">المجالات الهندسية</h4>
+                <ul class="space-y-2">
+                    <li>القوى والكهرباء (Electrical Power)</li>
+                    <li>أنظمة التيار الخفيف (Low Current)</li>
+                    <li>نمذجة معلومات البناء (BIM & Revit)</li>
+                    <li>أنظمة إنذار الحريق (Fire Alarm)</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-4 text-sm">التواصل والدعم</h4>
+                <p class="mb-2"><i class="fa-solid fa-envelope ml-2 text-brand-blue"></i> support@electro-learn.com</p>
+                <p class="mb-4"><i class="fa-solid fa-phone ml-2 text-brand-blue"></i> +20 100 000 0000</p>
+                <div class="flex gap-3 text-lg">
+                    <a href="#" class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-brand-blue hover:text-white transition"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-brand-blue hover:text-white transition"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="#" class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-brand-blue hover:text-white transition"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="border-t border-slate-900 py-4 text-center text-slate-500">
+            <p>© 2026 أكاديمية التدريب المهني. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <script type="module">
+        // Import Firebase App & Auth & Firestore from CDN browser ES modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { 
+            getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, 
+            signOut, onAuthStateChanged, sendPasswordResetEmail 
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { 
+            getFirestore, collection, doc, addDoc, setDoc, getDoc, getDocs, 
+            updateDoc, deleteDoc, query, where, orderBy, limit, serverTimestamp 
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        // ==========================================
+        // 1. FIREBASE CONFIG & INITIALIZATION
+        // ==========================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyCQXR85qT0mt0QGvPC1u--OuQnDDgB1_qs",
+            authDomain: "electro-learn-726ff.firebaseapp.com",
+            projectId: "electro-learn-726ff",
+            storageBucket: "electro-learn-726ff.firebasestorage.app",
+            messagingSenderId: "856983970238",
+            appId: "1:856983970238:web:4bed21b62986cdc38259ef"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Global Application State
+        window.AppState = {
+            currentUser: null,
+            userRole: 'user', // 'user', 'editor', 'admin'
+            userData: null,
+            currentView: 'home',
+            currentParams: null,
+            authModalMode: 'login', // 'login', 'register', 'forgot'
+            userBookmarks: [],
+            userProgress: {}
+        };
+
+        // UI Toast helper
+        window.showToast = function(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            const bg = type === 'success' ? 'bg-emerald-600' : type === 'error' ? 'bg-red-600' : 'bg-slate-800';
+            toast.className = `${bg} text-white text-xs font-bold px-4 py-3 rounded-lg shadow-xl flex items-center justify-between gap-3 min-w-[250px] transition-all transform duration-300 translate-y-2 pointer-events-auto`;
+            toast.innerHTML = `
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid ${type === 'success' ? 'fa-circle-check' : type === 'error' ? 'fa-triangle-exclamation' : 'fa-circle-info'}"></i>
+                    <span>${message}</span>
+                </div>
+                <button onclick="this.parentElement.remove()" class="text-slate-300 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            `;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.add('opacity-0', '-translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        };
+
+        // Extractors for Media Embeds
+        window.extractYouTubeId = function(url) {
+            if (!url) return null;
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        };
+
+        window.formatGoogleDriveUrl = function(url) {
+            if (!url) return '';
+            if (url.includes('/preview')) return url;
+            return url.replace(/\/view(\?.*)?$/, '/preview');
+        };
+
+        // Seed Initial Engineering Sample Data if DB is Fresh
+        async function seedInitialDataIfEmpty() {
+            try {
+                const catSnap = await getDocs(collection(db, "categories"));
+                if (catSnap.empty) {
+                    showToast("جاري تجهيز البيانات الأولية للأكاديمية...", "info");
+                    
+                    // Categories
+                    const categories = [
+                        { name: "Electrical Power", description: "تصميم وإدارة محطات القوى والشبكات الكهربائية", icon: "fa-bolt", coverImage: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=600", displayOrder: 1, status: "published", featured: true },
+                        { name: "Electrical Distribution", description: "تصميم التوزيع الكهربائي للمباني والمصانع", icon: "fa-network-wired", coverImage: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600", displayOrder: 2, status: "published", featured: true },
+                        { name: "Fire Alarm & Protection", description: "أنظمة الكشف والإنذار وإطفاء الحريق الهندسية", icon: "fa-fire-extinguisher", coverImage: "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=600", displayOrder: 3, status: "published", featured: true },
+                        { name: "Low Current Systems", description: "أنظمة التيار الخفيف CCTV, Access Control, Data", icon: "fa-microchip", coverImage: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600", displayOrder: 4, status: "published", featured: true },
+                        { name: "BIM & Revit Electrical", description: "نمذجة معلومات البناء وتنسيق المشاريع الهندسية", icon: "fa-cubes", coverImage: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=600", displayOrder: 5, status: "published", featured: true },
+                        { name: "Solar Energy Systems", description: "تصميم وتنفيذ محطات الطاقة الشمسية الكهروضوئية", icon: "fa-solar-panel", coverImage: "https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=600", displayOrder: 6, status: "published", featured: true }
+                    ];
+                    for (const cat of categories) await addDoc(collection(db, "categories"), { ...cat, createdAt: serverTimestamp() });
+
+                    // Breaking News
+                    await addDoc(collection(db, "breakingNews"), { content: "فتح باب التسجيل في دبلومة المكتب الفني والتوزيع الكهربائي المعتمدة لعام 2026", status: "published", priority: 1, createdAt: serverTimestamp() });
+                    await addDoc(collection(db, "breakingNews"), { content: "انضمام أكثر من 5000 مهندس لمنصة أكاديمية التدريب المهني في الشرق الأوسط", status: "published", priority: 2, createdAt: serverTimestamp() });
+
+                    // Banners
+                    await addDoc(collection(db, "banners"), {
+                        title: "احترف التصميم الهندسي وفق الكودات العالمية",
+                        subtitle: "مسارات تدريبية تطبيقية شاملة بإشراف كبار استشاريي الهندسة الكهربائية والمكتب الفني",
+                        buttonText: "استكشف الدورات الآن",
+                        buttonLink: "categories",
+                        image: "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=1200",
+                        status: "published"
+                    });
+
+                    // Sample Course
+                    const sampleCatDoc = (await getDocs(collection(db, "categories"))).docs[0];
+                    if (sampleCatDoc) {
+                        const courseRef = await addDoc(collection(db, "courses"), {
+                            categoryId: sampleCatDoc.id,
+                            title: "دورة التوزيع الكهربائي الشاملة - Electrical Distribution Design",
+                            description: "تعلم تصميم شبكات التوزيع الكهربائي للمباني السكنية والتجارية من الصفر وحتى إعداد المخططات التنفيذية وشبكة الكابلات ولوحات التوزيع.",
+                            image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800",
+                            level: "متقدم",
+                            instructor: "م. أحمد عبد السلام - استشاري قوى كهربائية",
+                            duration: "24 ساعة تدريبية",
+                            type: "free",
+                            price: "مجاني",
+                            status: "published",
+                            featured: true,
+                            createdAt: serverTimestamp()
+                        });
+
+                        // Add Lesson
+                        await addDoc(collection(db, "lessons"), {
+                            courseId: courseRef.id,
+                            title: "الدرس 1: مقدمة في حساب الأحمال الكهربائية وشبكات التغذية",
+                            description: "شرح مفصل لطرق حساب الأحمال (Load Estimation) واختيار القواطع والكابلات الرئيسية.",
+                            youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                            driveUrl: "https://drive.google.com/file/d/1xxxx/view",
+                            duration: "45 دقيقة",
+                            displayOrder: 1,
+                            status: "published"
+                        });
+                    }
+
+                    // Sample Job
+                    await addDoc(collection(db, "jobs"), {
+                        title: "مهندس تصميم كهربائي (Electrical Design Engineer)",
+                        company: "المستشارون العرب للحول الهندسية",
+                        location: "القاهرة / الرياض",
+                        type: "دوام كامل",
+                        experience: "3 - 5 سنوات",
+                        salary: "حسب المقابلة",
+                        description: "مطلوب مهندس كهرباء قوى للعمل ضمن فريق تصميم المشاريع الكبرى وحساب الأحمال وشبكات التوزيع والإنارة.",
+                        applyUrl: "https://linkedin.com",
+                        featured: true,
+                        status: "published",
+                        createdAt: serverTimestamp()
+                    });
+
+                    // Sample Library File
+                    await addDoc(collection(db, "library"), {
+                        title: "كود التصميم الكهربائي وحسابات القواطع والكابلات Excel Sheet",
+                        category: "Calculators",
+                        type: "Excel",
+                        driveUrl: "https://drive.google.com/file/d/1xxxx/view",
+                        description: "شيت إكسيل احترافي معتمد لحسابات Voltage Drop, Short Circuit, and Cable Sizing.",
+                        status: "published",
+                        createdAt: serverTimestamp()
+                    });
+
+                    // Sample Offer
+                    await addDoc(collection(db, "offers"), {
+                        title: "خصم 50% على دبلومة BIM & Revit Electrical الكاملة",
+                        description: "احصل على الوصول الكامل لجميع دروس واختبارات نمذجة معلومات البناء بسعر استثنائي.",
+                        oldPrice: "2000 EGP",
+                        newPrice: "999 EGP",
+                        discount: "50%",
+                        image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=600",
+                        status: "published",
+                        featured: true
+                    });
+
+                    showToast("تم تهيئة بيانات الأكاديمية بنجاح!", "success");
+                }
+            } catch (err) {
+                console.error("Error seeding initial data:", err);
+            }
+        }
+
+        // 2. AUTHENTICATION & USER MANAGEMENT
+        onAuthStateChanged(auth, async (user) => {
+            AppState.currentUser = user;
+            if (user) {
+                try {
+                    const userDoc = await getDoc(doc(db, "users", user.uid));
+                    if (userDoc.exists()) {
+                        AppState.userData = userDoc.data();
+                        AppState.userRole = AppState.userData.role || 'user';
+                    } else {
+                        // Create User Record in Firestore
+                        const newUser = {
+                            name: user.displayName || user.email.split('@')[0],
+                            email: user.email,
+                            role: 'user', // Default Role
+                            status: 'active',
+                            createdAt: serverTimestamp()
+                        };
+                        await setDoc(doc(db, "users", user.uid), newUser);
+                        AppState.userData = newUser;
+                        AppState.userRole = 'user';
+                    }
+                } catch (e) {
+                    console.error("User fetch error:", e);
+                }
+                renderHeaderAuth();
+                showToast(`مرحباً بك ${AppState.userData?.name || user.email}`, 'success');
+            } else {
+                AppState.userData = null;
+                AppState.userRole = 'user';
+                renderHeaderAuth();
+            }
+            renderView(AppState.currentView, AppState.currentParams);
         });
 
-        showToast("تم إنشاء الحساب بنجاح!", "success");
-        closeModal("authModal");
-      } catch (err) {
-        showToast(getArabicErrorMessage(err.code), "error");
-      }
-    }
+        window.renderHeaderAuth = function() {
+            const container = document.getElementById('auth-header-zone');
+            if (AppState.currentUser) {
+                const isAdmin = AppState.userRole === 'admin';
+                container.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        ${isAdmin ? `
+                            <button onclick="navigateTo('admin')" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs px-3 py-2 rounded-lg flex items-center gap-1 shadow">
+                                <i class="fa-solid fa-gauge-high"></i> لوحة التحكم
+                            </button>
+                        ` : ''}
+                        <button onclick="navigateTo('dashboard')" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold px-3 py-2 rounded-lg border border-slate-700 flex items-center gap-2">
+                            <i class="fa-solid fa-user"></i>
+                            <span class="hidden md:inline">${AppState.userData?.name || 'حسابي'}</span>
+                        </button>
+                        <button onclick="handleLogout()" class="text-slate-400 hover:text-red-400 p-2 text-sm" title="تسجيل الخروج">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                        </button>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = `
+                    <button onclick="openAuthModal('login')" class="bg-brand-blue hover:bg-blue-600 text-white font-bold text-xs px-4 py-2.5 rounded-lg shadow-md transition">
+                        <i class="fa-solid fa-right-to-bracket ml-1"></i> دخول
+                    </button>
+                `;
+            }
+        };
 
-    async function handleForgotPassword(e) {
-      e.preventDefault();
-      const email = document.getElementById("forgotEmail").value;
-      try {
-        await auth.sendPasswordResetEmail(email);
-        showToast("تم إرسال رابط إعادة تعيين كلمة المرور بريدياً.", "success");
-        toggleAuthView('login');
-      } catch (err) {
-        showToast(getArabicErrorMessage(err.code), "error");
-      }
-    }
+        window.handleLogout = async function() {
+            await signOut(auth);
+            showToast('تم تسجيل الخروج بنجاح', 'info');
+            navigateTo('home');
+        };
 
-    function handleLogout() {
-      auth.signOut();
-      showToast("تم تسجيل الخروج بنجاح.", "success");
-    }
+        window.openAuthModal = function(mode = 'login') {
+            AppState.authModalMode = mode;
+            const modal = document.getElementById('auth-modal');
+            const nameGrp = document.getElementById('name-field-group');
+            const passGrp = document.getElementById('password-field-group');
+            const title = document.getElementById('auth-modal-title');
+            const submitBtn = document.getElementById('auth-submit-btn');
 
-    /* =================================================================================
-       4. CONTENT MANAGEMENT & FIRESTORE REAL-TIME LISTENERS
-       ================================================================================= */
-    function listenToContents() {
-      db.collection("contents").orderBy("createdAt", "desc").onSnapshot((snapshot) => {
-        allContents = [];
-        snapshot.forEach((doc) => {
-          allContents.push({ id: doc.id, ...doc.data() });
-        });
-        renderContents();
-        renderAdminTable();
-      }, (err) => {
-        showToast("خطأ في تحميل المحتوى من القاعدة.", "error");
-      });
-    }
+            document.getElementById('auth-error-msg').classList.add('hidden');
+            modal.classList.remove('hidden');
 
-    async function handleSaveContent(e) {
-      e.preventDefault();
-      if (currentUserRole !== "admin") {
-        showToast("غير مصرح لك بإجراء هذه العملية.", "error");
-        return;
-      }
+            if (mode === 'register') {
+                title.innerText = "إنشاء حساب جديد";
+                nameGrp.classList.remove('hidden');
+                passGrp.classList.remove('hidden');
+                submitBtn.innerText = "تسجيل الحساب";
+            } else if (mode === 'forgot') {
+                title.innerText = "استعادة كلمة المرور";
+                nameGrp.classList.add('hidden');
+                passGrp.classList.add('hidden');
+                submitBtn.innerText = "إرسال رابط الاستعادة";
+            } else {
+                title.innerText = "تسجيل الدخول";
+                nameGrp.classList.add('hidden');
+                passGrp.classList.remove('hidden');
+                submitBtn.innerText = "تسجيل الدخول";
+            }
+        };
 
-      const editId = document.getElementById("editContentId").value;
-      const contentData = {
-        title: document.getElementById("contentTitle").value,
-        category: document.getElementById("contentCategory").value,
-        type: document.getElementById("contentType").value,
-        thumbnail: document.getElementById("contentThumbnail").value || "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80",
-        youtubeUrl: document.getElementById("contentYoutubeUrl").value,
-        driveUrl: document.getElementById("contentDriveUrl").value,
-        description: document.getElementById("contentDescription").value,
-      };
+        window.closeAuthModal = function() {
+            document.getElementById('auth-modal').classList.add('hidden');
+        };
 
-      try {
-        if (editId) {
-          await db.collection("contents").doc(editId).update(contentData);
-          showToast("تم تعديل المحتوى بنجاح!", "success");
-        } else {
-          contentData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-          await db.collection("contents").add(contentData);
-          showToast("تم نشر المحتوى بنجاح!", "success");
-        }
-        document.getElementById("contentForm").reset();
-        document.getElementById("editContentId").value = "";
-        toggleAdminTab("manage");
-      } catch (err) {
-        showToast("خطأ أثناء حفظ البيانات: " + err.message, "error");
-      }
-    }
+        window.toggleAuthMode = function(specificMode = null) {
+            if (specificMode) {
+                openAuthModal(specificMode);
+            } else {
+                openAuthModal(AppState.authModalMode === 'login' ? 'register' : 'login');
+            }
+        };
 
-    async function deleteContent(id) {
-      if (!confirm("هل أنت تأكد من رغبتك في حذف هذا المحتوى؟")) return;
-      try {
-        await db.collection("contents").doc(id).delete();
-        showToast("تم حذف المحتوى بنجاح.", "success");
-      } catch (err) {
-        showToast("خطأ أثناء الحذف.", "error");
-      }
-    }
+        window.handleAuthSubmit = async function(e) {
+            e.preventDefault();
+            const email = document.getElementById('auth-email').value;
+            const password = document.getElementById('auth-password').value;
+            const name = document.getElementById('auth-name').value;
+            const errBox = document.getElementById('auth-error-msg');
+            errBox.classList.add('hidden');
 
-    function editContent(id) {
-      const item = allContents.find(c => c.id === id);
-      if (!item) return;
+            try {
+                if (AppState.authModalMode === 'register') {
+                    if (!name) throw new Error("يرجى إدخال الاسم بالكامل");
+                    const res = await createUserWithEmailAndPassword(auth, email, password);
+                    await setDoc(doc(db, "users", res.user.uid), {
+                        name: name,
+                        email: email,
+                        role: 'user',
+                        status: 'active',
+                        createdAt: serverTimestamp()
+                    });
+                } else if (AppState.authModalMode === 'forgot') {
+                    await sendPasswordResetEmail(auth, email);
+                    showToast("تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك", "success");
+                    closeAuthModal();
+                    return;
+                } else {
+                    await signInWithEmailAndPassword(auth, email, password);
+                }
+                closeAuthModal();
+            } catch (err) {
+                errBox.innerText = err.message || "حدث خطأ أثناء إجراء العملية";
+                errBox.classList.remove('hidden');
+            }
+        };
 
-      document.getElementById("editContentId").value = item.id;
-      document.getElementById("contentTitle").value = item.title;
-      document.getElementById("contentCategory").value = item.category;
-      document.getElementById("contentType").value = item.type;
-      document.getElementById("contentThumbnail").value = item.thumbnail;
-      document.getElementById("contentYoutubeUrl").value = item.youtubeUrl || "";
-      document.getElementById("contentDriveUrl").value = item.driveUrl || "";
-      document.getElementById("contentDescription").value = item.description;
+        // 3. ROUTER & NAVIGATION SYSTEM
+        window.navigateTo = function(view, params = null) {
+            AppState.currentView = view;
+            AppState.currentParams = params;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            renderView(view, params);
+        };
 
-      document.getElementById("saveContentBtn").innerText = "تحديث المحتوى";
-      toggleAdminTab("add");
-    }
+        window.toggleMobileMenu = function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        };
 
-    /* =================================================================================
-       5. URL TRANSFORMERS (YOUTUBE & GOOGLE DRIVE EMBED)
-       ================================================================================= */
-    function transformYoutubeUrl(url) {
-      if (!url) return null;
-      let videoId = null;
-      if (url.includes("youtu.be/")) {
-        videoId = url.split("youtu.be/")[1].split("?")[0];
-      } else if (url.includes("watch?v=")) {
-        videoId = url.split("watch?v=")[1].split("&")[0];
-      }
-      return videoId ? `https://www.youtube.com/embed/${videoId}` : url;
-    }
+        async function renderView(view, params) {
+            const main = document.getElementById('app-content');
+            main.innerHTML = `<div class="p-20 text-center text-slate-500 font-semibold"><i class="fa-solid fa-spinner fa-spin text-3xl text-brand-blue mb-3"></i><p>جاري تحميل البيانات...</p></div>`;
 
-    function transformDriveUrl(url) {
-      if (!url) return null;
-      if (url.includes("/file/d/")) {
-        const fileId = url.split("/file/d/")[1].split("/")[0];
-        return `https://drive.google.com/file/d/${fileId}/preview`;
-      }
-      return url;
-    }
+            // Load Breaking News Ticker Updates
+            loadBreakingNews();
 
-    /* =================================================================================
-       6. UI RENDERING & COMPONENT BUILDERS
-       ================================================================================= */
-    function renderCategories() {
-      const container = document.getElementById("categoriesContainer");
-      container.innerHTML = `
-        <div class="category-card ${selectedCategory === 'all' ? 'active' : ''}" onclick="filterCategory('all')">
-          <i class="fa-solid fa-border-all"></i>
-          <span>جميع الأقسام</span>
-        </div>
-      ` + categories.map(cat => `
-        <div class="category-card ${selectedCategory === cat.id ? 'active' : ''}" onclick="filterCategory('${cat.id}')">
-          <i class="fa-solid ${cat.icon}"></i>
-          <span>${cat.name}</span>
-        </div>
-      `).join('');
-    }
-
-    function populateCategorySelect() {
-      const select = document.getElementById("contentCategory");
-      select.innerHTML = categories.map(cat => `<option value="${cat.id}">${cat.name}</option>`).join('');
-    }
-
-    function filterCategory(catId) {
-      selectedCategory = catId;
-      renderCategories();
-      renderContents();
-      const catObj = categories.find(c => c.id === catId);
-      document.getElementById("currentFilterText").innerText = catObj ? `قسم: ${catObj.name}` : "عرض الجميع";
-    }
-
-    function renderContents() {
-      const grid = document.getElementById("contentGrid");
-      const filtered = selectedCategory === "all" ? allContents : allContents.filter(c => c.category === selectedCategory);
-
-      if (filtered.length === 0) {
-        grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--text-muted);">لا يوجد محتوى متاح حالياً في هذا القسم.</div>`;
-        return;
-      }
-
-      grid.innerHTML = filtered.map(item => {
-        const catObj = categories.find(c => c.id === item.category);
-        return `
-          <div class="content-card">
-            <img src="${item.thumbnail}" class="card-thumb" alt="${item.title}" onerror="this.src='https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80'">
-            <div class="card-body">
-              <div class="card-tags">
-                <span class="badge ${item.type === 'free' ? 'badge-free' : 'badge-premium'}">
-                  ${item.type === 'free' ? 'مجاني' : 'خاص (Premium)'}
-                </span>
-                <span class="category-tag">${catObj ? catObj.name : item.category}</span>
-              </div>
-              <h3 class="card-title">${item.title}</h3>
-              <p class="card-desc">${item.description}</p>
-              <button class="btn" onclick="openContentViewer('${item.id}')">
-                <i class="fa-solid fa-circle-play"></i> مشاهدة المحتوى
-              </button>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    function openContentViewer(id) {
-      const item = allContents.find(c => c.id === id);
-      if (!item) return;
-
-      const viewerBody = document.getElementById("viewerBody");
-      const isLocked = item.type === "premium" && currentUserRole !== "admin";
-
-      let mediaHtml = "";
-
-      if (isLocked) {
-        mediaHtml = `
-          <div class="locked-notice">
-            <i class="fa-solid fa-lock"></i>
-            <h2>هذا المحتوى خاص بالمشتركين فقط</h2>
-            <p style="color: var(--text-muted); margin-top: 10px;">عذراً، تحتاج إلى حساب مميز لمشاهدة هذا الشرح الكامل والملفات المرفقة.</p>
-          </div>
-        `;
-      } else {
-        const embedYoutube = transformYoutubeUrl(item.youtubeUrl);
-        const embedDrive = transformDriveUrl(item.driveUrl);
-
-        if (embedYoutube) {
-          mediaHtml += `
-            <div class="media-container">
-              <iframe src="${embedYoutube}" allowfullscreen></iframe>
-            </div>
-          `;
+            switch (view) {
+                case 'home':
+                    await renderHomeView(main);
+                    break;
+                case 'categories':
+                    await renderCategoriesView(main, params);
+                    break;
+                case 'course-detail':
+                    await renderCourseDetailView(main, params);
+                    break;
+                case 'lesson-player':
+                    await renderLessonPlayerView(main, params);
+                    break;
+                case 'library':
+                    await renderLibraryView(main);
+                    break;
+                case 'jobs':
+                    await renderJobsView(main);
+                    break;
+                case 'news-offers':
+                    await renderNewsOffersView(main);
+                    break;
+                case 'dashboard':
+                    await renderDashboardView(main);
+                    break;
+                case 'admin':
+                    if (AppState.userRole !== 'admin') {
+                        main.innerHTML = `<div class="max-w-xl mx-auto my-20 bg-red-50 text-red-700 p-8 rounded-2xl border border-red-200 text-center"><i class="fa-solid fa-lock text-4xl mb-3"></i><h3 class="text-xl font-bold">وصول غير مصرح به</h3><p class="text-xs mt-2">يجب أن تكون مشرفاً (Admin) للوصول إلى هذه اللوحة.</p></div>`;
+                        return;
+                    }
+                    await renderAdminDashboardView(main);
+                    break;
+                default:
+                    await renderHomeView(main);
+            }
         }
 
-        if (embedDrive) {
-          mediaHtml += `
-            <h3 style="margin: 1rem 0 0.5rem 0;"><i class="fa-solid fa-file-pdf"></i> الملف المرفق</h3>
-            <div class="media-container">
-              <iframe src="${embedDrive}"></iframe>
-            </div>
-          `;
+        // Fetch Breaking News Item Ticker
+        async function loadBreakingNews() {
+            try {
+                const q = query(collection(db, "breakingNews"), where("status", "==", "published"));
+                const snap = await getDocs(q);
+                const ticker = document.getElementById('breaking-news-ticker');
+                if (!snap.empty) {
+                    const texts = snap.docs.map(d => `<span class="ml-12"><i class="fa-solid fa-star text-brand-gold text-xs ml-2"></i>${d.data().content}</span>`).join('');
+                    ticker.innerHTML = texts;
+                }
+            } catch (e) {
+                console.warn("Breaking news fetch error:", e);
+            }
         }
-      }
 
-      viewerBody.innerHTML = `
-        <h2 style="margin-bottom: 1rem;">${item.title}</h2>
-        ${mediaHtml}
-        <h3 style="margin-bottom: 0.5rem; color: var(--primary);">التفاصيل والشرح</h3>
-        <p style="color: var(--text-muted); white-space: pre-line;">${item.description}</p>
-      `;
+        // 4. HOMEPAGE VIEW RENDERER
+        async function renderHomeView(container) {
+            // Check Data Seeding
+            await seedInitialDataIfEmpty();
 
-      openModal("contentViewerModal");
-    }
+            // Fetch Banners
+            let banner = {
+                title: "أكاديمية التدريب المهني والهندسي",
+                subtitle: "تأهيل مهندسي المستقبل بمسارات معتمدة وتطبيقات عملية شاملة في التخصصات الكهربائية والمعمارية والميكانيكية.",
+                buttonText: "تصفح الدورات والمسارات",
+                buttonLink: "categories",
+                image: "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=1200"
+            };
+            const bannerSnap = await getDocs(query(collection(db, "banners"), where("status", "==", "published"), limit(1)));
+            if (!bannerSnap.empty) banner = bannerSnap.docs[0].data();
 
-    function renderAdminTable() {
-      const tbody = document.getElementById("adminTableBody");
-      tbody.innerHTML = allContents.map(item => `
-        <tr>
-          <td>${item.title}</td>
-          <td>${item.category}</td>
-          <td><span class="badge ${item.type === 'free' ? 'badge-free' : 'badge-premium'}">${item.type}</span></td>
-          <td style="display: flex; gap: 8px;">
-            <button class="btn btn-secondary" style="padding: 4px 8px; width: auto;" onclick="editContent('${item.id}')"><i class="fa-solid fa-pen"></i></button>
-            <button class="btn btn-danger" style="padding: 4px 8px; width: auto;" onclick="deleteContent('${item.id}')"><i class="fa-solid fa-trash"></i></button>
-          </td>
-        </tr>
-      `).join('');
-    }
+            // Fetch Categories (Sorted in JS to avoid Firestore composite index requirement)
+            const catSnap = await getDocs(query(collection(db, "categories"), where("status", "==", "published")));
+            const categories = catSnap.docs
+                .map(d => ({ id: d.id, ...d.data() }))
+                .sort((a, b) => (a.displayOrder || 0) - (b.displayOrder || 0));
 
-    /* =================================================================================
-       7. HELPER & UI UTILITY FUNCTIONS
-       ================================================================================= */
-    function openModal(id) {
-      document.getElementById(id).classList.add("active");
-    }
+            // Fetch Featured Courses
+            const courseSnap = await getDocs(query(collection(db, "courses"), where("status", "==", "published"), limit(6)));
+            const courses = courseSnap.docs.map(d => ({ id: d.id, ...d.data() }));
 
-    function closeModal(id) {
-      document.getElementById(id).classList.remove("active");
-    }
+            // Fetch Latest Jobs
+            const jobSnap = await getDocs(query(collection(db, "jobs"), where("status", "==", "published"), limit(3)));
+            const jobs = jobSnap.docs.map(d => ({ id: d.id, ...d.data() }));
 
-    function toggleAuthView(view) {
-      document.getElementById("loginFormView").style.display = view === 'login' ? 'block' : 'none';
-      document.getElementById("registerFormView").style.display = view === 'register' ? 'block' : 'none';
-      document.getElementById("forgotFormView").style.display = view === 'forgot' ? 'block' : 'none';
-    }
+            // Fetch Latest Offers
+            const offerSnap = await getDocs(query(collection(db, "offers"), where("status", "==", "published"), limit(2)));
+            const offers = offerSnap.docs.map(d => ({ id: d.id, ...d.data() }));
 
-    function toggleAdminTab(tab) {
-      document.getElementById("adminFormTab").style.display = tab === 'add' ? 'block' : 'none';
-      document.getElementById("adminManageTab").style.display = tab === 'manage' ? 'block' : 'none';
-      
-      if (tab === 'add') {
-        document.getElementById("addContentTabBtn").className = "btn";
-        document.getElementById("manageContentTabBtn").className = "btn btn-secondary";
-      } else {
-        document.getElementById("addContentTabBtn").className = "btn btn-secondary";
-        document.getElementById("manageContentTabBtn").className = "btn";
-      }
-    }
+            container.innerHTML = `
+                <!-- Hero Banner -->
+                <section class="relative bg-navy-950 text-white py-20 px-4 overflow-hidden">
+                    <div class="absolute inset-0 opacity-20 bg-cover bg-center" style="background-image: url('${banner.image}');"></div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-navy-950 via-navy-900/90 to-transparent"></div>
+                    <div class="max-w-7xl mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                        <div class="space-y-6">
+                            <span class="inline-flex items-center gap-2 px-3 py-1 bg-brand-blue/20 text-brand-light border border-brand-blue/30 rounded-full text-xs font-bold">
+                                <i class="fa-solid fa-award"></i> المنصة الرقمية الهندسية الأولى
+                            </span>
+                            <h1 class="text-3xl sm:text-5xl font-black leading-tight tracking-tight">${banner.title}</h1>
+                            <p class="text-slate-300 text-sm sm:text-base leading-relaxed">${banner.subtitle}</p>
+                            <div class="flex flex-wrap gap-4 pt-2">
+                                <button onclick="navigateTo('categories')" class="bg-brand-blue hover:bg-blue-600 text-white px-7 py-3.5 rounded-xl font-extrabold text-sm shadow-xl shadow-blue-500/20 transition flex items-center gap-2">
+                                    <span>${banner.buttonText}</span>
+                                    <i class="fa-solid fa-arrow-left"></i>
+                                </button>
+                                <button onclick="navigateTo('library')" class="bg-slate-800/80 hover:bg-slate-800 border border-slate-700 text-white px-6 py-3.5 rounded-xl font-extrabold text-sm transition flex items-center gap-2">
+                                    <i class="fa-solid fa-folder-open text-brand-gold"></i>
+                                    <span>المكتبة الهندسية المجانية</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
 
-    function showToast(message, type = "success") {
-      const container = document.getElementById("toastContainer");
-      const toast = document.createElement("div");
-      toast.className = `toast ${type}`;
-      toast.innerHTML = `
-        <i class="fa-solid ${type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation'}" style="color: ${type === 'success' ? 'var(--accent-green)' : 'var(--accent-red)'}"></i>
-        <span>${message}</span>
-      `;
-      container.appendChild(toast);
-      setTimeout(() => toast.remove(), 4000);
-    }
+                <!-- Academic Categories Section -->
+                <section class="max-w-7xl mx-auto px-4 py-16">
+                    <div class="flex items-center justify-between mb-10">
+                        <div>
+                            <h2 class="text-2xl font-black text-slate-900">المجالات الهندسية والمسارات</h2>
+                            <p class="text-xs text-slate-500 mt-1">اختر التخصص المباشر للوصول إلى الدورات والمشاريع التطبيقية</p>
+                        </div>
+                        <button onclick="navigateTo('categories')" class="text-brand-blue font-bold text-xs hover:underline">عرض جميع المجالات <i class="fa-solid fa-angle-left mr-1"></i></button>
+                    </div>
 
-    function getArabicErrorMessage(code) {
-      switch (code) {
-        case 'auth/user-not-found': return 'عذراً، هذا البريد الإلكتروني غير مسجل.';
-        case 'auth/wrong-password': return 'كلمة المرور غير صحيحة.';
-        case 'auth/email-already-in-use': return 'البريد الإلكتروني مستخدم بالفعل.';
-        case 'auth/weak-password': return 'كلمة المرور ضعيفة جداً.';
-        case 'auth/invalid-email': return 'صيغة البريد الإلكتروني غير صحيحة.';
-        default: return 'حدث خطأ في عملية المصادقة، يرجى المحاولة لاحقاً.';
-      }
-    }
-  </script>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        ${categories.map(cat => `
+                            <div onclick="navigateTo('categories', { catId: '${cat.id}' })" class="glass-card rounded-2xl p-6 hover:shadow-xl transition cursor-pointer group border border-slate-200/80 hover:border-brand-blue/40 relative overflow-hidden">
+                                <div class="flex items-center gap-4 mb-4">
+                                    <div class="w-12 h-12 rounded-xl bg-brand-blue/10 text-brand-blue group-hover:bg-brand-blue group-hover:text-white transition flex items-center justify-center text-xl shadow-inner">
+                                        <i class="fa-solid ${cat.icon || 'fa-layer-group'}"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-extrabold text-slate-900 group-hover:text-brand-blue transition">${cat.name}</h3>
+                                        <span class="text-[10px] text-slate-400 font-bold bg-slate-100 px-2 py-0.5 rounded">مسار مهني</span>
+                                    </div>
+                                </div>
+                                <p class="text-xs text-slate-600 line-clamp-2 leading-relaxed">${cat.description || 'مجموعة متكاملة من الدروس والدورات المعتمدة'}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                </section>
+
+                <!-- Featured Courses Section -->
+                <section class="bg-slate-100/70 py-16 border-y border-slate-200/60">
+                    <div class="max-w-7xl mx-auto px-4">
+                        <div class="flex justify-between items-end mb-10">
+                            <div>
+                                <span class="text-xs font-bold text-brand-blue tracking-wider uppercase">الدورات التدريبية</span>
+                                <h2 class="text-2xl font-black text-slate-900 mt-1">أحدث الدورات والبرامج المتاحة</h2>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            ${courses.map(course => `
+                                <div class="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition duration-300 border border-slate-200 flex flex-col group">
+                                    <div class="relative h-48 overflow-hidden bg-slate-900">
+                                        <img src="${course.image || 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600'}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-90">
+                                        <span class="absolute top-3 right-3 bg-navy-900/90 text-white text-[10px] font-bold px-2.5 py-1 rounded-md backdrop-blur-sm">
+                                            ${course.level || 'جميع المستويات'}
+                                        </span>
+                                        <span class="absolute bottom-3 left-3 bg-brand-gold text-slate-950 font-black text-xs px-2.5 py-1 rounded shadow">
+                                            ${course.price || 'مجاني'}
+                                        </span>
+                                    </div>
+                                    <div class="p-6 flex flex-col flex-grow">
+                                        <h3 class="font-extrabold text-slate-900 text-base mb-2 group-hover:text-brand-blue transition line-clamp-2">${course.title}</h3>
+                                        <p class="text-xs text-slate-500 line-clamp-2 mb-4 leading-relaxed">${course.description}</p>
+                                        <div class="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 font-semibold">
+                                            <span><i class="fa-solid fa-chalkboard-user ml-1 text-brand-blue"></i> ${course.instructor || 'استشاري الأكاديمية'}</span>
+                                            <button onclick="navigateTo('course-detail', { courseId: '${course.id}' })" class="text-brand-blue hover:underline font-extrabold flex items-center gap-1">
+                                                التفاصيل <i class="fa-solid fa-chevron-left text-[10px]"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Offers & Opportunities Grid -->
+                <section class="max-w-7xl mx-auto px-4 py-16">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <!-- Offers Widget -->
+                        <div class="bg-gradient-to-br from-navy-900 to-slate-900 text-white rounded-3xl p-8 relative overflow-hidden shadow-xl">
+                            <div class="flex justify-between items-center mb-6">
+                                <h3 class="font-black text-xl flex items-center gap-2">
+                                    <i class="fa-solid fa-tags text-brand-gold"></i> أحدث العروض والخصومات
+                                </h3>
+                            </div>
+                            <div class="space-y-4">
+                                ${offers.map(off => `
+                                    <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/60 flex items-center gap-4">
+                                        <img src="${off.image}" class="w-16 h-16 rounded-lg object-cover">
+                                        <div class="flex-grow">
+                                            <span class="bg-red-500 text-white text-[10px] font-black px-2 py-0.5 rounded">${off.discount} خصم</span>
+                                            <h4 class="font-extrabold text-sm text-white mt-1">${off.title}</h4>
+                                            <div class="text-xs text-slate-400 mt-1">
+                                                <span class="line-through text-slate-500 ml-2">${off.oldPrice}</span>
+                                                <span class="text-brand-gold font-bold">${off.newPrice}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <!-- Jobs Widget -->
+                        <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-xl">
+                            <div class="flex justify-between items-center mb-6">
+                                <h3 class="font-black text-xl text-slate-900 flex items-center gap-2">
+                                    <i class="fa-solid fa-briefcase text-brand-blue"></i> أحدث فرص العمل الهندسية
+                                </h3>
+                                <button onclick="navigateTo('jobs')" class="text-xs font-bold text-brand-blue hover:underline">عرض الكل</button>
+                            </div>
+                            <div class="space-y-4">
+                                ${jobs.map(job => `
+                                    <div class="p-4 rounded-xl border border-slate-100 bg-slate-50 hover:bg-slate-100/80 transition flex items-center justify-between">
+                                        <div>
+                                            <h4 class="font-extrabold text-sm text-slate-900">${job.title}</h4>
+                                            <p class="text-xs text-slate-500 mt-0.5"><i class="fa-solid fa-building ml-1"></i> ${job.company} - ${job.location}</p>
+                                        </div>
+                                        <button onclick="navigateTo('jobs')" class="bg-brand-blue/10 text-brand-blue hover:bg-brand-blue hover:text-white font-bold text-xs px-3 py-1.5 rounded-lg transition">
+                                            تقديم
+                                        </button>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            `;
+        }
+
+        // 5. CATEGORIES & COURSE BROWSER VIEW
+        async function renderCategoriesView(container, params = null) {
+            const catSnap = await getDocs(query(collection(db, "categories"), where("status", "==", "published")));
+            const categories = catSnap.docs
+                .map(d => ({ id: d.id, ...d.data() }))
+                .sort((a, b) => (a.displayOrder || 0) - (b.displayOrder || 0));
+
+            let selectedCatId = params?.catId || (categories.length > 0 ? categories[0].id : null);
+            let courses = [];
+
+            if (selectedCatId) {
+                const courseSnap = await getDocs(query(
+                    collection(db, "courses"), 
+                    where("categoryId", "==", selectedCatId),
+                    where("status", "==", "published")
+                ));
+                courses = courseSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+            }
+
+            const currentCategory = categories.find(c => c.id === selectedCatId);
+
+            container.innerHTML = `
+                <div class="max-w-7xl mx-auto px-4 py-10">
+                    <div class="mb-8">
+                        <h1 class="text-3xl font-black text-slate-900">المجالات الهندسية والدورات</h1>
+                        <p class="text-xs text-slate-500 mt-1">تصفح الكورسات والمحتوى الأكاديمي المخصص لكل مجال</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                        <!-- Categories Sidebar -->
+                        <div class="space-y-2 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm h-fit">
+                            <h3 class="text-xs font-black text-slate-400 uppercase tracking-wider px-3 mb-2">الأقسام المتاحة</h3>
+                            ${categories.map(cat => `
+                                <button onclick="navigateTo('categories', { catId: '${cat.id}' })" 
+                                    class="w-full text-right px-4 py-3 rounded-xl font-bold text-xs transition flex items-center justify-between ${cat.id === selectedCatId ? 'bg-brand-blue text-white shadow-md' : 'text-slate-700 hover:bg-slate-100'}">
+                                    <span class="flex items-center gap-2">
+                                        <i class="fa-solid ${cat.icon || 'fa-folder'}"></i>
+                                        ${cat.name}
+                                    </span>
+                                    <i class="fa-solid fa-angle-left text-[10px]"></i>
+                                </button>
+                            `).join('')}
+                        </div>
+
+                        <!-- Courses Grid -->
+                        <div class="lg:col-span-3 space-y-6">
+                            ${currentCategory ? `
+                                <div class="bg-navy-900 text-white p-6 rounded-2xl relative overflow-hidden shadow-lg">
+                                    <h2 class="text-xl font-black mb-2">${currentCategory.name}</h2>
+                                    <p class="text-slate-300 text-xs leading-relaxed max-w-2xl">${currentCategory.description || ''}</p>
+                                </div>
+                            ` : ''}
+
+                            ${courses.length === 0 ? `
+                                <div class="bg-white p-12 text-center rounded-2xl border border-slate-200 text-slate-400">
+                                    <i class="fa-solid fa-folder-open text-4xl mb-3"></i>
+                                    <p class="font-bold">لا توجد دورات متاحة حالياً في هذا المجال</p>
+                                </div>
+                            ` : `
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    ${courses.map(course => `
+                                        <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition flex flex-col">
+                                            <img src="${course.image}" class="h-44 w-full object-cover">
+                                            <div class="p-5 flex flex-col flex-grow">
+                                                <h3 class="font-extrabold text-slate-900 text-base mb-2">${course.title}</h3>
+                                                <p class="text-xs text-slate-500 line-clamp-2 mb-4">${course.description}</p>
+                                                <div class="mt-auto pt-4 border-t flex justify-between items-center text-xs">
+                                                    <span class="font-bold text-slate-600"><i class="fa-solid fa-clock text-brand-blue ml-1"></i> ${course.duration}</span>
+                                                    <button onclick="navigateTo('course-detail', { courseId: '${course.id}' })" class="bg-brand-blue hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-bold">
+                                                        عرض الدورة
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            `}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 6. COURSE DETAILS & LESSON PLAYER VIEWS
+        async function renderCourseDetailView(container, params) {
+            if (!params?.courseId) { navigateTo('home'); return; }
+
+            const courseDoc = await getDoc(doc(db, "courses", params.courseId));
+            if (!courseDoc.exists()) { container.innerHTML = "الدورة غير موجودة"; return; }
+            const course = { id: courseDoc.id, ...courseDoc.data() };
+
+            const lessonsSnap = await getDocs(query(
+                collection(db, "lessons"),
+                where("courseId", "==", course.id),
+                where("status", "==", "published")
+            ));
+            const lessons = lessonsSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+            container.innerHTML = `
+                <div class="bg-navy-950 text-white py-12 px-4 border-b border-slate-800">
+                    <div class="max-w-5xl mx-auto flex flex-col md:flex-row gap-8 items-center">
+                        <img src="${course.image}" class="w-full md:w-80 h-52 object-cover rounded-2xl shadow-2xl border border-slate-800">
+                        <div class="space-y-4">
+                            <span class="bg-brand-blue/20 text-brand-light border border-brand-blue/30 px-3 py-1 rounded-full text-xs font-bold">دورة معتمدة</span>
+                            <h1 class="text-2xl sm:text-3xl font-black leading-snug">${course.title}</h1>
+                            <p class="text-slate-300 text-xs leading-relaxed">${course.description}</p>
+                            <div class="flex items-center gap-6 text-xs text-slate-400 font-bold pt-2">
+                                <span><i class="fa-solid fa-chalkboard-user text-brand-gold ml-1"></i> ${course.instructor}</span>
+                                <span><i class="fa-solid fa-layer-group text-brand-blue ml-1"></i> ${course.level}</span>
+                                <span><i class="fa-solid fa-list-check text-emerald-400 ml-1"></i> ${lessons.length} درس</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="max-w-5xl mx-auto px-4 py-10">
+                    <h2 class="text-xl font-black text-slate-900 mb-6 flex items-center gap-2">
+                        <i class="fa-solid fa-list-ul text-brand-blue"></i> محتوى الدورة والدروس
+                    </h2>
+
+                    <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden divide-y divide-slate-100 shadow-sm">
+                        ${lessons.length === 0 ? `
+                            <div class="p-8 text-center text-slate-400 font-bold text-xs">لم يتم إضافة دروس لهذه الدورة بعد.</div>
+                        ` : lessons.map((lesson, idx) => `
+                            <div class="p-4 hover:bg-slate-50 transition flex items-center justify-between">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-8 h-8 rounded-full bg-slate-100 text-slate-700 font-black text-xs flex items-center justify-center">
+                                        ${idx + 1}
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-slate-900 text-sm">${lesson.title}</h4>
+                                        <p class="text-xs text-slate-400 mt-0.5"><i class="fa-solid fa-clock ml-1"></i> ${lesson.duration || '30 دقيقة'}</p>
+                                    </div>
+                                </div>
+                                <button onclick="navigateTo('lesson-player', { courseId: '${course.id}', lessonId: '${lesson.id}' })" class="bg-brand-blue hover:bg-blue-700 text-white font-bold text-xs px-4 py-2 rounded-lg shadow-sm">
+                                    مشاهدة الدرس <i class="fa-solid fa-play mr-1 text-[10px]"></i>
+                                </button>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        async function renderLessonPlayerView(container, params) {
+            if (!params?.lessonId) return;
+
+            const lessonDoc = await getDoc(doc(db, "lessons", params.lessonId));
+            if (!lessonDoc.exists()) return;
+            const lesson = lessonDoc.data();
+
+            const youtubeId = extractYouTubeId(lesson.youtubeUrl);
+            const driveEmbedUrl = formatGoogleDriveUrl(lesson.driveUrl);
+
+            container.innerHTML = `
+                <div class="bg-slate-900 text-white py-4 px-6 flex justify-between items-center border-b border-slate-800">
+                    <button onclick="navigateTo('course-detail', { courseId: '${params.courseId}' })" class="text-slate-300 hover:text-white font-bold text-xs flex items-center gap-1">
+                        <i class="fa-solid fa-arrow-right"></i> العودة لقائمة دروس الدورة
+                    </button>
+                    <h2 class="font-black text-sm truncate max-w-md">${lesson.title}</h2>
+                </div>
+
+                <div class="max-w-6xl mx-auto px-4 py-8 space-y-8">
+                    <!-- YouTube Video Player -->
+                    ${youtubeId ? `
+                        <div class="bg-black rounded-2xl overflow-hidden shadow-2xl border border-slate-800 aspect-video-container">
+                            <iframe src="https://www.youtube.com/embed/${youtubeId}?rel=0" allowfullscreen></iframe>
+                        </div>
+                    ` : ''}
+
+                    <!-- Google Drive Embedded Viewer -->
+                    ${driveEmbedUrl ? `
+                        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-md">
+                            <h3 class="font-bold text-slate-900 text-sm mb-3 flex items-center gap-2">
+                                <i class="fa-solid fa-file-pdf text-red-500"></i> الملفات والمرفقات الهندسية (Google Drive)
+                            </h3>
+                            <div class="w-full h-[500px] rounded-xl overflow-hidden border">
+                                <iframe src="${driveEmbedUrl}" class="w-full h-full"></iframe>
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    <!-- Lesson Notes -->
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                        <h3 class="font-black text-slate-900 text-base">وصف الدرس وتفاصيل المحتوى</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">${lesson.description || 'لا يوجد وصف إضافي للدرس'}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 7. LIBRARY, JOBS & NEWS VIEWS
+        async function renderLibraryView(container) {
+            const snap = await getDocs(query(collection(db, "library"), where("status", "==", "published")));
+            const items = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+            container.innerHTML = `
+                <div class="max-w-7xl mx-auto px-4 py-10">
+                    <div class="text-center max-w-2xl mx-auto mb-12">
+                        <span class="text-xs font-black text-brand-blue uppercase">المصادر الرقمية</span>
+                        <h1 class="text-3xl font-black text-slate-900 mt-1">المكتبة الهندسية الشاملة</h1>
+                        <p class="text-xs text-slate-500 mt-2">تحميل ملفات PDF، شيتات Excel، الجداول والتصميمات المعتمدة مجاناً</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        ${items.map(item => `
+                            <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:shadow-lg transition flex flex-col justify-between">
+                                <div>
+                                    <div class="flex justify-between items-center mb-3">
+                                        <span class="bg-brand-blue/10 text-brand-blue text-[10px] font-black px-2.5 py-1 rounded-md">
+                                            ${item.type || 'PDF'}
+                                        </span>
+                                        <span class="text-[10px] text-slate-400 font-bold">${item.category || 'عام'}</span>
+                                    </div>
+                                    <h3 class="font-extrabold text-slate-900 text-sm mb-2">${item.title}</h3>
+                                    <p class="text-xs text-slate-500 line-clamp-3 mb-4 leading-relaxed">${item.description}</p>
+                                </div>
+                                <a href="${item.driveUrl}" target="_blank" class="w-full bg-slate-900 hover:bg-brand-blue text-white font-bold text-xs py-2.5 rounded-lg text-center transition flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-download"></i> معاينة وتحميل الملف
+                                </a>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        async function renderJobsView(container) {
+            const snap = await getDocs(query(collection(db, "jobs"), where("status", "==", "published")));
+            const jobs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+            container.innerHTML = `
+                <div class="max-w-5xl mx-auto px-4 py-10">
+                    <div class="mb-8">
+                        <h1 class="text-3xl font-black text-slate-900">فرص العمل والتوظيف الهندسي</h1>
+                        <p class="text-xs text-slate-500 mt-1">استكشف أحدث الوظائف المتاحة في كبرى الشركات الهندسية</p>
+                    </div>
+
+                    <div class="space-y-4">
+                        ${jobs.map(job => `
+                            <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                                <div class="space-y-2">
+                                    <h3 class="font-black text-slate-900 text-lg">${job.title}</h3>
+                                    <div class="flex flex-wrap gap-4 text-xs text-slate-500 font-bold">
+                                        <span><i class="fa-solid fa-building text-brand-blue ml-1"></i> ${job.company}</span>
+                                        <span><i class="fa-solid fa-location-dot text-red-500 ml-1"></i> ${job.location}</span>
+                                        <span><i class="fa-solid fa-briefcase text-emerald-500 ml-1"></i> ${job.type}</span>
+                                    </div>
+                                    <p class="text-xs text-slate-600 max-w-2xl leading-relaxed mt-2">${job.description}</p>
+                                </div>
+                                <a href="${job.applyUrl}" target="_blank" class="bg-brand-blue hover:bg-blue-700 text-white font-bold text-xs px-6 py-3 rounded-xl shadow transition shrink-0">
+                                    التقديم الآن <i class="fa-solid fa-external-link mr-1"></i>
+                                </a>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        async function renderNewsOffersView(container) {
+            const offersSnap = await getDocs(query(collection(db, "offers"), where("status", "==", "published")));
+            const offers = offersSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+            container.innerHTML = `
+                <div class="max-w-7xl mx-auto px-4 py-10 space-y-12">
+                    <div>
+                        <h1 class="text-3xl font-black text-slate-900">أحدث العروض والتخفيضات</h1>
+                        <p class="text-xs text-slate-500 mt-1">عروض خاصة على الدبلومات والدورات الهندسية</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
+                            ${offers.map(off => `
+                                <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm flex flex-col sm:flex-row">
+                                    <img src="${off.image}" class="w-full sm:w-48 h-48 object-cover">
+                                    <div class="p-6 flex flex-col justify-between flex-grow">
+                                        <div>
+                                            <span class="bg-red-100 text-red-600 text-[10px] font-black px-2 py-0.5 rounded">${off.discount} خصم</span>
+                                            <h3 class="font-extrabold text-slate-900 text-base mt-2">${off.title}</h3>
+                                            <p class="text-xs text-slate-500 mt-2 line-clamp-2">${off.description}</p>
+                                        </div>
+                                        <div class="mt-4 pt-3 border-t flex justify-between items-center">
+                                            <div class="text-xs">
+                                                <span class="line-through text-slate-400 ml-2">${off.oldPrice}</span>
+                                                <span class="text-brand-blue font-black text-sm">${off.newPrice}</span>
+                                            </div>
+                                            <button onclick="openAuthModal('login')" class="bg-brand-blue text-white font-bold text-xs px-4 py-2 rounded-lg">استفد بالعرض</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        async function renderDashboardView(container) {
+            if (!AppState.currentUser) { openAuthModal('login'); return; }
+            container.innerHTML = `
+                <div class="max-w-5xl mx-auto px-4 py-10 space-y-8">
+                    <div class="bg-navy-900 text-white rounded-3xl p-8 shadow-xl flex items-center gap-6">
+                        <div class="w-16 h-16 rounded-2xl bg-brand-blue flex items-center justify-center font-black text-2xl">
+                            ${AppState.userData?.name?.[0]?.toUpperCase() || 'U'}
+                        </div>
+                        <div>
+                            <h1 class="text-2xl font-black">${AppState.userData?.name || 'المهندس الطالب'}</h1>
+                            <p class="text-xs text-slate-300 mt-1">${AppState.currentUser.email}</p>
+                            <span class="inline-block mt-2 bg-brand-gold/20 text-brand-gold text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-brand-gold/30">
+                                طالب معتمد في الأكاديمية
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 8. ADMIN CONTROL PANEL (FULL CRUD FOR ALL COLLECTIONS)
+        async function renderAdminDashboardView(container) {
+            container.innerHTML = `
+                <div class="max-w-7xl mx-auto px-4 py-8">
+                    <!-- Admin Header -->
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 bg-slate-900 text-white p-6 rounded-2xl shadow-xl">
+                        <div>
+                            <h1 class="text-2xl font-black flex items-center gap-2">
+                                <i class="fa-solid fa-gauge-high text-amber-400"></i> لوحة التحكم الإدارية الشاملة
+                            </h1>
+                            <p class="text-xs text-slate-400 mt-1">إدارة جميع عناصر المنصة والمحتوى الأكاديمي والمستخدمين بدون تعديل الكود</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1">
+                                <i class="fa-solid fa-circle text-[8px] animate-pulse"></i> متصل بـ Firebase
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Admin Tabs Navigation -->
+                    <div class="flex border-b border-slate-200 overflow-x-auto mb-8 space-x-2 space-x-reverse font-bold text-xs" id="admin-tabs">
+                        <button onclick="switchAdminTab('categories')" id="tab-categories" class="py-3 px-5 border-b-2 border-brand-blue text-brand-blue whitespace-nowrap">المجالات الهندسية</button>
+                        <button onclick="switchAdminTab('courses')" id="tab-courses" class="py-3 px-5 text-slate-500 hover:text-slate-900 whitespace-nowrap">الدورات التدريبية</button>
+                        <button onclick="switchAdminTab('lessons')" id="tab-lessons" class="py-3 px-5 text-slate-500 hover:text-slate-900 whitespace-nowrap">الدروس بالفيديو/PDF</button>
+                        <button onclick="switchAdminTab('breakingNews')" id="tab-breakingNews" class="py-3 px-5 text-slate-500 hover:text-slate-900 whitespace-nowrap">الأخبار العاجلة</button>
+                        <button onclick="switchAdminTab('offers')" id="tab-offers" class="py-3 px-5 text-slate-500 hover:text-slate-900 whitespace-nowrap">العروض والتخفيضات</button>
+                        <button onclick="switchAdminTab('jobs')" id="tab-jobs" class="py-3 px-5 text-slate-500 hover:text-slate-900 whitespace-nowrap">فرص العمل</button>
+                        <button onclick="switchAdminTab('library')" id="tab-library" class="py-3 px-5 text-slate-500 hover:text-slate-900 whitespace-nowrap">المكتبة الهندسية</button>
+                    </div>
+
+                    <!-- Dynamic Tab Content Area -->
+                    <div id="admin-tab-content">
+                        <!-- Loaded dynamically based on selected tab -->
+                    </div>
+                </div>
+            `;
+
+            switchAdminTab('categories');
+        }
+
+        window.switchAdminTab = async function(tabKey) {
+            // Highlight Tab Button
+            const tabs = document.querySelectorAll('#admin-tabs button');
+            tabs.forEach(t => {
+                t.className = 'py-3 px-5 text-slate-500 hover:text-slate-900 whitespace-nowrap';
+            });
+            const activeTabBtn = document.getElementById(`tab-${tabKey}`);
+            if (activeTabBtn) activeTabBtn.className = 'py-3 px-5 border-b-2 border-brand-blue text-brand-blue font-black whitespace-nowrap';
+
+            const contentArea = document.getElementById('admin-tab-content');
+            contentArea.innerHTML = `<div class="p-12 text-center text-slate-400 font-bold text-xs"><i class="fa-solid fa-spinner fa-spin text-2xl text-brand-blue mb-2"></i><p>جاري تحميل سجلات ${tabKey}...</p></div>`;
+
+            // Fetch Collection Data
+            const snap = await getDocs(collection(db, tabKey));
+            const records = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+            contentArea.innerHTML = `
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-extrabold text-slate-900 text-lg">سجلات ${tabKey} (${records.length})</h3>
+                    <button onclick="openAdminModalForm('${tabKey}')" class="bg-brand-blue hover:bg-blue-700 text-white font-bold text-xs px-4 py-2.5 rounded-lg shadow flex items-center gap-2">
+                        <i class="fa-solid fa-plus"></i> إضافة عنصر جديد
+                    </button>
+                </div>
+
+                <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+                    <table class="w-full text-right text-xs">
+                        <thead class="bg-slate-50 text-slate-500 font-bold border-b">
+                            <tr>
+                                <th class="p-4">العنوان / الاسم</th>
+                                <th class="p-4">الحالة</th>
+                                <th class="p-4">الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            ${records.length === 0 ? `<tr><td colspan="3" class="p-6 text-center text-slate-400">لا توجد بيانات مسجلة</td></tr>` : 
+                            records.map(rec => `
+                                <tr class="hover:bg-slate-50/80">
+                                    <td class="p-4 font-bold text-slate-900">${rec.name || rec.title || rec.content || rec.id}</td>
+                                    <td class="p-4">
+                                        <span class="px-2 py-0.5 rounded text-[10px] font-bold ${rec.status === 'published' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-600'}">
+                                            ${rec.status || 'منشور'}
+                                        </span>
+                                    </td>
+                                    <td class="p-4 flex gap-2">
+                                        <button onclick="openAdminModalForm('${tabKey}', '${rec.id}')" class="text-brand-blue hover:bg-brand-blue/10 p-2 rounded" title="تعديل"><i class="fa-solid fa-pen-to-square"></i></button>
+                                        <button onclick="deleteAdminRecord('${tabKey}', '${rec.id}')" class="text-red-500 hover:bg-red-50 p-2 rounded" title="حذف"><i class="fa-solid fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        };
+
+        window.openAdminModalForm = async function(tabKey, docId = null) {
+            const modal = document.getElementById('admin-modal');
+            const body = document.getElementById('admin-modal-body');
+            const saveBtn = document.getElementById('admin-modal-save-btn');
+
+            let item = {};
+            if (docId) {
+                const docSnap = await getDoc(doc(db, tabKey, docId));
+                if (docSnap.exists()) item = docSnap.data();
+            }
+
+            document.getElementById('admin-modal-title').innerText = docId ? `تعديل سجل في ${tabKey}` : `إضافة جديد إلى ${tabKey}`;
+
+            // Build Dynamic Form Fields according to model type
+            let formHtml = `<form id="admin-crud-form" class="space-y-4">`;
+
+            if (tabKey === 'categories') {
+                formHtml += `
+                    <div><label class="block text-xs font-bold mb-1">اسم المجال</label><input type="text" name="name" value="${item.name || ''}" required class="w-full p-2.5 border rounded-lg text-xs"></div>
+                    <div><label class="block text-xs font-bold mb-1">الوصف</label><textarea name="description" class="w-full p-2.5 border rounded-lg text-xs">${item.description || ''}</textarea></div>
+                    <div><label class="block text-xs font-bold mb-1">FontAwesome Icon Class (مثال: fa-bolt)</label><input type="text" name="icon" value="${item.icon || 'fa-folder'}" class="w-full p-2.5 border rounded-lg text-xs"></div>
+                `;
+            } else if (tabKey === 'courses') {
+                const catSnap = await getDocs(collection(db, "categories"));
+                const cats = catSnap.docs.map(d => ({ id: d.id, name: d.data().name }));
+                formHtml += `
+                    <div><label class="block text-xs font-bold mb-1">المجال التابع له</label>
+                        <select name="categoryId" class="w-full p-2.5 border rounded-lg text-xs">
+                            ${cats.map(c => `<option value="${c.id}" ${item.categoryId === c.id ? 'selected' : ''}>${c.name}</option>`).join('')}
+                        </select>
+                    </div>
+                    <div><label class="block text-xs font-bold mb-1">عنوان الدورة</label><input type="text" name="title" value="${item.title || ''}" required class="w-full p-2.5 border rounded-lg text-xs"></div>
+                    <div><label class="block text-xs font-bold mb-1">الوصف</label><textarea name="description" class="w-full p-2.5 border rounded-lg text-xs">${item.description || ''}</textarea></div>
+                    <div><label class="block text-xs font-bold mb-1">رابط صورة الغلاف</label><input type="text" name="image" value="${item.image || ''}" class="w-full p-2.5 border rounded-lg text-xs"></div>
+                    <div><label class="block text-xs font-bold mb-1">اسم المحاضر</label><input type="text" name="instructor" value="${item.instructor || ''}" class="w-full p-2.5 border rounded-lg text-xs"></div>
+                    <div><label class="block text-xs font-bold mb-1">مدة الدورة</label><input type="text" name="duration" value="${item.duration || ''}" class="w-full p-2.5 border rounded-lg text-xs"></div>
+                `;
+            } else if (tabKey === 'lessons') {
+                const courseSnap = await getDocs(collection(db, "courses"));
+                const courses = courseSnap.docs.map(d => ({ id: d.id, title: d.data().title }));
+                formHtml += `
+                    <div><label class="block text-xs font-bold mb-1">الدورة التابع لها</label>
+                        <select name="courseId" class="w-full p-2.5 border rounded-lg text-xs">
+                            ${courses.map(c => `<option value="${c.id}" ${item.courseId === c.id ? 'selected' : ''}>${c.title}</option>`).join('')}
+                        </select>
+                    </div>
+                    <div><label class="block text-xs font-bold mb-1">عنوان الدرس</label><input type="text" name="title" value="${item.title || ''}" required class="w-full p-2.5 border rounded-lg text-xs"></div>
+                    <div><label class="block text-xs font-bold mb-1">رابط فيديو يوتيوب (YouTube URL)</label><input type="text" name="youtubeUrl" value="${item.youtubeUrl || ''}" placeholder="https://www.youtube.com/watch?v=..." class="w-full p-2.5 border rounded-lg text-xs"></div>
+                    <div><label class="block text-xs font-bold mb-1">رابط ملف جوجل درايف (Google Drive PDF)</label><input type="text" name="driveUrl" value="${item.driveUrl || ''}" placeholder="https://drive.google.com/file/d/.../view" class="w-full p-2.5 border rounded-lg text-xs"></div>
+                    <div><label class="block text-xs font-bold mb-1">وصف وملاحظات</label><textarea name="description" class="w-full p-2.5 border rounded-lg text-xs">${item.description || ''}</textarea></div>
+                `;
+            } else if (tabKey === 'breakingNews') {
+                formHtml += `
+                    <div><label class="block text-xs font-bold mb-1">نص الخبر العاجل</label><textarea name="content" required class="w-full p-2.5 border rounded-lg text-xs">${item.content || ''}</textarea></div>
+                `;
+            } else if (tabKey === 'offers') {
+                formHtml += `
+                    <div><label class="block text-xs font-bold mb-1">عنوان العرض</label><input type="text" name="title" value="${item.title || ''}" required class="w-full p-2.5 border rounded-lg text-xs"></div>
+                    <div><label class="block text-xs font-bold mb-1">الوصف</label><textarea name="description" class="w-full p-2.5 border rounded-lg text-xs">${item.description || ''}</textarea></div>
+                    <div class="grid grid-cols-3 gap-2">
+                        <div><label class="block text-xs font-bold mb-1">السعر القديم</label><input type="text" name="oldPrice" value="${item.oldPrice || ''}" class="w-full p-2.5 border rounded-lg text-xs"></div>
+                        <div><label class="block text-xs font-bold mb-1">السعر الجديد</label><input type="text" name="newPrice" value="${item.newPrice || ''}" class="w-full p-2.5 border rounded-lg text-xs"></div>
+                        <div><label class="block text-xs font-bold mb-1">نسبة الخصم</label><input type="text" name="discount" value="${item.discount || '50%'}" class="w-full p-2.5 border rounded-lg text-xs"></div>
+                    </div>
+                    <div><label class="block text-xs font-bold mb-1">رابط الصورة</label><input type="text" name="image" value="${item.image || ''}" class="w-full p-2.5 border rounded-lg text-xs"></div>
+                `;
+            } else if (tabKey === 'jobs') {
+                formHtml += `
+                    <div><label class="block text-xs font-bold mb-1">المسمى الوظيفي</label><input type="text" name="title" value="${item.title || ''}" required class="w-full p-2.5 border rounded-lg text-xs"></div>
+                    <div><label class="block text-xs font-bold mb-1">اسم الشركة</label><input type="text" name="company" value="${item.company || ''}" class="w-full p-2.5 border rounded-lg text-xs"></div>
+                    <div><label class="block text-xs font-bold mb-1">الموقع / المدينة</label><input type="text" name="location" value="${item.location || ''}" class="w-full p-2.5 border rounded-lg text-xs"></div>
+                    <div><label class="block text-xs font-bold mb-1">رابط التقديم</label><input type="text" name="applyUrl" value="${item.applyUrl || ''}" class="w-full p-2.5 border rounded-lg text-xs"></div>
+                    <div><label class="block text-xs font-bold mb-1">الوصف والتفاصيل</label><textarea name="description" class="w-full p-2.5 border rounded-lg text-xs">${item.description || ''}</textarea></div>
+                `;
+            } else if (tabKey === 'library') {
+                formHtml += `
+                    <div><label class="block text-xs font-bold mb-1">عنوان الملف</label><input type="text" name="title" value="${item.title || ''}" required class="w-full p-2.5 border rounded-lg text-xs"></div>
+                    <div><label class="block text-xs font-bold mb-1">نوع الملف (PDF / Excel / CAD)</label><input type="text" name="type" value="${item.type || 'PDF'}" class="w-full p-2.5 border rounded-lg text-xs"></div>
+                    <div><label class="block text-xs font-bold mb-1">رابط Google Drive للمعاينة والتحميل</label><input type="text" name="driveUrl" value="${item.driveUrl || ''}" required class="w-full p-2.5 border rounded-lg text-xs"></div>
+                    <div><label class="block text-xs font-bold mb-1">الوصف</label><textarea name="description" class="w-full p-2.5 border rounded-lg text-xs">${item.description || ''}</textarea></div>
+                `;
+            }
+
+            formHtml += `
+                <div>
+                    <label class="block text-xs font-bold mb-1">حالة النشر</label>
+                    <select name="status" class="w-full p-2.5 border rounded-lg text-xs">
+                        <option value="published" ${item.status === 'published' ? 'selected' : ''}>منشور (Published)</option>
+                        <option value="hidden" ${item.status === 'hidden' ? 'selected' : ''}>مخفي (Hidden)</option>
+                    </select>
+                </div>
+            </form>`;
+
+            body.innerHTML = formHtml;
+            modal.classList.remove('hidden');
+
+            saveBtn.onclick = async () => {
+                const form = document.getElementById('admin-crud-form');
+                const formData = new FormData(form);
+                const data = {};
+                formData.forEach((val, key) => data[key] = val);
+                data.updatedAt = serverTimestamp();
+
+                try {
+                    if (docId) {
+                        await updateDoc(doc(db, tabKey, docId), data);
+                        showToast("تم تحديث البيانات بنجاح", "success");
+                    } else {
+                        data.createdAt = serverTimestamp();
+                        await addDoc(collection(db, tabKey), data);
+                        showToast("تم إضافة العنصر بنجاح", "success");
+                    }
+                    closeAdminModal();
+                    switchAdminTab(tabKey);
+                } catch (err) {
+                    showToast("حدث خطأ أثناء حفظ البيانات: " + err.message, "error");
+                }
+            };
+        };
+
+        window.closeAdminModal = function() {
+            document.getElementById('admin-modal').classList.add('hidden');
+        };
+
+        window.deleteAdminRecord = async function(tabKey, docId) {
+            if (confirm("هل أنت تأكد من رغبتك في حذف هذا العنصر نهائياً؟")) {
+                try {
+                    await deleteDoc(doc(db, tabKey, docId));
+                    showToast("تم الحذف بنجاح", "info");
+                    switchAdminTab(tabKey);
+                } catch (e) {
+                    showToast("حدث خطأ أثناء الحذف", "error");
+                }
+            }
+        };
+
+        // Initialize App View
+        renderView('home');
+    </script>
 </body>
 </html>
+<!-- 
+FIRESTORE SECURITY RULES NOTICE:
+In your Firebase Console (electro-learn-726ff -> Firestore Database -> Rules), ensure your security rules match the following structure:
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper function
+    function isAdmin() {
+      return request.auth != null && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // Public Collections (Read for everyone, Write for Admin)
+    match /{document=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // User Profile Rules
+    match /users/{userId} {
+      allow read: if true;
+      allow create: if request.auth != null;
+      allow update, delete: if request.auth != null && (request.auth.uid == userId || isAdmin());
+    }
+  }
+}
+-->
