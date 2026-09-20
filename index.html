@@ -8,7 +8,7 @@
     <!-- Google Fonts: Cairo -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -97,6 +97,215 @@
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
+
+
+        /* =========================================================
+           Responsive UI + Light/Dark Theme System
+           ========================================================= */
+        :root {
+            --page-bg: #f5f7fb;
+            --surface: #ffffff;
+            --surface-2: #f1f5f9;
+            --surface-3: #e8eef5;
+            --text-main: #172033;
+            --text-soft: #526176;
+            --text-muted: #718096;
+            --border: #dbe3ec;
+            --accent: #d97706;
+            --accent-soft: rgba(217,119,6,.10);
+            --header-bg: rgba(255,255,255,.90);
+            --footer-bg: #e9eef5;
+        }
+
+        body:not(.light-mode) {
+            --page-bg: #0f172a;
+            --surface: #1e293b;
+            --surface-2: #172235;
+            --surface-3: #243449;
+            --text-main: #f8fafc;
+            --text-soft: #cbd5e1;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --accent: #f59e0b;
+            --accent-soft: rgba(245,158,11,.10);
+            --header-bg: rgba(15,23,42,.90);
+            --footer-bg: #020617;
+        }
+
+        html { scroll-padding-top: 90px; }
+
+        body {
+            font-size: 15px;
+            line-height: 1.75;
+            background: var(--page-bg);
+            color: var(--text-main);
+            transition: background-color .25s ease, color .25s ease;
+        }
+
+        h1,h2,h3,h4,h5,h6,button,input,select,textarea {
+            font-family: 'Cairo', sans-serif;
+        }
+
+        h1,h2,h3,h4,h5,h6 {
+            line-height: 1.35;
+            letter-spacing: -.02em;
+        }
+
+        input,select,textarea { font-size: 14px; }
+
+        /* Light mode: remap existing Tailwind dark utility classes without touching data/JS */
+        body.light-mode .bg-slate-950 { background-color: #e8edf4 !important; }
+        body.light-mode .bg-slate-900 { background-color: var(--page-bg) !important; }
+        body.light-mode .bg-slate-800 { background-color: var(--surface) !important; }
+        body.light-mode .bg-slate-700 { background-color: var(--surface-3) !important; }
+        body.light-mode .bg-slate-600 { background-color: #d8e1eb !important; }
+
+        body.light-mode .text-white { color: var(--text-main) !important; }
+        body.light-mode .text-slate-100,
+        body.light-mode .text-slate-200 { color: #273449 !important; }
+        body.light-mode .text-slate-300 { color: #435268 !important; }
+        body.light-mode .text-slate-400 { color: var(--text-soft) !important; }
+        body.light-mode .text-slate-500 { color: #66758a !important; }
+
+        body.light-mode .border-slate-800,
+        body.light-mode .border-slate-900,
+        body.light-mode .border-slate-700,
+        body.light-mode .border-slate-700\/60,
+        body.light-mode .border-slate-700\/80 {
+            border-color: var(--border) !important;
+        }
+
+        body.light-mode header {
+            background-color: var(--header-bg) !important;
+            border-color: var(--border) !important;
+        }
+
+        body.light-mode footer {
+            background-color: var(--footer-bg) !important;
+            border-color: var(--border) !important;
+        }
+
+        body.light-mode .glass-panel {
+            background: rgba(255,255,255,.86);
+            border-color: rgba(15,23,42,.10);
+            box-shadow: 0 12px 35px rgba(15,23,42,.08);
+        }
+
+        body.light-mode #hero-banner-container {
+            background: linear-gradient(180deg,#ffffff 0%,#eef3f8 55%,#f5f7fb 100%) !important;
+            border-color: var(--border) !important;
+        }
+
+        body.light-mode ::-webkit-scrollbar-track { background: #eef2f7; }
+        body.light-mode ::-webkit-scrollbar-thumb { background: #b8c4d2; }
+
+        .theme-toggle { flex-shrink: 0; }
+
+        @media (min-width: 1024px) {
+            .max-w-7xl { max-width: 1280px; }
+        }
+
+        @media (max-width: 1023px) {
+            body { font-size: 14.5px; }
+            header .h-20 { height: 68px; }
+            #hero-banner-container {
+                padding-top: 3.5rem;
+                padding-bottom: 3.5rem;
+            }
+            .page-view { overflow: hidden; }
+        }
+
+        @media (max-width: 640px) {
+            body { font-size: 14px; }
+            header .h-20 { height: 64px; }
+
+            #header-app-name {
+                font-size: 14px !important;
+                letter-spacing: 0 !important;
+            }
+
+            header .text-\[10px\] { font-size: 8px !important; }
+
+            header .w-12.h-12 {
+                width: 40px;
+                height: 40px;
+            }
+
+            header .w-12.h-12 i { font-size: 1.05rem; }
+
+            #hero-banner-container {
+                padding-top: 2.75rem;
+                padding-bottom: 2.75rem;
+            }
+
+            #hero-title {
+                font-size: 2rem !important;
+                line-height: 1.45 !important;
+            }
+
+            #hero-subtitle {
+                font-size: 14px !important;
+                line-height: 1.9;
+            }
+
+            .page-view {
+                padding-top: 1.75rem !important;
+                padding-bottom: 2.5rem !important;
+            }
+
+            .page-view h1 { font-size: 1.65rem !important; }
+            .page-view h2 { font-size: 1.35rem !important; }
+            .page-view h3 { font-size: 1.15rem !important; }
+
+            #home-categories-grid {
+                grid-template-columns: repeat(2,minmax(0,1fr));
+                gap: .7rem;
+            }
+
+            .rounded-3xl { border-radius: 1.15rem !important; }
+            .rounded-2xl { border-radius: .95rem !important; }
+
+            .font-mono,a,p,h1,h2,h3,h4,span { overflow-wrap: anywhere; }
+
+            #toast-container {
+                left: .75rem;
+                right: .75rem;
+                max-width: none;
+            }
+
+            #toast-container > div { width: 100%; }
+
+            #custom-modal-overlay > div,
+            #quiz-modal-overlay > div {
+                max-height: 88vh;
+                padding: 1.15rem;
+            }
+        }
+
+        @media (max-width: 420px) {
+            #header-app-name {
+                max-width: 125px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            #theme-toggle,
+            #mobile-menu-btn,
+            header a[title="المحفوظات"] {
+                width: 38px;
+                height: 38px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                scroll-behavior: auto !important;
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: .01ms !important;
+            }
+        }
     </style>
 </head>
 <body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between selection:bg-amber-500 selection:text-slate-900">
@@ -155,7 +364,10 @@
                 </nav>
 
                 <!-- Header Actions & Auth Status -->
-                <div class="flex items-center gap-3">
+                <div class="flex items-center gap-2 sm:gap-3">
+                    <button id="theme-toggle" type="button" title="تبديل الوضع الليلي والنهاري" aria-label="تبديل الوضع الليلي والنهاري" class="theme-toggle w-10 h-10 rounded-xl bg-slate-800 border border-slate-700/60 flex items-center justify-center text-slate-300 hover:text-amber-400 hover:border-amber-500/50 transition">
+                        <i id="theme-toggle-icon" class="fa-solid fa-sun text-sm"></i>
+                    </button>
                     <a href="#saved" title="المحفوظات" class="relative w-10 h-10 rounded-xl bg-slate-800 border border-slate-700/60 flex items-center justify-center text-slate-300 hover:text-amber-400 hover:border-amber-500/50 transition">
                         <i class="fa-solid fa-bookmark text-sm"></i>
                         <span id="saved-count-badge" class="absolute -top-1 -right-1 bg-amber-500 text-slate-950 text-[10px] font-black w-4 h-4 rounded-full flex items-center justify-center hidden">0</span>
@@ -1376,6 +1588,45 @@
 
         document.getElementById('mobile-menu-btn').addEventListener('click', () => {
             document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+
+        /* =========================================================
+           Theme switcher: persists user choice in localStorage
+           ========================================================= */
+        const THEME_STORAGE_KEY = 'acadmya_theme';
+
+        function applyTheme(theme) {
+            const isLight = theme === 'light';
+            document.body.classList.toggle('light-mode', isLight);
+
+            const icon = document.getElementById('theme-toggle-icon');
+            const button = document.getElementById('theme-toggle');
+
+            if (icon) {
+                icon.className = isLight
+                    ? 'fa-solid fa-moon text-sm'
+                    : 'fa-solid fa-sun text-sm';
+            }
+
+            if (button) {
+                button.title = isLight ? 'تفعيل الوضع الليلي' : 'تفعيل الوضع النهاري';
+                button.setAttribute(
+                    'aria-label',
+                    isLight ? 'تفعيل الوضع الليلي' : 'تفعيل الوضع النهاري'
+                );
+            }
+        }
+
+        const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+        const preferredTheme = savedTheme ||
+            (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+
+        applyTheme(preferredTheme);
+
+        document.getElementById('theme-toggle')?.addEventListener('click', () => {
+            const nextTheme = document.body.classList.contains('light-mode') ? 'dark' : 'light';
+            localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
+            applyTheme(nextTheme);
         });
 
         /* Initial boot route invocation */
