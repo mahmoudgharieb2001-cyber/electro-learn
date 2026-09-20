@@ -1,1655 +1,508 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" class="scroll-smooth">
+<html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>أكاديمية التدريب المهني | منصة التعليم الهندسي الرقمية</title>
-    
-    <!-- Google Fonts: Cairo -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        navy: {
-                            50: '#f0f4f8',
-                            100: '#d9e2ec',
-                            200: '#bccadc',
-                            300: '#9fb3c8',
-                            400: '#829ab1',
-                            500: '#627d98',
-                            600: '#486581',
-                            700: '#334e68',
-                            800: '#243b53',
-                            900: '#102a43',
-                            950: '#0b1d3a',
-                        },
-                        amber: {
-                            500: '#f59e0b',
-                            600: '#d97706',
-                        }
-                    },
-                    fontFamily: {
-                        cairo: ['Cairo', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-    
-    <style>
-        body {
-            font-family: 'Cairo', sans-serif;
-            background-color: #0f172a;
-            color: #f8fafc;
-            overflow-x: hidden;
-        }
-        
-        /* Custom Ticker Animation */
-        @keyframes ticker {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
-        .animate-ticker {
-            display: inline-block;
-            white-space: nowrap;
-            animation: ticker 30s linear infinite;
-        }
-        .animate-ticker:hover {
-            animation-play-state: paused;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b1f3a" />
+  <meta name="description" content="أكاديمية التدريب المهني - منصة تعليمية هندسية متكاملة" />
+  <title>أكاديمية التدريب المهني</title>
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0f172a;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #334e68;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #d97706;
-        }
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 
-        .line-clamp-2 {
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .glass-panel {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-
-        /* =========================================================
-           Responsive UI + Light/Dark Theme System
-           ========================================================= */
-        :root {
-            --page-bg: #f5f7fb;
-            --surface: #ffffff;
-            --surface-2: #f1f5f9;
-            --surface-3: #e8eef5;
-            --text-main: #172033;
-            --text-soft: #526176;
-            --text-muted: #718096;
-            --border: #dbe3ec;
-            --accent: #d97706;
-            --accent-soft: rgba(217,119,6,.10);
-            --header-bg: rgba(255,255,255,.90);
-            --footer-bg: #e9eef5;
-        }
-
-        body:not(.light-mode) {
-            --page-bg: #0f172a;
-            --surface: #1e293b;
-            --surface-2: #172235;
-            --surface-3: #243449;
-            --text-main: #f8fafc;
-            --text-soft: #cbd5e1;
-            --text-muted: #94a3b8;
-            --border: #334155;
-            --accent: #f59e0b;
-            --accent-soft: rgba(245,158,11,.10);
-            --header-bg: rgba(15,23,42,.90);
-            --footer-bg: #020617;
-        }
-
-        html { scroll-padding-top: 90px; }
-
-        body {
-            font-size: 15px;
-            line-height: 1.75;
-            background: var(--page-bg);
-            color: var(--text-main);
-            transition: background-color .25s ease, color .25s ease;
-        }
-
-        h1,h2,h3,h4,h5,h6,button,input,select,textarea {
-            font-family: 'Cairo', sans-serif;
-        }
-
-        h1,h2,h3,h4,h5,h6 {
-            line-height: 1.35;
-            letter-spacing: -.02em;
-        }
-
-        input,select,textarea { font-size: 14px; }
-
-        /* Light mode: remap existing Tailwind dark utility classes without touching data/JS */
-        body.light-mode .bg-slate-950 { background-color: #e8edf4 !important; }
-        body.light-mode .bg-slate-900 { background-color: var(--page-bg) !important; }
-        body.light-mode .bg-slate-800 { background-color: var(--surface) !important; }
-        body.light-mode .bg-slate-700 { background-color: var(--surface-3) !important; }
-        body.light-mode .bg-slate-600 { background-color: #d8e1eb !important; }
-
-        body.light-mode .text-white { color: var(--text-main) !important; }
-        body.light-mode .text-slate-100,
-        body.light-mode .text-slate-200 { color: #273449 !important; }
-        body.light-mode .text-slate-300 { color: #435268 !important; }
-        body.light-mode .text-slate-400 { color: var(--text-soft) !important; }
-        body.light-mode .text-slate-500 { color: #66758a !important; }
-
-        body.light-mode .border-slate-800,
-        body.light-mode .border-slate-900,
-        body.light-mode .border-slate-700,
-        body.light-mode .border-slate-700\/60,
-        body.light-mode .border-slate-700\/80 {
-            border-color: var(--border) !important;
-        }
-
-        body.light-mode header {
-            background-color: var(--header-bg) !important;
-            border-color: var(--border) !important;
-        }
-
-        body.light-mode footer {
-            background-color: var(--footer-bg) !important;
-            border-color: var(--border) !important;
-        }
-
-        body.light-mode .glass-panel {
-            background: rgba(255,255,255,.86);
-            border-color: rgba(15,23,42,.10);
-            box-shadow: 0 12px 35px rgba(15,23,42,.08);
-        }
-
-        body.light-mode #hero-banner-container {
-            background: linear-gradient(180deg,#ffffff 0%,#eef3f8 55%,#f5f7fb 100%) !important;
-            border-color: var(--border) !important;
-        }
-
-        body.light-mode ::-webkit-scrollbar-track { background: #eef2f7; }
-        body.light-mode ::-webkit-scrollbar-thumb { background: #b8c4d2; }
-
-        .theme-toggle { flex-shrink: 0; }
-
-        @media (min-width: 1024px) {
-            .max-w-7xl { max-width: 1280px; }
-        }
-
-        @media (max-width: 1023px) {
-            body { font-size: 14.5px; }
-            header .h-20 { height: 68px; }
-            #hero-banner-container {
-                padding-top: 3.5rem;
-                padding-bottom: 3.5rem;
-            }
-            .page-view { overflow: hidden; }
-        }
-
-        @media (max-width: 640px) {
-            body { font-size: 14px; }
-            header .h-20 { height: 64px; }
-
-            #header-app-name {
-                font-size: 14px !important;
-                letter-spacing: 0 !important;
-            }
-
-            header .text-\[10px\] { font-size: 8px !important; }
-
-            header .w-12.h-12 {
-                width: 40px;
-                height: 40px;
-            }
-
-            header .w-12.h-12 i { font-size: 1.05rem; }
-
-            #hero-banner-container {
-                padding-top: 2.75rem;
-                padding-bottom: 2.75rem;
-            }
-
-            #hero-title {
-                font-size: 2rem !important;
-                line-height: 1.45 !important;
-            }
-
-            #hero-subtitle {
-                font-size: 14px !important;
-                line-height: 1.9;
-            }
-
-            .page-view {
-                padding-top: 1.75rem !important;
-                padding-bottom: 2.5rem !important;
-            }
-
-            .page-view h1 { font-size: 1.65rem !important; }
-            .page-view h2 { font-size: 1.35rem !important; }
-            .page-view h3 { font-size: 1.15rem !important; }
-
-            #home-categories-grid {
-                grid-template-columns: repeat(2,minmax(0,1fr));
-                gap: .7rem;
-            }
-
-            .rounded-3xl { border-radius: 1.15rem !important; }
-            .rounded-2xl { border-radius: .95rem !important; }
-
-            .font-mono,a,p,h1,h2,h3,h4,span { overflow-wrap: anywhere; }
-
-            #toast-container {
-                left: .75rem;
-                right: .75rem;
-                max-width: none;
-            }
-
-            #toast-container > div { width: 100%; }
-
-            #custom-modal-overlay > div,
-            #quiz-modal-overlay > div {
-                max-height: 88vh;
-                padding: 1.15rem;
-            }
-        }
-
-        @media (max-width: 420px) {
-            #header-app-name {
-                max-width: 125px;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-
-            #theme-toggle,
-            #mobile-menu-btn,
-            header a[title="المحفوظات"] {
-                width: 38px;
-                height: 38px;
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                scroll-behavior: auto !important;
-                animation-duration: .01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: .01ms !important;
-            }
-        }
-    </style>
+  <style>
+    :root{
+      --primary:#0b1f3a;--primary-2:#12345d;--accent:#1d78f2;--accent-2:#0ea5e9;
+      --bg:#f5f7fb;--surface:#fff;--surface-2:#eef3f9;--text:#172033;--muted:#68758a;
+      --border:#e3e9f2;--success:#159957;--danger:#dc3545;--warning:#d68b00;
+      --shadow:0 12px 35px rgba(11,31,58,.08);--radius:18px;--sidebar:270px;
+    }
+    [data-theme="dark"]{
+      --bg:#07111f;--surface:#0d1b2c;--surface-2:#13263d;--text:#edf4ff;--muted:#9db0c8;
+      --border:#20344d;--shadow:0 15px 40px rgba(0,0,0,.25);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:Cairo,Tajawal,sans-serif;line-height:1.7}
+    button,input,select,textarea{font:inherit}
+    button{cursor:pointer}
+    a{text-decoration:none;color:inherit}
+    .hidden{display:none!important}
+    .app{min-height:100vh}
+    .sidebar{position:fixed;right:0;top:0;width:var(--sidebar);height:100vh;background:var(--surface);border-left:1px solid var(--border);z-index:30;padding:22px 16px;overflow:auto}
+    .brand{display:flex;align-items:center;gap:12px;padding:8px 10px 22px}
+    .brand-mark{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--primary));color:#fff;display:grid;place-items:center;font-weight:800;font-size:20px}
+    .brand h1{font-size:16px;margin:0}.brand small{display:block;color:var(--muted);font-size:11px}
+    .nav-title{font-size:11px;color:var(--muted);font-weight:700;padding:12px 12px 7px}
+    .nav-item{display:flex;align-items:center;gap:11px;width:100%;padding:11px 13px;border:0;background:transparent;color:var(--muted);border-radius:12px;text-align:right;margin:3px 0}
+    .nav-item:hover,.nav-item.active{background:var(--surface-2);color:var(--accent);font-weight:700}
+    .nav-item span:first-child{width:23px;text-align:center}
+    .main{margin-right:var(--sidebar);min-height:100vh}
+    .topbar{position:sticky;top:0;z-index:20;height:72px;background:color-mix(in srgb,var(--surface) 90%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;padding:0 28px}
+    .menu-btn{display:none;border:0;background:var(--surface-2);color:var(--text);width:42px;height:42px;border-radius:12px}
+    .search{flex:1;max-width:620px;position:relative}
+    .search input{width:100%;height:44px;border:1px solid var(--border);background:var(--surface-2);border-radius:13px;padding:0 44px 0 14px;color:var(--text);outline:none}
+    .search span{position:absolute;right:14px;top:7px}
+    .top-actions{margin-right:auto;display:flex;gap:8px;align-items:center}
+    .icon-btn{border:1px solid var(--border);background:var(--surface);color:var(--text);width:42px;height:42px;border-radius:12px}
+    .user-chip{display:flex;align-items:center;gap:9px;padding:5px 10px;border:1px solid var(--border);border-radius:13px;background:var(--surface)}
+    .avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;display:grid;place-items:center;font-weight:800;font-size:13px}
+    .content{padding:28px;max-width:1600px;margin:auto}
+    .view{display:none}.view.active{display:block}
+    .hero{background:linear-gradient(135deg,#081b34 0%,#123a68 60%,#1469ba 100%);color:#fff;border-radius:24px;padding:36px;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+    .hero:after{content:"";position:absolute;width:320px;height:320px;border:55px solid rgba(255,255,255,.06);border-radius:50%;left:-80px;bottom:-180px}
+    .hero-content{position:relative;z-index:1;max-width:760px}.hero h2{font-size:clamp(25px,4vw,42px);line-height:1.25;margin:0 0 12px}.hero p{color:#d9e7f7;margin:0 0 22px}
+    .btn{border:0;border-radius:12px;padding:10px 16px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+    .btn-primary{background:var(--accent);color:#fff}.btn-light{background:#fff;color:#0b1f3a}.btn-ghost{background:var(--surface-2);color:var(--text);border:1px solid var(--border)}.btn-danger{background:#fff0f1;color:var(--danger)}
+    .section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:28px 0 14px}.section-head h3{margin:0;font-size:20px}.section-head p{margin:2px 0 0;color:var(--muted);font-size:13px}
+    .ticker{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border);padding:10px 14px;border-radius:13px;margin:14px 0;overflow:hidden}.ticker strong{color:var(--accent);white-space:nowrap}.ticker-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .grid{display:grid;gap:16px}.grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}.grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}.grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+    .card-body{padding:18px}.card h4{margin:0 0 7px;font-size:17px}.muted{color:var(--muted);font-size:13px}
+    .course-card{display:flex;flex-direction:column;height:100%}.course-cover{height:145px;background:linear-gradient(135deg,#102d50,#1976d2);color:#fff;padding:17px;display:flex;align-items:flex-end;font-weight:800;font-size:19px;position:relative}.course-cover small{position:absolute;top:12px;right:12px;background:rgba(255,255,255,.16);padding:4px 8px;border-radius:8px;font-size:10px}
+    .course-meta{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.pill{font-size:11px;background:var(--surface-2);padding:4px 8px;border-radius:20px;color:var(--muted)}
+    .progress{height:7px;background:var(--surface-2);border-radius:10px;overflow:hidden}.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:inherit}
+    .stat{padding:18px}.stat .num{font-size:27px;font-weight:800;margin-top:6px}.stat .icon{font-size:22px}
+    .job-card,.news-card,.offer-card{padding:18px}.job-card .top,.news-card .top{display:flex;justify-content:space-between;gap:10px}.tag{font-size:10px;padding:4px 8px;border-radius:8px;background:#e9f2ff;color:#1766c2}.dark-tag{background:var(--surface-2);color:var(--muted)}
+    .empty{text-align:center;padding:50px 20px;color:var(--muted);border:1px dashed var(--border);border-radius:16px}
+    .page-title{display:flex;justify-content:space-between;align-items:end;gap:15px;margin-bottom:22px}.page-title h2{margin:0;font-size:28px}.page-title p{margin:3px 0 0;color:var(--muted)}
+    .lesson-layout{display:grid;grid-template-columns:1fr 330px;gap:18px}.video-wrap{aspect-ratio:16/9;background:#05080d;border-radius:18px;overflow:hidden}.video-wrap iframe{width:100%;height:100%;border:0}.pdf-wrap{width:100%;height:70vh;border:0;border-radius:15px}
+    .list{display:grid;gap:8px}.lesson-row{display:flex;align-items:center;gap:10px;padding:11px;border-radius:11px;background:var(--surface-2);cursor:pointer}.lesson-row.active{outline:2px solid var(--accent)}.lesson-row .check{margin-right:auto}
+    .tabs{display:flex;gap:7px;overflow:auto;padding-bottom:3px}.tab{border:1px solid var(--border);background:var(--surface);color:var(--muted);padding:9px 13px;border-radius:10px;white-space:nowrap}.tab.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+    .table-wrap{overflow:auto}.table{width:100%;border-collapse:collapse;min-width:700px}.table th,.table td{padding:12px;border-bottom:1px solid var(--border);text-align:right}.table th{color:var(--muted);font-size:12px}
+    .admin-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.admin-tile{padding:20px;border:1px solid var(--border);border-radius:16px;background:var(--surface);cursor:pointer}.admin-tile:hover{transform:translateY(-2px);box-shadow:var(--shadow)}.admin-tile strong{display:block;font-size:18px;margin-top:8px}
+    .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.52);z-index:100;display:none;align-items:center;justify-content:center;padding:16px}.modal-backdrop.open{display:flex}.modal{width:min(720px,100%);max-height:92vh;overflow:auto;background:var(--surface);border-radius:20px;border:1px solid var(--border);box-shadow:0 25px 70px rgba(0,0,0,.25)}.modal-head{padding:18px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between}.modal-body{padding:20px}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:12px;font-weight:700;color:var(--muted)}.field input,.field textarea,.field select{width:100%;border:1px solid var(--border);background:var(--surface-2);color:var(--text);border-radius:11px;padding:10px 12px;outline:none}.field textarea{min-height:110px;resize:vertical}.modal-foot{padding:15px 20px;border-top:1px solid var(--border);display:flex;justify-content:flex-start;gap:8px}
+    .toast{position:fixed;bottom:22px;left:22px;z-index:200;background:var(--primary);color:#fff;padding:12px 17px;border-radius:12px;box-shadow:var(--shadow);display:none}.toast.show{display:block}
+    .auth-screen{min-height:100vh;display:grid;place-items:center;padding:20px;background:radial-gradient(circle at top left,#dcecff,transparent 40%),var(--bg)}.auth-box{width:min(450px,100%);background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:28px;box-shadow:var(--shadow)}.auth-logo{display:grid;place-items:center;margin-bottom:18px}.auth-box h2{margin:0 0 5px}.auth-box p{color:var(--muted);margin-top:0}.auth-tabs{display:flex;gap:5px;background:var(--surface-2);padding:4px;border-radius:12px;margin:18px 0}.auth-tabs button{flex:1;border:0;background:transparent;padding:9px;border-radius:9px;color:var(--muted)}.auth-tabs button.active{background:var(--surface);color:var(--accent);font-weight:800}
+    .bottom-nav{display:none}
+    .overlay{display:none}
+    .footer{padding:35px 0 15px;color:var(--muted);font-size:12px;text-align:center}
+    @media(max-width:1100px){.grid-4{grid-template-columns:repeat(2,minmax(0,1fr))}.grid-3,.admin-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.lesson-layout{grid-template-columns:1fr}}
+    @media(max-width:800px){
+      :root{--sidebar:0px}.sidebar{transform:translateX(110%);transition:.25s;width:min(300px,85vw);box-shadow:-20px 0 50px rgba(0,0,0,.15)}body.sidebar-open .sidebar{transform:translateX(0)}.overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:25}.overlay.show{display:block}
+      .main{margin-right:0}.topbar{padding:0 14px;height:64px}.menu-btn{display:block}.search{max-width:none}.top-actions .hide-mobile{display:none}.user-chip strong{display:none}.content{padding:18px 14px 85px}.hero{padding:26px 20px;border-radius:20px}.hero h2{font-size:28px}.grid-4,.grid-3,.grid-2,.admin-grid{grid-template-columns:1fr}.section-head{margin-top:22px}.bottom-nav{display:flex;position:fixed;bottom:0;right:0;left:0;height:64px;background:var(--surface);border-top:1px solid var(--border);z-index:24;justify-content:space-around;padding-bottom:env(safe-area-inset-bottom)}.bottom-nav button{flex:1;border:0;background:transparent;color:var(--muted);font-size:10px}.bottom-nav button.active{color:var(--accent);font-weight:800}.page-title{align-items:flex-start;flex-direction:column}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.course-cover{height:125px}.pdf-wrap{height:60vh}}
+    @media(max-width:430px){.topbar .search input{padding-right:36px}.topbar .search span{right:10px}.top-actions{gap:4px}.icon-btn{width:38px;height:38px}.hero p{font-size:13px}.btn{width:100%}.hero .btn{margin-top:5px}.card-body{padding:15px}}
+  </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between selection:bg-amber-500 selection:text-slate-900">
 
-    <div id="toast-container" class="fixed top-5 left-5 z-50 flex flex-col gap-3 max-w-sm pointer-events-none"></div>
-
-    <div id="custom-modal-overlay" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 max-w-md w-full shadow-2xl transform transition-all text-center">
-            <div id="custom-modal-icon" class="w-16 h-16 rounded-full bg-amber-500/10 text-amber-500 flex items-center justify-center mx-auto text-2xl mb-4">
-                <i class="fa-solid fa-triangle-exclamation"></i>
-            </div>
-            <h3 id="custom-modal-title" class="text-xl font-bold text-white mb-2">تأكيد الإجراء</h3>
-            <p id="custom-modal-message" class="text-slate-300 text-sm mb-6">هل أنت تأكد من متابعة هذا الإجراء؟</p>
-            <div class="flex items-center justify-center gap-3" id="custom-modal-buttons">
-                <button id="custom-modal-cancel" class="px-5 py-2.5 rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-200 font-semibold transition text-sm">إلغاء</button>
-                <button id="custom-modal-confirm" class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold transition text-sm">تأكيد</button>
-            </div>
-        </div>
+<body>
+<div id="authScreen" class="auth-screen">
+  <div class="auth-box">
+    <div class="auth-logo">
+      <div class="brand-mark">أ</div>
     </div>
+    <h2>أكاديمية التدريب المهني</h2>
+    <p>منصة هندسية للتعلم العملي والتطوير المهني</p>
+    <div class="auth-tabs">
+      <button id="loginTab" class="active" onclick="switchAuth('login')">تسجيل الدخول</button>
+      <button id="registerTab" onclick="switchAuth('register')">إنشاء حساب</button>
+    </div>
+    <form id="authForm" onsubmit="handleAuth(event)">
+      <div class="field" style="margin-bottom:12px">
+        <label>البريد الإلكتروني</label>
+        <input id="authEmail" type="email" required autocomplete="email">
+      </div>
+      <div class="field" style="margin-bottom:12px">
+        <label>كلمة المرور</label>
+        <input id="authPassword" type="password" required minlength="6" autocomplete="current-password">
+      </div>
+      <div id="nameField" class="field hidden" style="margin-bottom:12px">
+        <label>الاسم</label>
+        <input id="authName" type="text">
+      </div>
+      <button class="btn btn-primary" style="width:100%" id="authSubmit">دخول إلى الأكاديمية</button>
+    </form>
+    <button class="btn btn-ghost" style="width:100%;margin-top:9px" onclick="resetPassword()">نسيت كلمة المرور؟</button>
+    <div id="authError" class="muted" style="margin-top:12px;color:var(--danger)"></div>
+  </div>
+</div>
 
-    <header class="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
-        <!-- Breaking News Ticker Bar -->
-        <div id="breaking-news-ticker-bar" class="bg-amber-500/10 border-b border-amber-500/20 text-amber-400 py-2 px-4 text-xs md:text-sm overflow-hidden hidden">
-            <div class="max-w-7xl mx-auto flex items-center gap-3">
-                <span class="bg-amber-500 text-slate-950 font-extrabold px-2.5 py-0.5 rounded text-[10px] uppercase tracking-wider shrink-0 flex items-center gap-1">
-                    <i class="fa-solid fa-bolt"></i> عاجل
-                </span>
-                <div class="overflow-hidden relative w-full">
-                    <div id="ticker-content" class="animate-ticker space-x-8 space-x-reverse font-medium"></div>
-                </div>
-            </div>
-        </div>
+<div id="app" class="app hidden">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">أ</div>
+      <div><h1>أكاديمية التدريب المهني</h1><small>Professional Engineering Academy</small></div>
+    </div>
+    <div class="nav-title">الرئيسية</div>
+    <button class="nav-item active" data-view="home" onclick="navigate('home')"><span>⌂</span><span>الرئيسية</span></button>
+    <button class="nav-item" data-view="courses" onclick="navigate('courses')"><span>▣</span><span>الكورسات</span></button>
+    <button class="nav-item" data-view="categories" onclick="navigate('categories')"><span>◈</span><span>التخصصات</span></button>
+    <button class="nav-item" data-view="library" onclick="navigate('library')"><span>▤</span><span>المكتبة الهندسية</span></button>
+    <button class="nav-item" data-view="jobs" onclick="navigate('jobs')"><span>▥</span><span>الوظائف</span></button>
+    <button class="nav-item" data-view="news" onclick="navigate('news')"><span>◉</span><span>الأخبار</span></button>
+    <div class="nav-title">حسابي</div>
+    <button class="nav-item" data-view="dashboard" onclick="navigate('dashboard')"><span>◌</span><span>لوحتي</span></button>
+    <button class="nav-item" data-view="bookmarks" onclick="navigate('bookmarks')"><span>☆</span><span>المحفوظات</span></button>
+    <button id="adminNav" class="nav-item hidden" data-view="admin" onclick="navigate('admin')"><span>⚙</span><span>لوحة الإدارة</span></button>
+    <div style="margin-top:20px;border-top:1px solid var(--border);padding-top:14px">
+      <button class="nav-item" onclick="toggleTheme()"><span>☾</span><span>الوضع الليلي / النهاري</span></button>
+      <button class="nav-item" onclick="logout()"><span>↪</span><span>تسجيل الخروج</span></button>
+    </div>
+  </aside>
+  <div id="overlay" class="overlay" onclick="closeSidebar()"></div>
 
-        <!-- Main Header Nav -->
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20">
-                <!-- Brand Logo -->
-                <a href="#home" class="flex items-center gap-3 group">
-                    <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-amber-500 to-amber-600 flex items-center justify-center text-slate-950 shadow-lg shadow-amber-500/20 group-hover:scale-105 transition">
-                        <i class="fa-solid fa-compass-drafting text-2xl"></i>
-                    </div>
-                    <div>
-                        <span id="header-app-name" class="text-lg md:text-xl font-black text-white tracking-wide block">أكاديمية التدريب المهني</span>
-                        <span class="text-[10px] text-slate-400 block -mt-1 font-semibold">منصة الهندسة والتعليم المستمر</span>
-                    </div>
-                </a>
-
-                <!-- Desktop Navigation Links -->
-                <nav class="hidden lg:flex items-center gap-1 xl:gap-2">
-                    <a href="#home" class="nav-link px-3 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-amber-400 hover:bg-slate-800/60 transition"><i class="fa-solid fa-house ml-1"></i> الرئيسية</a>
-                    <a href="#courses" class="nav-link px-3 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-amber-400 hover:bg-slate-800/60 transition"><i class="fa-solid fa-graduation-cap ml-1"></i> الدورات</a>
-                    <a href="#library" class="nav-link px-3 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-amber-400 hover:bg-slate-800/60 transition"><i class="fa-solid fa-book-bookmark ml-1"></i> المكتبة الهندسية</a>
-                    <a href="#jobs" class="nav-link px-3 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-amber-400 hover:bg-slate-800/60 transition"><i class="fa-solid fa-briefcase ml-1"></i> فرص العمل</a>
-                    <a href="#news" class="nav-link px-3 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-amber-400 hover:bg-slate-800/60 transition"><i class="fa-solid fa-newspaper ml-1"></i> الأخبار</a>
-                    <a href="#offers" class="nav-link px-3 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-amber-400 hover:bg-slate-800/60 transition"><i class="fa-solid fa-tags ml-1"></i> العروض</a>
-                </nav>
-
-                <!-- Header Actions & Auth Status -->
-                <div class="flex items-center gap-2 sm:gap-3">
-                    <button id="theme-toggle" type="button" title="تبديل الوضع الليلي والنهاري" aria-label="تبديل الوضع الليلي والنهاري" class="theme-toggle w-10 h-10 rounded-xl bg-slate-800 border border-slate-700/60 flex items-center justify-center text-slate-300 hover:text-amber-400 hover:border-amber-500/50 transition">
-                        <i id="theme-toggle-icon" class="fa-solid fa-sun text-sm"></i>
-                    </button>
-                    <a href="#saved" title="المحفوظات" class="relative w-10 h-10 rounded-xl bg-slate-800 border border-slate-700/60 flex items-center justify-center text-slate-300 hover:text-amber-400 hover:border-amber-500/50 transition">
-                        <i class="fa-solid fa-bookmark text-sm"></i>
-                        <span id="saved-count-badge" class="absolute -top-1 -right-1 bg-amber-500 text-slate-950 text-[10px] font-black w-4 h-4 rounded-full flex items-center justify-center hidden">0</span>
-                    </a>
-
-                    <!-- User Account / Login Button -->
-                    <div id="auth-header-slot">
-                        <a href="#login" class="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-sm transition shadow-lg shadow-amber-500/10 flex items-center gap-2">
-                            <i class="fa-solid fa-right-to-bracket"></i> تسجيل الدخول
-                        </a>
-                    </div>
-
-                    <!-- Mobile Menu Trigger Button -->
-                    <button id="mobile-menu-btn" class="lg:hidden w-10 h-10 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300 hover:text-white">
-                        <i class="fa-solid fa-bars text-lg"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Mobile Navigation Drawer -->
-        <div id="mobile-menu" class="hidden lg:hidden bg-slate-900 border-b border-slate-800 px-4 py-4 space-y-2">
-            <a href="#home" class="mobile-nav-link block px-4 py-2.5 rounded-xl text-slate-200 font-semibold hover:bg-slate-800"><i class="fa-solid fa-house ml-2 text-amber-500"></i> الرئيسية</a>
-            <a href="#courses" class="mobile-nav-link block px-4 py-2.5 rounded-xl text-slate-200 font-semibold hover:bg-slate-800"><i class="fa-solid fa-graduation-cap ml-2 text-amber-500"></i> الدورات والمسارات</a>
-            <a href="#library" class="mobile-nav-link block px-4 py-2.5 rounded-xl text-slate-200 font-semibold hover:bg-slate-800"><i class="fa-solid fa-book-bookmark ml-2 text-amber-500"></i> المكتبة الهندسية</a>
-            <a href="#jobs" class="mobile-nav-link block px-4 py-2.5 rounded-xl text-slate-200 font-semibold hover:bg-slate-800"><i class="fa-solid fa-briefcase ml-2 text-amber-500"></i> فرص العمل</a>
-            <a href="#news" class="mobile-nav-link block px-4 py-2.5 rounded-xl text-slate-200 font-semibold hover:bg-slate-800"><i class="fa-solid fa-newspaper ml-2 text-amber-500"></i> الأخبار الهندسية</a>
-            <a href="#offers" class="mobile-nav-link block px-4 py-2.5 rounded-xl text-slate-200 font-semibold hover:bg-slate-800"><i class="fa-solid fa-tags ml-2 text-amber-500"></i> أحدث العروض</a>
-            <div id="mobile-admin-link-wrapper" class="hidden pt-2 border-t border-slate-800">
-                <a href="#admin" class="mobile-nav-link block px-4 py-2.5 rounded-xl bg-amber-500/10 text-amber-400 font-bold hover:bg-amber-500/20"><i class="fa-solid fa-sliders ml-2"></i> لوحة تحكم الأدمن</a>
-            </div>
-        </div>
+  <main class="main">
+    <header class="topbar">
+      <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+      <div class="search"><span>⌕</span><input id="globalSearch" placeholder="ابحث عن كورس أو ملف أو وظيفة..." oninput="globalSearch(this.value)"></div>
+      <div class="top-actions">
+        <button class="icon-btn" onclick="toggleTheme()" title="الوضع الليلي">☼</button>
+        <button class="icon-btn" onclick="navigate('dashboard')" title="الحساب">◉</button>
+        <div class="user-chip"><div class="avatar" id="topAvatar">م</div><strong id="topName">المستخدم</strong></div>
+      </div>
     </header>
 
-    <main id="app-main-content" class="flex-1">
-        <!-- Route 1: Homepage View -->
-        <section id="page-home" class="page-view space-y-12 pb-16">
-            <!-- Hero Banner Dynamic -->
-            <div id="hero-banner-container" class="relative bg-gradient-to-b from-slate-900 via-navy-900 to-slate-900 py-16 md:py-24 border-b border-slate-800 overflow-hidden">
-                <div class="absolute inset-0 bg-[radial-gradient(#334e68_1px,transparent_1px)] [background-size:16px_16px] opacity-20"></div>
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                        <div class="lg:col-span-7 space-y-6 text-center lg:text-right">
-                            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold">
-                                <i class="fa-solid fa-star"></i> الأكاديمية الأولى للمهندسين العرب
-                            </span>
-                            <h1 id="hero-title" class="text-3xl sm:text-5xl lg:text-6xl font-black text-white leading-tight">
-                                طوّر مهاراتك الهندسية وفق أعلى المعايير الاحترافية
-                            </h1>
-                            <p id="hero-subtitle" class="text-slate-300 text-base md:text-lg max-w-2xl leading-relaxed">
-                                تعلم التوزيع الكهربائي، القوى الكهربائية، أنظمة التيار الخفيف، أنظمة BIM، والطاقة الشمسية مع كوكبة من كبار المهندسين الاستشاريين.
-                            </p>
-                            <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
-                                <a href="#courses" class="px-6 py-3.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-base shadow-lg shadow-amber-500/20 transition flex items-center gap-2">
-                                    <i class="fa-solid fa-play"></i> استكشف الدورات الآن
-                                </a>
-                                <a href="#library" class="px-6 py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-base border border-slate-700 transition flex items-center gap-2">
-                                    <i class="fa-solid fa-folder-open"></i> المكتبة الهندسية
-                                </a>
-                            </div>
-                        </div>
-                        <div class="lg:col-span-5 flex justify-center">
-                            <div class="relative w-full max-w-md aspect-video md:aspect-square rounded-2xl overflow-hidden shadow-2xl border border-slate-700/80 group">
-                                <img id="hero-image" src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80" alt="Engineering Training" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
-                                <div class="absolute bottom-4 right-4 left-4 p-4 rounded-xl glass-panel">
-                                    <p class="text-xs font-bold text-amber-400"><i class="fa-solid fa-certificate"></i> شهادات مهنية معتمدة</p>
-                                    <p class="text-sm font-bold text-white mt-0.5">تطبيقات عملية ومشاريع هندسية واقعية</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Continue Learning Section (Only for Logged-In Users with active progress) -->
-            <div id="continue-learning-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 hidden">
-                <div class="bg-gradient-to-r from-navy-900 to-slate-800 rounded-2xl p-6 border border-slate-700 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
-                    <div class="flex items-center gap-4">
-                        <div class="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center text-2xl shrink-0">
-                            <i class="fa-solid fa-circle-play"></i>
-                        </div>
-                        <div>
-                            <span class="text-xs font-bold text-amber-400 uppercase tracking-wider">أكمل تعلمك من حيث توقفت</span>
-                            <h3 id="continue-course-title" class="text-lg font-extrabold text-white">عنوان الدورة التعليمية</h3>
-                            <p id="continue-lesson-title" class="text-xs text-slate-400">آخر درس: -</p>
-                        </div>
-                    </div>
-                    <div class="w-full md:w-auto flex items-center gap-4">
-                        <div class="w-32 bg-slate-700 h-2.5 rounded-full overflow-hidden hidden md:block">
-                            <div id="continue-progress-bar" class="bg-amber-500 h-full w-0 transition-all"></div>
-                        </div>
-                        <a id="continue-learning-btn" href="#" class="w-full md:w-auto px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-sm text-center transition">
-                            متابعة الدرس <i class="fa-solid fa-arrow-left mr-1"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Categories Grid Section -->
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex items-center justify-between mb-8">
-                    <div>
-                        <h2 class="text-2xl md:text-3xl font-black text-white">المجالات والتخصصات الهندسية</h2>
-                        <p class="text-xs md:text-sm text-slate-400 mt-1">اختر التخصص لمشاهدة المسارات والدورات المتاحة</p>
-                    </div>
-                </div>
-                <div id="home-categories-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                    <!-- Dynamic Categories Loading... -->
-                </div>
-            </div>
-
-            <!-- Featured Courses Section -->
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex items-center justify-between mb-8">
-                    <div>
-                        <h2 class="text-2xl md:text-3xl font-black text-white">الدورات المميزة</h2>
-                        <p class="text-xs md:text-sm text-slate-400 mt-1">أقوى البرامج التدريبية المعتمدة مع التطبيقات العملية</p>
-                    </div>
-                    <a href="#courses" class="text-sm font-bold text-amber-400 hover:text-amber-300 transition flex items-center gap-1">عرض الكل <i class="fa-solid fa-angle-left"></i></a>
-                </div>
-                <div id="home-featured-courses-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    <!-- Dynamic Featured Courses Loading... -->
-                </div>
-            </div>
-
-            <!-- Latest News & Updates Grid -->
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex items-center justify-between mb-8">
-                    <div>
-                        <h2 class="text-2xl md:text-3xl font-black text-white">آخر الأخبار والتطورات الهندسية</h2>
-                        <p class="text-xs md:text-sm text-slate-400 mt-1">متابعة لأهم المستجدات، الكودات، والمقالات الهندسية</p>
-                    </div>
-                    <a href="#news" class="text-sm font-bold text-amber-400 hover:text-amber-300 transition flex items-center gap-1">عرض كل الأخبار <i class="fa-solid fa-angle-left"></i></a>
-                </div>
-                <div id="home-news-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <!-- Dynamic News Loading... -->
-                </div>
-            </div>
-
-            <!-- Active Special Offers Section -->
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex items-center justify-between mb-8">
-                    <div>
-                        <h2 class="text-2xl md:text-3xl font-black text-white">أحدث العروض والخصومات</h2>
-                        <p class="text-xs md:text-sm text-slate-400 mt-1">فرص مميزة للتسجيل في الباقات والدورات المتكاملة</p>
-                    </div>
-                    <a href="#offers" class="text-sm font-bold text-amber-400 hover:text-amber-300 transition flex items-center gap-1">عرض جميع العروض <i class="fa-solid fa-angle-left"></i></a>
-                </div>
-                <div id="home-offers-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Dynamic Offers Loading... -->
-                </div>
-            </div>
-
-            <!-- Job Opportunities Section -->
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex items-center justify-between mb-8">
-                    <div>
-                        <h2 class="text-2xl md:text-3xl font-black text-white">أحدث فرص العمل الهندسية</h2>
-                        <p class="text-xs md:text-sm text-slate-400 mt-1">وظائف شاغرة لدى كبرى الشركات والمكاتب الاستشارية</p>
-                    </div>
-                    <a href="#jobs" class="text-sm font-bold text-amber-400 hover:text-amber-300 transition flex items-center gap-1">جميع الوظائف <i class="fa-solid fa-angle-left"></i></a>
-                </div>
-                <div id="home-jobs-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- Dynamic Jobs Loading... -->
-                </div>
-            </div>
-
-            <!-- Engineering Library Teaser Section -->
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="bg-gradient-to-r from-navy-900 via-slate-800 to-navy-900 rounded-3xl p-8 border border-slate-700 shadow-2xl relative overflow-hidden">
-                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                        <div class="lg:col-span-8 space-y-4">
-                            <span class="px-3 py-1 rounded-full bg-amber-500/20 text-amber-400 text-xs font-bold"><i class="fa-solid fa-file-pdf"></i> مكتبة المهندس الشاملة</span>
-                            <h3 class="text-2xl md:text-4xl font-black text-white">حمل آلاف الكودات، ملفات PDF، شيتات الإكسيل، والمخططات مجاناً</h3>
-                            <p class="text-slate-300 text-sm md:text-base leading-relaxed">تضم المكتبة مئات المراجع في التوزيع الكهربائي، أنظمة التيار الخفيف، جداول الحسابات، وقوائم الفحص الميدانية جاهزة للتحميل المباشر.</p>
-                            <div>
-                                <a href="#library" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold transition shadow-lg shadow-amber-500/20">
-                                    <i class="fa-solid fa-folder-open"></i> تصفح المكتبة الهندسية
-                                </a>
-                            </div>
-                        </div>
-                        <div class="lg:col-span-4 flex justify-center">
-                            <div class="w-32 h-32 md:w-44 md:h-44 rounded-3xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-6xl md:text-7xl shadow-2xl">
-                                <i class="fa-solid fa-book-bookmark"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Route 2: All Courses & Category Explorer View -->
-        <section id="page-courses" class="page-view max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8 hidden">
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-6">
-                <div>
-                    <h1 class="text-3xl font-black text-white">دليل الدورات والمسارات الهندسية</h1>
-                    <p class="text-slate-400 text-sm mt-1">تصفح جميع الدورات التدريبية المتاحة واستخدم التصفية للوصول للدورة المناسبة</p>
-                </div>
-                <!-- Search & Filters Bar -->
-                <div class="flex flex-wrap items-center gap-3">
-                    <div class="relative w-full sm:w-64">
-                        <i class="fa-solid fa-magnifying-glass absolute right-3 top-3 text-slate-400 text-sm"></i>
-                        <input type="text" id="courses-search-input" placeholder="بحث عن دورة..." class="w-full pr-9 pl-4 py-2 rounded-xl bg-slate-800 border border-slate-700 text-slate-200 text-sm focus:outline-none focus:border-amber-500">
-                    </div>
-                    <select id="courses-category-filter" class="px-4 py-2 rounded-xl bg-slate-800 border border-slate-700 text-slate-200 text-sm focus:outline-none focus:border-amber-500">
-                        <option value="ALL">جميع التخصصات</option>
-                    </select>
-                </div>
-            </div>
-
-            <div id="courses-grid-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                <!-- Dynamic Courses Card Grid -->
-            </div>
-        </section>
-
-        <!-- Route 3: Single Course View (Syllabus & Modules) -->
-        <section id="page-course-detail" class="page-view max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8 hidden">
-            <!-- Course Header / Banner -->
-            <div id="course-detail-header" class="bg-slate-800 border border-slate-700 rounded-3xl p-6 md:p-8 space-y-6">
-                <!-- Dynamic Course Banner Content Loading... -->
-            </div>
-
-            <!-- Course Syllabus & Lessons Tree -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                <div class="lg:col-span-8 space-y-6">
-                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
-                        <i class="fa-solid fa-list-check text-amber-500"></i> محتوى الدورة والدروس
-                    </h2>
-                    <div id="course-modules-tree" class="space-y-4">
-                        <!-- Dynamic Modules & Lessons Accordion Loading... -->
-                    </div>
-                </div>
-
-                <!-- Course Sidebar / Info Widget -->
-                <div class="lg:col-span-4 space-y-6">
-                    <div id="course-info-widget" class="bg-slate-800 border border-slate-700 rounded-2xl p-6 space-y-4">
-                        <!-- Dynamic Widget Info -->
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Route 4: Interactive Lesson Player View (YouTube / Drive PDF / Notes / Quiz) -->
-        <section id="page-lesson-player" class="page-view max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6 hidden">
-            <!-- Breadcrumb Navigation -->
-            <div class="flex items-center gap-2 text-xs md:text-sm text-slate-400">
-                <a href="#courses" class="hover:text-amber-400">الدورات</a>
-                <i class="fa-solid fa-chevron-left text-[10px]"></i>
-                <a id="player-course-breadcrumb" href="#" class="hover:text-amber-400">عنوان الدورة</a>
-                <i class="fa-solid fa-chevron-left text-[10px]"></i>
-                <span id="player-lesson-breadcrumb" class="text-slate-200 font-bold">اسم الدرس</span>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                <!-- Lesson Main Player Area -->
-                <div class="lg:col-span-8 space-y-6">
-                    <!-- Media Frame Container (YouTube or Drive Preview) -->
-                    <div id="media-frame-wrapper" class="w-full aspect-video rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 shadow-2xl relative">
-                        <iframe id="media-player-iframe" class="w-full h-full border-0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
-                    </div>
-
-                    <!-- Lesson Actions & Meta Bar -->
-                    <div class="flex flex-wrap items-center justify-between gap-4 bg-slate-800 border border-slate-700 rounded-2xl p-4">
-                        <div>
-                            <h1 id="player-lesson-title" class="text-xl font-black text-white">عنوان الدرس الحالي</h1>
-                            <p id="player-module-title" class="text-xs text-slate-400 mt-0.5">الوحدة الأولى</p>
-                        </div>
-                        <button id="mark-completed-btn" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm transition flex items-center gap-2">
-                            <i class="fa-solid fa-circle-check"></i> تحديد كـ مكتمل
-                        </button>
-                    </div>
-
-                    <!-- Lesson Notes & Supplemental PDF Resources -->
-                    <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 space-y-4">
-                        <h3 class="text-lg font-bold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-file-lines text-amber-500"></i> ملاحظات ومصادر الدرس
-                        </h3>
-                        <div id="player-lesson-notes" class="text-slate-300 text-sm leading-relaxed whitespace-pre-line">
-                            لا توجد ملاحظات إضافية لهذا الدرس.
-                        </div>
-
-                        <!-- Resources Attachment Links -->
-                        <div id="player-lesson-resources" class="pt-4 border-t border-slate-700 hidden space-y-2">
-                            <h4 class="text-xs font-bold text-slate-400 uppercase">الملفات المرفقة:</h4>
-                            <div id="player-resources-list" class="flex flex-wrap gap-2"></div>
-                        </div>
-                    </div>
-
-                    <!-- Interactive Quiz Trigger (If Quiz exists) -->
-                    <div id="lesson-quiz-trigger-box" class="bg-gradient-to-r from-amber-500/10 via-slate-800 to-slate-800 border border-amber-500/30 rounded-2xl p-6 flex items-center justify-between gap-4 hidden">
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 rounded-xl bg-amber-500 text-slate-950 font-black text-xl flex items-center justify-center">
-                                <i class="fa-solid fa-clipboard-question"></i>
-                            </div>
-                            <div>
-                                <h4 class="text-base font-extrabold text-white">اختبار قياس الفهم لهذا الدرس</h4>
-                                <p class="text-xs text-slate-400">أجب على الأسئلة لاختبار استيعابك للمفاهيم الهندسية المشروحة</p>
-                            </div>
-                        </div>
-                        <button id="start-quiz-btn" class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-sm transition">
-                            بدء الاختبار
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Lessons Drawer Navigation Sidebar -->
-                <div class="lg:col-span-4 space-y-4">
-                    <div class="bg-slate-800 border border-slate-700 rounded-2xl p-4">
-                        <h3 class="text-base font-bold text-white mb-3 flex items-center gap-2">
-                            <i class="fa-solid fa-list-ol text-amber-500"></i> قائمة دروس الدورة
-                        </h3>
-                        <div id="player-lessons-drawer" class="space-y-2 max-h-[600px] overflow-y-auto pr-1">
-                            <!-- Dynamic Lesson List Items Loading... -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Route 5: Engineering Library View -->
-        <section id="page-library" class="page-view max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8 hidden">
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-6">
-                <div>
-                    <h1 class="text-3xl font-black text-white">المكتبة الهندسية الشاملة</h1>
-                    <p class="text-slate-400 text-sm mt-1">كتالوجات، كودات هندسية، شيتات إكسيل، ومخططات للتحميل المباشر</p>
-                </div>
-                <div class="flex items-center gap-3">
-                    <input type="text" id="library-search-input" placeholder="بحث في المكتبة..." class="px-4 py-2 rounded-xl bg-slate-800 border border-slate-700 text-slate-200 text-sm focus:outline-none focus:border-amber-500">
-                </div>
-            </div>
-
-            <div id="library-grid-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Dynamic Library Items Loading... -->
-            </div>
-        </section>
-
-        <!-- Route 6: Job Portal View -->
-        <section id="page-jobs" class="page-view max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8 hidden">
-            <div class="border-b border-slate-800 pb-6">
-                <h1 class="text-3xl font-black text-white">فرص العمل الهندسية</h1>
-                <p class="text-slate-400 text-sm mt-1">تصفح أحدث الوظائف المتاحة للمهندسين والفنيين في مختلف الدول العربية</p>
-            </div>
-
-            <div id="jobs-list-container" class="space-y-4">
-                <!-- Dynamic Jobs List Loading... -->
-            </div>
-        </section>
-
-        <!-- Route 7: Engineering News View -->
-        <section id="page-news" class="page-view max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8 hidden">
-            <div class="border-b border-slate-800 pb-6">
-                <h1 class="text-3xl font-black text-white">الأخبار والمقالات الهندسية</h1>
-                <p class="text-slate-400 text-sm mt-1">تابع آخر التطورات الفنية، التحديثات في الكودات الهندسية، والتحليلات</p>
-            </div>
-
-            <div id="news-grid-container" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Dynamic News Cards Loading... -->
-            </div>
-        </section>
-
-        <!-- Route 8: Special Offers View -->
-        <section id="page-offers" class="page-view max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8 hidden">
-            <div class="border-b border-slate-800 pb-6">
-                <h1 class="text-3xl font-black text-white">أحدث العروض والخصومات</h1>
-                <p class="text-slate-400 text-sm mt-1">خصومات خاصة على الدورات والباقات التدريبية الشاملة لفترة محدودة</p>
-            </div>
-
-            <div id="offers-grid-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Dynamic Offers Cards Loading... -->
-            </div>
-        </section>
-
-        <!-- Route 9: User Personal Dashboard View -->
-        <section id="page-dashboard" class="page-view max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8 hidden">
-            <div class="bg-gradient-to-r from-navy-900 via-slate-800 to-navy-900 border border-slate-700 rounded-3xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6">
-                <div class="flex items-center gap-4">
-                    <div id="dashboard-user-avatar" class="w-16 h-16 rounded-2xl bg-amber-500 text-slate-950 font-black text-2xl flex items-center justify-center shadow-xl">
-                        U
-                    </div>
-                    <div>
-                        <h1 id="dashboard-user-name" class="text-2xl font-black text-white">مرحباً بك، المهندس الفاضل</h1>
-                        <p id="dashboard-user-email" class="text-xs text-slate-400 mt-0.5">user@example.com</p>
-                        <span id="dashboard-user-role-badge" class="inline-block px-2.5 py-0.5 mt-2 rounded bg-amber-500/10 text-amber-400 border border-amber-500/30 text-[10px] font-bold">طالب</span>
-                    </div>
-                </div>
-                <button id="dashboard-logout-btn" class="px-5 py-2.5 rounded-xl bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white border border-rose-500/30 font-bold text-sm transition flex items-center gap-2">
-                    <i class="fa-solid fa-arrow-right-from-bracket"></i> تسجيل الخروج
-                </button>
-            </div>
-
-            <!-- Dashboard Enrolled Courses and Progress -->
-            <div class="space-y-6">
-                <h2 class="text-xl font-bold text-white flex items-center gap-2">
-                    <i class="fa-solid fa-graduation-cap text-amber-500"></i> الدورات التي تشاهدها
-                </h2>
-                <div id="dashboard-enrolled-courses" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Dynamic Progress Cards -->
-                </div>
-            </div>
-        </section>
-
-        <!-- Route 10: User Saved / Bookmarks View -->
-        <section id="page-saved" class="page-view max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8 hidden">
-            <div class="border-b border-slate-800 pb-6">
-                <h1 class="text-3xl font-black text-white">المحتوى المحفوظ</h1>
-                <p class="text-slate-400 text-sm mt-1">الدورات، الملفات، والأخبار التي قمت بحفظها للرجوع إليها لاحقاً</p>
-            </div>
-            <div id="saved-items-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Dynamic Saved Items -->
-            </div>
-        </section>
-
-        <!-- Route 11: Authentication (Login / Register) View -->
-        <section id="page-auth" class="page-view max-w-md mx-auto px-4 py-16 hidden">
-            <div class="bg-slate-800 border border-slate-700 rounded-3xl p-8 shadow-2xl space-y-6">
-                <div class="text-center space-y-2">
-                    <div class="w-16 h-16 rounded-2xl bg-amber-500/10 text-amber-500 border border-amber-500/30 flex items-center justify-center text-2xl mx-auto mb-2">
-                        <i class="fa-solid fa-user-shield"></i>
-                    </div>
-                    <h2 id="auth-title" class="text-2xl font-black text-white">تسجيل الدخول إلى حسابك</h2>
-                    <p id="auth-subtitle" class="text-xs text-slate-400">أدخل بياناتك للمتابعة والوصول للمحتوى التعليمي</p>
-                </div>
-
-                <!-- Auth Mode Tabs -->
-                <div class="flex rounded-xl bg-slate-900 p-1 border border-slate-700">
-                    <button id="auth-tab-login" class="flex-1 py-2 rounded-lg text-xs font-bold text-white bg-slate-800 transition">تسجيل الدخول</button>
-                    <button id="auth-tab-register" class="flex-1 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition">حساب جديد</button>
-                </div>
-
-                <!-- Auth Form -->
-                <form id="auth-form" class="space-y-4">
-                    <div id="auth-name-wrapper" class="space-y-1 hidden">
-                        <label class="block text-xs font-bold text-slate-300">الاسم الكامل</label>
-                        <input type="text" id="auth-name-input" placeholder="المهندس/ ..." class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-amber-500">
-                    </div>
-                    <div class="space-y-1">
-                        <label class="block text-xs font-bold text-slate-300">البريد الإلكتروني</label>
-                        <input type="email" id="auth-email-input" required placeholder="example@domain.com" class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-amber-500">
-                    </div>
-                    <div class="space-y-1">
-                        <label class="block text-xs font-bold text-slate-300">كلمة المرور</label>
-                        <input type="password" id="auth-password-input" required placeholder="••••••••" class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-amber-500">
-                    </div>
-                    <button type="submit" id="auth-submit-btn" class="w-full py-3.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-sm transition shadow-lg shadow-amber-500/20">
-                        تسجيل الدخول
-                    </button>
-                </form>
-            </div>
-        </section>
-
-        <!-- Route 12: Comprehensive Admin Panel Suite View -->
-        <section id="page-admin" class="page-view max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8 hidden">
-            <!-- Admin Header -->
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-6">
-                <div>
-                    <h1 class="text-3xl font-black text-white flex items-center gap-3">
-                        <i class="fa-solid fa-sliders text-amber-500"></i> لوحة التحكم الشاملة (Admin Portal)
-                    </h1>
-                    <p class="text-slate-400 text-sm mt-1">إدارة جميع أجزاء المنصة، الكورسات، المكتبة، العروض، والوظائف بدون كود</p>
-                </div>
-            </div>
-
-            <!-- Admin Navigation Tabs -->
-            <div class="flex items-center gap-2 overflow-x-auto pb-2 border-b border-slate-800 no-scrollbar">
-                <button class="admin-tab-btn active px-4 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap bg-amber-500 text-slate-950" data-tab="overview"><i class="fa-solid fa-chart-pie ml-1"></i> نظرة عامة</button>
-                <button class="admin-tab-btn px-4 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap bg-slate-800 text-slate-300 hover:bg-slate-700" data-tab="categories"><i class="fa-solid fa-layer-group ml-1"></i> المجالات والتخصصات</button>
-                <button class="admin-tab-btn px-4 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap bg-slate-800 text-slate-300 hover:bg-slate-700" data-tab="courses"><i class="fa-solid fa-graduation-cap ml-1"></i> الدورات والدروس</button>
-                <button class="admin-tab-btn px-4 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap bg-slate-800 text-slate-300 hover:bg-slate-700" data-tab="library"><i class="fa-solid fa-folder-open ml-1"></i> المكتبة الهندسية</button>
-                <button class="admin-tab-btn px-4 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap bg-slate-800 text-slate-300 hover:bg-slate-700" data-tab="news"><i class="fa-solid fa-newspaper ml-1"></i> الأخبار والربط العاجل</button>
-                <button class="admin-tab-btn px-4 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap bg-slate-800 text-slate-300 hover:bg-slate-700" data-tab="offers"><i class="fa-solid fa-tags ml-1"></i> العروض والخصومات</button>
-                <button class="admin-tab-btn px-4 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap bg-slate-800 text-slate-300 hover:bg-slate-700" data-tab="jobs"><i class="fa-solid fa-briefcase ml-1"></i> فرص العمل</button>
-                <button class="admin-tab-btn px-4 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap bg-slate-800 text-slate-300 hover:bg-slate-700" data-tab="users"><i class="fa-solid fa-users ml-1"></i> المستخدمين والمستويات</button>
-                <button class="admin-tab-btn px-4 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap bg-slate-800 text-slate-300 hover:bg-slate-700" data-tab="settings"><i class="fa-solid fa-gear ml-1"></i> إعدادات المنصة</button>
-            </div>
-
-            <!-- Admin Tab Body Container -->
-            <div id="admin-tab-content-wrapper">
-                <!-- Dynamic Admin Content Rendered via JS -->
-            </div>
-        </section>
-    </main>
-
-    <!-- Global Footer -->
-    <footer class="bg-slate-950 border-t border-slate-800 py-12 text-slate-400 text-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div class="space-y-4">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-amber-500 text-slate-950 flex items-center justify-center font-bold text-xl">
-                            <i class="fa-solid fa-compass-drafting"></i>
-                        </div>
-                        <span class="text-lg font-black text-white">أكاديمية التدريب المهني</span>
-                    </div>
-                    <p class="text-xs text-slate-400 leading-relaxed">المنصة العربية الأولى المتخصصة في تقديم الدورات والمسارات التدريبية المعتمدة للمهندسين الاستشاريين والحديثين.</p>
-                </div>
-                <div>
-                    <h4 class="text-sm font-bold text-white mb-4">روابط سريعة</h4>
-                    <ul class="space-y-2 text-xs">
-                        <li><a href="#home" class="hover:text-amber-400">الرئيسية</a></li>
-                        <li><a href="#courses" class="hover:text-amber-400">الدورات التدريبية</a></li>
-                        <li><a href="#library" class="hover:text-amber-400">المكتبة الهندسية</a></li>
-                        <li><a href="#jobs" class="hover:text-amber-400">فرص العمل</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-sm font-bold text-white mb-4">التخصصات الهندسية</h4>
-                    <ul class="space-y-2 text-xs">
-                        <li><span>التوزيع الكهربائي (Electrical Distribution)</span></li>
-                        <li><span>أنظمة التيار الخفيف (Low Current Systems)</span></li>
-                        <li><span>تصميم BIM & Revit</span></li>
-                        <li><span>الطاقة الشمسية (Solar Energy)</span></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-sm font-bold text-white mb-4">الدعم والتواصل</h4>
-                    <p class="text-xs text-slate-400 leading-relaxed mb-3">للتعاون الأكاديمي والتحقق من الشهادات والاشتراكات:</p>
-                    <p class="text-xs text-amber-400 font-mono"><i class="fa-solid fa-envelope ml-2"></i> support@electro-learn.com</p>
-                </div>
-            </div>
-            <div class="pt-8 border-t border-slate-900 flex flex-col md:flex-row items-center justify-between text-xs gap-4">
-                <p>&copy; 2026 أكاديمية التدريب المهني. جميع الحقوق محفوظة.</p>
-                <p class="text-slate-500">متصل بـ Firebase Live Project: <span class="font-mono text-amber-500/80">electro-learn-726ff</span></p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Quiz Engine Overlay Modal -->
-    <div id="quiz-modal-overlay" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-slate-800 border border-slate-700 rounded-3xl p-6 md:p-8 max-w-2xl w-full shadow-2xl relative space-y-6 max-h-[90vh] overflow-y-auto">
-            <button id="close-quiz-modal" class="absolute top-4 left-4 w-9 h-9 rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-300 flex items-center justify-center">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-            <div id="quiz-modal-content">
-                <!-- Dynamic Quiz Questions & Options Rendered Here -->
-            </div>
-        </div>
-    </div>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import {
-            getAuth,
-            createUserWithEmailAndPassword,
-            signInWithEmailAndPassword,
-            signOut,
-            onAuthStateChanged,
-            sendPasswordResetEmail
-        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import {
-            getFirestore,
-            collection,
-            doc,
-            addDoc,
-            setDoc,
-            getDoc,
-            getDocs,
-            updateDoc,
-            deleteDoc,
-            query,
-            where,
-            orderBy,
-            limit,
-            serverTimestamp,
-            onSnapshot
-        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyAxVTZm4ytoFrZ91qeaGJ8MPkP7T1t6j_g",
-            authDomain: "acadmya.firebaseapp.com",
-            projectId: "acadmya",
-            storageBucket: "acadmya.firebasestorage.app",
-            messagingSenderId: "89992811511",
-            appId: "1:89992811511:web:41ad04c620b5df046554f2"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        let currentUser = null;
-        let currentUserProfile = null;
-        let savedItems = JSON.parse(localStorage.getItem('acadmya_saved') || '[]');
-
-        function showToast(message, type = 'info') {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            const icons = {
-                success: 'fa-circle-check text-emerald-400',
-                error: 'fa-circle-xmark text-rose-400',
-                info: 'fa-circle-info text-amber-400'
-            };
-            toast.className = `pointer-events-auto bg-slate-800 border border-slate-700 p-4 rounded-xl shadow-2xl flex items-center gap-3 text-sm text-white transform transition-all duration-300 translate-y-2 opacity-0`;
-            toast.innerHTML = `<i class="fa-solid ${icons[type] || icons.info} text-lg"></i> <span>${message}</span>`;
-            container.appendChild(toast);
-            setTimeout(() => {
-                toast.classList.remove('translate-y-2', 'opacity-0');
-            }, 10);
-            setTimeout(() => {
-                toast.classList.add('opacity-0', '-translate-y-2');
-                setTimeout(() => toast.remove(), 300);
-            }, 4000);
-        }
-
-        function customConfirm(title, message, onConfirm) {
-            const overlay = document.getElementById('custom-modal-overlay');
-            document.getElementById('custom-modal-title').innerText = title;
-            document.getElementById('custom-modal-message').innerText = message;
-            overlay.classList.remove('hidden');
-
-            const confirmBtn = document.getElementById('custom-modal-confirm');
-            const cancelBtn = document.getElementById('custom-modal-cancel');
-
-            const cleanup = () => {
-                overlay.classList.add('hidden');
-                confirmBtn.removeEventListener('click', handleConfirm);
-                cancelBtn.removeEventListener('click', handleCancel);
-            };
-
-            const handleConfirm = () => {
-                cleanup();
-                if (onConfirm) onConfirm();
-            };
-            const handleCancel = () => cleanup();
-
-            confirmBtn.addEventListener('click', handleConfirm);
-            cancelBtn.addEventListener('click', handleCancel);
-        }
-
-        function formatYouTubeEmbed(url) {
-            if (!url) return '';
-            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-            const match = url.match(regExp);
-            return (match && match[2].length === 11) ? 'https://www.youtube.com/embed/' + match[2] : url;
-        }
-
-        function formatDriveEmbed(url) {
-            if (!url) return '';
-            if (url.includes('drive.google.com')) {
-                return url.replace(/\/view(\?.*)?$/, '/preview').replace(/\/edit(\?.*)?$/, '/preview');
-            }
-            return url;
-        }
-
-        onAuthStateChanged(auth, async (user) => {
-            currentUser = user;
-            const authSlot = document.getElementById('auth-header-slot');
-            const mobileAdminLink = document.getElementById('mobile-admin-link-wrapper');
-
-            if (user) {
-                try {
-                    const userDoc = await getDoc(doc(db, "users", user.uid));
-                    if (userDoc.exists()) {
-                        currentUserProfile = userDoc.data();
-                    } else {
-                        currentUserProfile = { name: user.email.split('@')[0], email: user.email, role: 'user' };
-                        await setDoc(doc(db, "users", user.uid), {
-                            name: currentUserProfile.name,
-                            email: user.email,
-                            role: 'user',
-                            createdAt: serverTimestamp(),
-                            status: 'active'
-                        });
-                    }
-                } catch (e) {
-                    console.error("User profile fetch error:", e);
-                }
-
-                const isAdmin = currentUserProfile?.role === 'admin';
-                if (isAdmin) mobileAdminLink.classList.remove('hidden');
-
-                authSlot.innerHTML = `
-                    <div class="flex items-center gap-2">
-                        ${isAdmin ? '<a href="#admin" class="hidden sm:inline-flex px-3 py-2 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 font-bold text-xs border border-amber-500/30 transition">لوحة الأدمن</a>' : ''}
-                        <a href="#dashboard" class="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 transition">
-                            <div class="w-6 h-6 rounded-lg bg-amber-500 text-slate-950 font-black text-xs flex items-center justify-center">
-                                ${(currentUserProfile?.name || 'U').charAt(0).toUpperCase()}
-                            </div>
-                            <span class="text-xs font-bold text-slate-200 hidden sm:inline">${currentUserProfile?.name || 'حسابي'}</span>
-                        </a>
-                    </div>
-                `;
-            } else {
-                currentUserProfile = null;
-                mobileAdminLink.classList.add('hidden');
-                authSlot.innerHTML = `
-                    <a href="#auth" class="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-sm transition shadow-lg shadow-amber-500/10 flex items-center gap-2">
-                        <i class="fa-solid fa-right-to-bracket"></i> تسجيل الدخول
-                    </a>
-                `;
-            }
-            updateSavedBadge();
-            handleRouting();
-        });
-
-        function handleRouting() {
-            const hash = window.location.hash || '#home';
-            const views = document.querySelectorAll('.page-view');
-            views.forEach(v => v.classList.add('hidden'));
-
-            const targetView = document.querySelector(`.page-view[id="page-${hash.replace('#', '').split('?')[0]}"]`);
-            if (targetView) {
-                targetView.classList.remove('hidden');
-            } else {
-                document.getElementById('page-home').classList.remove('hidden');
-            }
-
-            const pageName = hash.replace('#', '').split('?')[0];
-            if (pageName === 'home') renderHomepage();
-            else if (pageName === 'courses') renderCoursesPage();
-            else if (pageName === 'course-detail') renderCourseDetailPage();
-            else if (pageName === 'lesson-player') renderLessonPlayerPage();
-            else if (pageName === 'library') renderLibraryPage();
-            else if (pageName === 'jobs') renderJobsPage();
-            else if (pageName === 'news') renderNewsPage();
-            else if (pageName === 'offers') renderOffersPage();
-            else if (pageName === 'dashboard') renderDashboardPage();
-            else if (pageName === 'saved') renderSavedPage();
-            else if (pageName === 'admin') renderAdminPage();
-
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        window.addEventListener('hashchange', handleRouting);
-
-        async function renderHomepage() {
-            // Load Breaking News Ticker
-            try {
-                const newsQuery = query(collection(db, "breakingNews"), where("status", "==", "published"));
-                const newsSnap = await getDocs(newsQuery);
-                const tickerBar = document.getElementById('breaking-news-ticker-bar');
-                const tickerContent = document.getElementById('ticker-content');
-
-                if (!newsSnap.empty) {
-                    tickerBar.classList.remove('hidden');
-                    tickerContent.innerHTML = newsSnap.docs.map(doc => `<span class="inline-block ml-8"><i class="fa-solid fa-star text-[10px] ml-2 text-amber-500"></i> ${doc.data().title}</span>`).join('');
-                }
-            } catch (e) { console.log("Breaking news error", e); }
-
-            // Load Categories
-            try {
-                const catSnap = await getDocs(collection(db, "categories"));
-                const grid = document.getElementById('home-categories-grid');
-                const filterSelect = document.getElementById('courses-category-filter');
-
-                if (catSnap.empty) {
-                    grid.innerHTML = `<p class="col-span-full text-slate-400 text-xs text-center py-4">جاري استدعاء البيانات الأولى...</p>`;
-                } else {
-                    grid.innerHTML = catSnap.docs.map(doc => {
-                        const data = doc.data();
-                        return `
-                            <a href="#courses?category=${doc.id}" class="bg-slate-800 border border-slate-700/80 hover:border-amber-500/60 p-4 rounded-2xl flex flex-col items-center text-center gap-3 transition group">
-                                <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-xl group-hover:scale-110 transition">
-                                    <i class="fa-solid ${data.icon || 'fa-bolt'}"></i>
-                                </div>
-                                <div>
-                                    <h4 class="text-xs font-extrabold text-white group-hover:text-amber-400 transition">${data.name}</h4>
-                                </div>
-                            </a>
-                        `;
-                    }).join('');
-
-                    if (filterSelect) {
-                        filterSelect.innerHTML = `<option value="ALL">جميع التخصصات</option>` + catSnap.docs.map(d => `<option value="${d.id}">${d.data().name}</option>`).join('');
-                    }
-                }
-            } catch (e) { console.log("Cat error", e); }
-
-            // Load Featured Courses
-            try {
-                const coursesSnap = await getDocs(collection(db, "courses"));
-                const featuredGrid = document.getElementById('home-featured-courses-grid');
-                if (!coursesSnap.empty) {
-                    featuredGrid.innerHTML = coursesSnap.docs.map(d => {
-                        const course = d.data();
-                        return `
-                            <div class="bg-slate-800 border border-slate-700 rounded-2xl overflow-hidden flex flex-col justify-between group hover:border-amber-500/50 transition">
-                                <div class="relative aspect-video overflow-hidden">
-                                    <img src="${course.image || 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80'}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                                    <span class="absolute top-3 right-3 px-2.5 py-1 rounded-lg bg-slate-900/80 backdrop-blur-sm text-amber-400 text-[10px] font-bold">${course.level || 'جميع المستويات'}</span>
-                                </div>
-                                <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
-                                    <div>
-                                        <h3 class="font-extrabold text-white text-base line-clamp-2">${course.title}</h3>
-                                        <p class="text-xs text-slate-400 mt-1 line-clamp-2">${course.description || ''}</p>
-                                    </div>
-                                    <div class="pt-3 border-t border-slate-700/60 flex items-center justify-between text-xs">
-                                        <span class="text-slate-400"><i class="fa-solid fa-user-tie ml-1 text-amber-500"></i> ${course.instructor || 'أكاديمية التدريب'}</span>
-                                        <a href="#course-detail?id=${d.id}" class="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold transition">عرض الدورة</a>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    }).join('');
-                }
-            } catch (e) { console.log("Courses error", e); }
-        }
-
-        async function renderCoursesPage() {
-            const container = document.getElementById('courses-grid-container');
-            container.innerHTML = `<p class="col-span-full text-slate-400 text-center py-10">جاري تحميل الكورسات...</p>`;
-
-            try {
-                const snap = await getDocs(collection(db, "courses"));
-                if (snap.empty) {
-                    container.innerHTML = `<p class="col-span-full text-slate-400 text-center py-10">لا توجد دورات حالياً.</p>`;
-                    return;
-                }
-                container.innerHTML = snap.docs.map(d => {
-                    const course = d.data();
-                    return `
-                        <div class="bg-slate-800 border border-slate-700 rounded-2xl overflow-hidden flex flex-col justify-between group hover:border-amber-500/50 transition">
-                            <div class="relative aspect-video overflow-hidden">
-                                <img src="${course.image || 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80'}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                            </div>
-                            <div class="p-5 space-y-3">
-                                <h3 class="font-extrabold text-white text-base">${course.title}</h3>
-                                <p class="text-xs text-slate-400 line-clamp-2">${course.description || ''}</p>
-                                <a href="#course-detail?id=${d.id}" class="block text-center w-full py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs transition">تفاصيل الدورة والمحتوى</a>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-            } catch (e) {
-                container.innerHTML = `<p class="col-span-full text-rose-400 text-center py-10">حدث خطأ أثناء تحميل الكورسات.</p>`;
-            }
-        }
-
-        async function renderCourseDetailPage() {
-            const params = new URLSearchParams(window.location.hash.split('?')[1]);
-            const courseId = params.get('id');
-            const header = document.getElementById('course-detail-header');
-            const modulesTree = document.getElementById('course-modules-tree');
-
-            if (!courseId) {
-                window.location.hash = '#courses';
-                return;
-            }
-
-            try {
-                const cDoc = await getDoc(doc(db, "courses", courseId));
-                if (!cDoc.exists()) {
-                    header.innerHTML = `<p class="text-rose-400">الدورة غير موجودة.</p>`;
-                    return;
-                }
-                const course = cDoc.data();
-                header.innerHTML = `
-                    <div class="flex flex-col md:flex-row gap-6 items-center">
-                        <img src="${course.image || 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80'}" class="w-full md:w-64 aspect-video rounded-2xl object-cover border border-slate-700">
-                        <div class="space-y-3 flex-1">
-                            <span class="px-2.5 py-1 rounded-lg bg-amber-500/10 text-amber-400 text-xs font-bold border border-amber-500/20">${course.level || 'دورة متخصصة'}</span>
-                            <h1 class="text-2xl md:text-3xl font-black text-white">${course.title}</h1>
-                            <p class="text-xs md:text-sm text-slate-300 leading-relaxed">${course.description || ''}</p>
-                        </div>
-                    </div>
-                `;
-
-                // Fetch Modules
-                const modulesSnap = await getDocs(query(collection(db, "modules"), where("courseId", "==", courseId)));
-                if (modulesSnap.empty) {
-                    modulesTree.innerHTML = `<div class="bg-slate-800 p-6 rounded-2xl text-center text-slate-400 text-sm">جاري تحضير دروس هذه الدورة قريباً...</div>`;
-                } else {
-                    let html = '';
-                    for (const mDoc of modulesSnap.docs) {
-                        const moduleData = mDoc.data();
-                        const lessonsSnap = await getDocs(query(collection(db, "lessons"), where("moduleId", "==", mDoc.id)));
-
-                        html += `
-                            <div class="bg-slate-800 border border-slate-700 rounded-2xl p-5 space-y-3">
-                                <h3 class="font-extrabold text-white text-base flex items-center gap-2">
-                                    <i class="fa-solid fa-folder text-amber-500"></i> ${moduleData.title}
-                                </h3>
-                                <div class="space-y-2 pr-4 border-r-2 border-amber-500/30">
-                                    ${lessonsSnap.docs.map(lDoc => {
-                                        const lesson = lDoc.data();
-                                        return `
-                                            <a href="#lesson-player?courseId=${courseId}&lessonId=${lDoc.id}" class="flex items-center justify-between p-3 rounded-xl bg-slate-900 hover:bg-slate-950 transition text-xs font-semibold text-slate-200">
-                                                <span class="flex items-center gap-2"><i class="fa-solid fa-play text-amber-400 text-[10px]"></i> ${lesson.title}</span>
-                                                <span class="text-slate-400 font-normal">${lesson.duration || 'فيديو'}</span>
-                                            </a>
-                                        `;
-                                    }).join('')}
-                                </div>
-                            </div>
-                        `;
-                    }
-                    modulesTree.innerHTML = html;
-                }
-            } catch (e) {
-                console.error(e);
-            }
-        }
-
-        async function renderLessonPlayerPage() {
-            const params = new URLSearchParams(window.location.hash.split('?')[1]);
-            const courseId = params.get('courseId');
-            const lessonId = params.get('lessonId');
-
-            if (!lessonId) return;
-
-            try {
-                const lDoc = await getDoc(doc(db, "lessons", lessonId));
-                if (lDoc.exists()) {
-                    const lesson = lDoc.data();
-                    document.getElementById('player-lesson-title').innerText = lesson.title;
-                    document.getElementById('player-lesson-notes').innerText = lesson.notes || "لا توجد ملاحظات إضافية لهذا الدرس.";
-
-                    const iframe = document.getElementById('media-player-iframe');
-                    if (lesson.youtubeUrl) {
-                        iframe.src = formatYouTubeEmbed(lesson.youtubeUrl);
-                    } else if (lesson.driveUrl) {
-                        iframe.src = formatDriveEmbed(lesson.driveUrl);
-                    } else {
-                        iframe.src = 'about:blank';
-                    }
-                }
-            } catch (e) { console.error(e); }
-        }
-
-        async function renderLibraryPage() {
-            const container = document.getElementById('library-grid-container');
-            container.innerHTML = `<p class="col-span-full text-slate-400 text-center py-10">جاري تحميل كتب ومستندات المكتبة...</p>`;
-
-            try {
-                const snap = await getDocs(collection(db, "library"));
-                if (snap.empty) {
-                    container.innerHTML = `<p class="col-span-full text-slate-400 text-center py-10">المكتبة خالية حالياً.</p>`;
-                    return;
-                }
-                container.innerHTML = snap.docs.map(d => {
-                    const item = d.data();
-                    return `
-                        <div class="bg-slate-800 border border-slate-700 rounded-2xl p-5 space-y-4 flex flex-col justify-between">
-                            <div class="flex items-start gap-3">
-                                <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-2xl shrink-0">
-                                    <i class="fa-solid fa-file-pdf"></i>
-                                </div>
-                                <div>
-                                    <h3 class="font-extrabold text-white text-sm line-clamp-2">${item.title}</h3>
-                                    <span class="text-[10px] text-amber-400 font-bold">${item.category || 'عام'}</span>
-                                </div>
-                            </div>
-                            <a href="${item.driveUrl || '#'}" target="_blank" class="block text-center w-full py-2 rounded-xl bg-slate-900 hover:bg-amber-500 hover:text-slate-950 text-amber-400 font-bold text-xs transition border border-slate-700">
-                                <i class="fa-solid fa-download ml-1"></i> تحميل / معاينة الملف
-                            </a>
-                        </div>
-                    `;
-                }).join('');
-            } catch (e) {
-                container.innerHTML = `<p class="col-span-full text-rose-400 text-center py-10">تعذر تحميل الملفات.</p>`;
-            }
-        }
-
-        async function renderJobsPage() {
-            const container = document.getElementById('jobs-list-container');
-            try {
-                const snap = await getDocs(collection(db, "jobs"));
-                if (snap.empty) {
-                    container.innerHTML = `<p class="text-slate-400 text-center py-10">لا توجد وظائف معروضة حالياً.</p>`;
-                    return;
-                }
-                container.innerHTML = snap.docs.map(d => {
-                    const job = d.data();
-                    return `
-                        <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                            <div class="space-y-2">
-                                <h3 class="text-lg font-black text-white">${job.title}</h3>
-                                <p class="text-xs text-amber-400 font-bold">${job.company} — ${job.location}</p>
-                                <p class="text-xs text-slate-300 leading-relaxed">${job.description || ''}</p>
-                            </div>
-                            <a href="${job.applyUrl || '#'}" target="_blank" class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs transition text-center shrink-0">التقديم للوظيفة</a>
-                        </div>
-                    `;
-                }).join('');
-            } catch (e) { console.error(e); }
-        }
-
-        async function renderNewsPage() {
-            const container = document.getElementById('news-grid-container');
-            try {
-                const snap = await getDocs(collection(db, "news"));
-                if (snap.empty) {
-                    container.innerHTML = `<p class="col-span-full text-slate-400 text-center py-10">لا توجد أخبار حالياً.</p>`;
-                    return;
-                }
-                container.innerHTML = snap.docs.map(d => {
-                    const n = d.data();
-                    return `
-                        <div class="bg-slate-800 border border-slate-700 rounded-2xl overflow-hidden space-y-4 p-5">
-                            <h3 class="font-extrabold text-white text-base">${n.title}</h3>
-                            <p class="text-xs text-slate-300 leading-relaxed line-clamp-3">${n.content || ''}</p>
-                        </div>
-                    `;
-                }).join('');
-            } catch (e) { console.error(e); }
-        }
-
-        async function renderOffersPage() {
-            const container = document.getElementById('offers-grid-container');
-            try {
-                const snap = await getDocs(collection(db, "offers"));
-                if (snap.empty) {
-                    container.innerHTML = `<p class="col-span-full text-slate-400 text-center py-10">لا توجد عروض حالياً.</p>`;
-                    return;
-                }
-                container.innerHTML = snap.docs.map(d => {
-                    const offer = d.data();
-                    return `
-                        <div class="bg-gradient-to-b from-slate-800 to-navy-900 border border-amber-500/30 rounded-2xl p-6 space-y-4">
-                            <span class="px-3 py-1 rounded-full bg-amber-500 text-slate-950 font-black text-[10px]">خصم ${offer.discount || 'مميز'}</span>
-                            <h3 class="text-xl font-black text-white">${offer.title}</h3>
-                            <p class="text-xs text-slate-300">${offer.description || ''}</p>
-                            <div class="flex items-baseline gap-3">
-                                <span class="text-2xl font-black text-amber-400">${offer.newPrice || ''}</span>
-                                <span class="text-sm text-slate-500 line-through">${offer.oldPrice || ''}</span>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-            } catch (e) { console.error(e); }
-        }
-
-        function renderDashboardPage() {
-            if (!currentUser) {
-                window.location.hash = '#auth';
-                return;
-            }
-            document.getElementById('dashboard-user-name').innerText = currentUserProfile?.name || 'المهندس';
-            document.getElementById('dashboard-user-email').innerText = currentUser.email;
-            document.getElementById('dashboard-user-role-badge').innerText = currentUserProfile?.role === 'admin' ? 'مدير المنصة' : 'طالب هندسي';
-        }
-
-        function renderSavedPage() {
-            const container = document.getElementById('saved-items-container');
-            if (savedItems.length === 0) {
-                container.innerHTML = `<p class="col-span-full text-slate-400 text-center py-10">لم تقم بحفظ أي عنصر بعد.</p>`;
-            }
-        }
-
-        function updateSavedBadge() {
-            const badge = document.getElementById('saved-count-badge');
-            if (savedItems.length > 0) {
-                badge.innerText = savedItems.length;
-                badge.classList.remove('hidden');
-            } else {
-                badge.classList.add('hidden');
-            }
-        }
-
-        let authMode = 'login';
-        document.getElementById('auth-tab-login').addEventListener('click', () => {
-            authMode = 'login';
-            document.getElementById('auth-tab-login').className = 'flex-1 py-2 rounded-lg text-xs font-bold text-white bg-slate-800 transition';
-            document.getElementById('auth-tab-register').className = 'flex-1 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition';
-            document.getElementById('auth-name-wrapper').classList.add('hidden');
-            document.getElementById('auth-submit-btn').innerText = 'تسجيل الدخول';
-        });
-
-        document.getElementById('auth-tab-register').addEventListener('click', () => {
-            authMode = 'register';
-            document.getElementById('auth-tab-register').className = 'flex-1 py-2 rounded-lg text-xs font-bold text-white bg-slate-800 transition';
-            document.getElementById('auth-tab-login').className = 'flex-1 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition';
-            document.getElementById('auth-name-wrapper').classList.remove('hidden');
-            document.getElementById('auth-submit-btn').innerText = 'إنشاء الحساب';
-        });
-
-        document.getElementById('auth-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('auth-email-input').value;
-            const password = document.getElementById('auth-password-input').value;
-
-            try {
-                if (authMode === 'login') {
-                    await signInWithEmailAndPassword(auth, email, password);
-                    showToast("تم تسجيل الدخول بنجاح", "success");
-                } else {
-                    const name = document.getElementById('auth-name-input').value;
-                    const res = await createUserWithEmailAndPassword(auth, email, password);
-                    await setDoc(doc(db, "users", res.user.uid), {
-                        name: name || 'مهندس جديد',
-                        email: email,
-                        role: 'user',
-                        createdAt: serverTimestamp(),
-                        status: 'active'
-                    });
-                    showToast("تم انشاء الحساب بنجاح", "success");
-                }
-                window.location.hash = '#dashboard';
-            } catch (err) {
-                showToast(err.message, "error");
-            }
-        });
-
-        document.getElementById('dashboard-logout-btn').addEventListener('click', () => {
-            customConfirm("تسجيل الخروج", "هل تود تأكيد الخروج؟", () => {
-                signOut(auth);
-                window.location.hash = '#home';
-            });
-        });
-
-        function renderAdminPage() {
-            if (currentUserProfile?.role !== 'admin') {
-                showToast("غير مصرح لك بالوصول للوحة الأدمن", "error");
-                window.location.hash = '#home';
-                return;
-            }
-            renderAdminOverviewTab();
-        }
-
-        const adminTabBtns = document.querySelectorAll('.admin-tab-btn');
-        adminTabBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                adminTabBtns.forEach(b => b.className = 'admin-tab-btn px-4 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap bg-slate-800 text-slate-300 hover:bg-slate-700');
-                btn.className = 'admin-tab-btn active px-4 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap bg-amber-500 text-slate-950';
-
-                const tab = btn.dataset.tab;
-                if (tab === 'overview') renderAdminOverviewTab();
-                else if (tab === 'categories') renderAdminCategoriesTab();
-                else if (tab === 'courses') renderAdminCoursesTab();
-                else if (tab === 'library') renderAdminLibraryTab();
-                else if (tab === 'news') renderAdminNewsTab();
-                else if (tab === 'offers') renderAdminOffersTab();
-                else if (tab === 'jobs') renderAdminJobsTab();
-                else if (tab === 'users') renderAdminUsersTab();
-            });
-        });
-
-        function renderAdminOverviewTab() {
-            document.getElementById('admin-tab-content-wrapper').innerHTML = `
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div class="bg-slate-800 border border-slate-700 p-6 rounded-2xl space-y-2">
-                        <span class="text-xs font-bold text-slate-400">إجمالي الكورسات</span>
-                        <h3 class="text-3xl font-black text-amber-400">12</h3>
-                    </div>
-                    <div class="bg-slate-800 border border-slate-700 p-6 rounded-2xl space-y-2">
-                        <span class="text-xs font-bold text-slate-400">ملفات المكتبة</span>
-                        <h3 class="text-3xl font-black text-amber-400">45</h3>
-                    </div>
-                    <div class="bg-slate-800 border border-slate-700 p-6 rounded-2xl space-y-2">
-                        <span class="text-xs font-bold text-slate-400">فرص العمل</span>
-                        <h3 class="text-3xl font-black text-amber-400">8</h3>
-                    </div>
-                    <div class="bg-slate-800 border border-slate-700 p-6 rounded-2xl space-y-2">
-                        <span class="text-xs font-bold text-slate-400">الطلاب المسجلين</span>
-                        <h3 class="text-3xl font-black text-amber-400">128</h3>
-                    </div>
-                </div>
-            `;
-        }
-
-        async function renderAdminCategoriesTab() {
-            const wrapper = document.getElementById('admin-tab-content-wrapper');
-            wrapper.innerHTML = `
-                <div class="space-y-6">
-                    <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 space-y-4">
-                        <h3 class="text-lg font-bold text-white">إضافة مجال هندسي جديد</h3>
-                        <form id="admin-add-category-form" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                            <input type="text" id="cat-name-input" required placeholder="اسم المجال (مثلا: Tenders)" class="px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm">
-                            <input type="text" id="cat-icon-input" placeholder="اسم الأيقونة (fa-bolt)" class="px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm">
-                            <button type="submit" class="px-5 py-2.5 rounded-xl bg-amber-500 font-bold text-slate-950 text-sm">حفظ المجال</button>
-                        </form>
-                    </div>
-                    <div id="admin-categories-list" class="space-y-2">جاري التحميل...</div>
-                </div>
-            `;
-
-            document.getElementById('admin-add-category-form').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const name = document.getElementById('cat-name-input').value;
-                const icon = document.getElementById('cat-icon-input').value || 'fa-folder';
-                await addDoc(collection(db, "categories"), { name, icon, createdAt: serverTimestamp() });
-                showToast("تمت إضافة المجال بنجاح", "success");
-                renderAdminCategoriesTab();
-            });
-
-            const catSnap = await getDocs(collection(db, "categories"));
-            const list = document.getElementById('admin-categories-list');
-            if (catSnap.empty) {
-                list.innerHTML = `<p class="text-slate-400 text-xs">لا توجد مجالات.</p>`;
-            } else {
-                list.innerHTML = catSnap.docs.map(d => `
-                    <div class="bg-slate-800 border border-slate-700 p-4 rounded-xl flex items-center justify-between text-sm">
-                        <span class="font-bold text-white"><i class="fa-solid ${d.data().icon} text-amber-500 ml-2"></i> ${d.data().name}</span>
-                        <button class="delete-cat-btn text-rose-400 hover:text-rose-300" data-id="${d.id}"><i class="fa-solid fa-trash"></i></button>
-                    </div>
-                `).join('');
-
-                document.querySelectorAll('.delete-cat-btn').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        customConfirm("حذف المجال", "هل أنت تأكد من حذف هذا المجال؟", async () => {
-                            await deleteDoc(doc(db, "categories", btn.dataset.id));
-                            showToast("تم الحذف", "success");
-                            renderAdminCategoriesTab();
-                        });
-                    });
-                });
-            }
-        }
-
-        function renderAdminCoursesTab() {
-            document.getElementById('admin-tab-content-wrapper').innerHTML = `<p class="text-slate-300">قسم إدارة الكورسات والدروس كامل متاح لإضافة العناوين ومقاطع اليوتيوب وقوائم PDF.</p>`;
-        }
-        function renderAdminLibraryTab() {
-            document.getElementById('admin-tab-content-wrapper').innerHTML = `<p class="text-slate-300">قسم رفع وإدارة روابط كتب ومستندات جوجل درايف للمكتبة الهندسية.</p>`;
-        }
-        function renderAdminNewsTab() {
-            document.getElementById('admin-tab-content-wrapper').innerHTML = `<p class="text-slate-300">قسم التحكم بالأخبار وشريط التيكر العاجل.</p>`;
-        }
-        function renderAdminOffersTab() {
-            document.getElementById('admin-tab-content-wrapper').innerHTML = `<p class="text-slate-300">إدارة الباقات التدريبية المخفضة وتحديد الأسعار.</p>`;
-        }
-        function renderAdminJobsTab() {
-            document.getElementById('admin-tab-content-wrapper').innerHTML = `<p class="text-slate-300">إدارة إعلانات التوظيف الهندسية.</p>`;
-        }
-        function renderAdminUsersTab() {
-            document.getElementById('admin-tab-content-wrapper').innerHTML = `<p class="text-slate-300">عرض وتبديل أدوار المستخدمين بين طالب وأدمن.</p>`;
-        }
-
-        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
-            document.getElementById('mobile-menu').classList.toggle('hidden');
-        });
-
-        /* =========================================================
-           Theme switcher: persists user choice in localStorage
-           ========================================================= */
-        const THEME_STORAGE_KEY = 'acadmya_theme';
-
-        function applyTheme(theme) {
-            const isLight = theme === 'light';
-            document.body.classList.toggle('light-mode', isLight);
-
-            const icon = document.getElementById('theme-toggle-icon');
-            const button = document.getElementById('theme-toggle');
-
-            if (icon) {
-                icon.className = isLight
-                    ? 'fa-solid fa-moon text-sm'
-                    : 'fa-solid fa-sun text-sm';
-            }
-
-            if (button) {
-                button.title = isLight ? 'تفعيل الوضع الليلي' : 'تفعيل الوضع النهاري';
-                button.setAttribute(
-                    'aria-label',
-                    isLight ? 'تفعيل الوضع الليلي' : 'تفعيل الوضع النهاري'
-                );
-            }
-        }
-
-        const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
-        const preferredTheme = savedTheme ||
-            (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
-
-        applyTheme(preferredTheme);
-
-        document.getElementById('theme-toggle')?.addEventListener('click', () => {
-            const nextTheme = document.body.classList.contains('light-mode') ? 'dark' : 'light';
-            localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
-            applyTheme(nextTheme);
-        });
-
-        /* Initial boot route invocation */
-        handleRouting();
-    </script>
-</body>
-</html>
-<!-- 
-===================================================================================
-IMPORTANT FIRESTORE SECURITY RULES FOR YOUR FIREBASE CONSOLE:
-===================================================================================
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /users/{userId} {
-      allow read: if request.auth != null;
-      allow write: if request.auth != null && (request.auth.uid == userId || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin');
+    <section class="content">
+      <div id="view-home" class="view active"></div>
+      <div id="view-courses" class="view"></div>
+      <div id="view-categories" class="view"></div>
+      <div id="view-library" class="view"></div>
+      <div id="view-jobs" class="view"></div>
+      <div id="view-news" class="view"></div>
+      <div id="view-dashboard" class="view"></div>
+      <div id="view-bookmarks" class="view"></div>
+      <div id="view-admin" class="view"></div>
+      <div id="view-lesson" class="view"></div>
+      <div class="footer">© <span id="year"></span> أكاديمية التدريب المهني — منصة تعليمية هندسية</div>
+    </section>
+  </main>
+  <nav class="bottom-nav">
+    <button data-view="home" onclick="navigate('home')">⌂<br>الرئيسية</button>
+    <button data-view="courses" onclick="navigate('courses')">▣<br>الكورسات</button>
+    <button data-view="library" onclick="navigate('library')">▤<br>المكتبة</button>
+    <button data-view="dashboard" onclick="navigate('dashboard')">◉<br>حسابي</button>
+  </nav>
+</div>
+
+<div id="modalBackdrop" class="modal-backdrop" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-head"><strong id="modalTitle">إضافة</strong><button class="icon-btn" onclick="closeModal()">×</button></div>
+    <div id="modalBody" class="modal-body"></div>
+    <div id="modalFoot" class="modal-foot"></div>
+  </div>
+</div>
+<div id="toast" class="toast"></div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+  import {
+    getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+    sendPasswordResetEmail, onAuthStateChanged, signOut, updateProfile
+  } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+  import {
+    getFirestore, collection, doc, getDoc, getDocs, setDoc, addDoc, updateDoc,
+    deleteDoc, query, where, orderBy, limit, onSnapshot, serverTimestamp,
+    increment
+  } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAxVTZm4ytoFrZ91qeaGJ8MPkP7T1t6j_g",
+    authDomain: "acadmya.firebaseapp.com",
+    projectId: "acadmya",
+    storageBucket: "acadmya.firebasestorage.app",
+    messagingSenderId: "89992811511",
+    appId: "1:89992811511:web:41ad04c620b5df046554f2"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  const state = {
+    user:null, profile:null, role:"user", view:"home", authMode:"login",
+    data:{categories:[],courses:[],modules:[],lessons:[],library:[],jobs:[],news:[],offers:[],breakingNews:[],banners:[]},
+    currentCourse:null, currentLesson:null, unsub:null
+  };
+
+  const collections = ["categories","courses","modules","lessons","library","jobs","news","offers","breakingNews","banners","notifications"];
+  const labels = {categories:"التخصصات",courses:"الكورسات",modules:"الوحدات",lessons:"الدروس",library:"المكتبة",jobs:"الوظائف",news:"الأخبار",offers:"العروض",breakingNews:"شريط الأخبار",banners:"البانرات",notifications:"الإشعارات"};
+
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s ?? "").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+  const slug = s => String(s||"").toLowerCase().trim().replace(/\s+/g,"-");
+  const initials = s => (String(s||"م").trim()[0]||"م");
+  const fmtDate = v => { try { return v?.toDate ? v.toDate().toLocaleDateString("ar-EG") : new Date(v).toLocaleDateString("ar-EG"); } catch{return ""} };
+  const show = id => $(id)?.classList.remove("hidden");
+  const hide = id => $(id)?.classList.add("hidden");
+
+  function toast(msg, type="ok"){ const t=$("toast"); t.textContent=msg; t.style.background=type==="error"?"var(--danger)":type==="warn"?"var(--warning)":"var(--primary)"; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),2800); }
+
+  window.switchAuth = mode => {
+    state.authMode=mode;
+    $("loginTab").classList.toggle("active",mode==="login"); $("registerTab").classList.toggle("active",mode==="register");
+    $("nameField").classList.toggle("hidden",mode==="login"); $("authSubmit").textContent=mode==="login"?"دخول إلى الأكاديمية":"إنشاء الحساب";
+    $("authError").textContent="";
+  };
+
+  window.handleAuth = async e => {
+    e.preventDefault(); $("authError").textContent="";
+    const email=$("authEmail").value.trim(), pass=$("authPassword").value, name=$("authName").value.trim();
+    try{
+      if(state.authMode==="register"){
+        const cred=await createUserWithEmailAndPassword(auth,email,pass);
+        if(name) await updateProfile(cred.user,{displayName:name});
+        await setDoc(doc(db,"users",cred.user.uid),{uid:cred.user.uid,email,name:name||"مستخدم جديد",role:"user",createdAt:serverTimestamp(),updatedAt:serverTimestamp()},{merge:true});
+        toast("تم إنشاء الحساب بنجاح");
+      }else await signInWithEmailAndPassword(auth,email,pass);
+    }catch(err){ $("authError").textContent=translateFirebaseError(err.code); }
+  };
+
+  window.resetPassword = async () => {
+    const email=$("authEmail").value.trim();
+    if(!email) return toast("اكتب بريدك الإلكتروني أولًا","warn");
+    try{ await sendPasswordResetEmail(auth,email); toast("تم إرسال رابط إعادة تعيين كلمة المرور"); }
+    catch(e){ toast(translateFirebaseError(e.code),"error"); }
+  };
+
+  window.logout = async()=>{await signOut(auth);};
+  function translateFirebaseError(c){
+    const m={"auth/invalid-credential":"البريد الإلكتروني أو كلمة المرور غير صحيحة","auth/email-already-in-use":"البريد الإلكتروني مستخدم بالفعل","auth/weak-password":"كلمة المرور ضعيفة","auth/invalid-email":"البريد الإلكتروني غير صحيح","auth/too-many-requests":"محاولات كثيرة. حاول لاحقًا","auth/network-request-failed":"تحقق من اتصال الإنترنت"};
+    return m[c]||"حدث خطأ. حاول مرة أخرى.";
+  }
+
+  onAuthStateChanged(auth, async user=>{
+    state.user=user;
+    if(!user){hide("app");show("authScreen");return;}
+    hide("authScreen");show("app");
+    await loadProfile();
+    await loadAllData();
+    renderShell();
+    navigate("home");
+  });
+
+  async function loadProfile(){
+    const snap=await getDoc(doc(db,"users",state.user.uid));
+    if(snap.exists()) state.profile=snap.data(); else {
+      state.profile={uid:state.user.uid,name:state.user.displayName||"مستخدم",email:state.user.email,role:"user"};
+      await setDoc(doc(db,"users",state.user.uid),{...state.profile,createdAt:serverTimestamp()},{merge:true});
     }
-    match /{document=**} {
-      allow read: if true;
-      allow write: if request.auth != null && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    state.role=state.profile?.role||"user";
+  }
+
+  async function loadAllData(){
+    for(const c of collections.slice(0,10)){
+      try{
+        const q=query(collection(db,c),limit(200));
+        const snap=await getDocs(q);
+        state.data[c]=snap.docs.map(d=>({id:d.id,...d.data()}));
+      }catch(e){ console.warn(c,e); state.data[c]=[]; }
     }
   }
-}
-===================================================================================
--->
+
+  function renderShell(){
+    $("topName").textContent=state.profile?.name||state.user.displayName||state.user.email?.split("@")[0]||"المستخدم";
+    $("topAvatar").textContent=initials($("topName").textContent);
+    $("adminNav").classList.toggle("hidden",state.role!=="admin");
+    $("year").textContent=new Date().getFullYear();
+    if(localStorage.getItem("academy-theme")==="dark") document.documentElement.dataset.theme="dark";
+  }
+
+  window.toggleTheme=()=>{const dark=document.documentElement.dataset.theme==="dark"; document.documentElement.dataset.theme=dark?"":"dark";localStorage.setItem("academy-theme",dark?"light":"dark")};
+  window.toggleSidebar=()=>{document.body.classList.add("sidebar-open");$("overlay").classList.add("show")};
+  window.closeSidebar=()=>{document.body.classList.remove("sidebar-open");$("overlay").classList.remove("show")};
+
+  window.navigate = async view => {
+    if(view==="admin" && state.role!=="admin") return toast("هذه الصفحة متاحة للمشرف فقط","error");
+    closeSidebar();
+    document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
+    const target=$("view-"+view); if(target) target.classList.add("active");
+    document.querySelectorAll(".nav-item,.bottom-nav button").forEach(b=>b.classList.toggle("active",b.dataset.view===view));
+    state.view=view;
+    const fn={home:renderHome,courses:renderCourses,categories:renderCategories,library:renderLibrary,jobs:renderJobs,news:renderNews,dashboard:renderDashboard,bookmarks:renderBookmarks,admin:renderAdmin}[view];
+    if(fn) await fn();
+  };
+
+  function published(arr){return (arr||[]).filter(x=>x.published!==false && x.status!=="hidden");}
+  function categoryName(id){return state.data.categories.find(x=>x.id===id)?.name||"هندسة كهربائية";}
+  function courseCard(c){
+    const progress=Math.max(0,Math.min(100,Number(c.progress||0)));
+    return `<article class="card course-card">
+      <div class="course-cover" style="background:${esc(c.color||"linear-gradient(135deg,#102d50,#1976d2)")};">
+        <small>${esc(categoryName(c.categoryId))}</small>${esc(c.name||"كورس هندسي")}
+      </div>
+      <div class="card-body"><h4>${esc(c.name)}</h4><div class="muted">${esc(c.description||"محتوى تدريبي عملي ومركز")}</div>
+      <div class="course-meta"><span class="pill">${esc(c.level||"متوسط")}</span><span class="pill">${Number(c.lessonsCount||0)} درس</span></div>
+      ${progress?`<div class="progress"><i style="width:${progress}%"></i></div><small class="muted">${progress}% مكتمل</small>`:""}
+      <button class="btn btn-primary" style="width:100%;margin-top:12px" onclick="openCourse('${c.id}')">عرض الكورس</button></div></article>`;
+  }
+
+  async function renderHome(){
+    const d=state.data, banner=published(d.banners)[0];
+    const ticker=published(d.breakingNews)[0];
+    const courses=published(d.courses).slice(0,4), cats=published(d.categories).slice(0,8);
+    const offers=published(d.offers).slice(0,3), jobs=published(d.jobs).slice(0,3), news=published(d.news).slice(0,3);
+    $("view-home").innerHTML=`
+      ${ticker?`<div class="ticker"><strong>عاجل</strong><div class="ticker-text">${esc(ticker.title||ticker.text)}</div></div>`:""}
+      <section class="hero"><div class="hero-content">
+        <div class="pill" style="display:inline-block;background:rgba(255,255,255,.12);color:#dbeafe">Professional Engineering Academy</div>
+        <h2>${esc(banner?.title||"طوّر مهاراتك الهندسية من المعرفة إلى التطبيق")}</h2>
+        <p>${esc(banner?.description||"تعلم منظم في الكهرباء والطاقة والتوزيع والـBIM وأنظمة الحريق والـLow Current والـSite Engineering.")}</p>
+        <button class="btn btn-light" onclick="navigate('courses')">استكشف الكورسات ←</button>
+      </div></section>
+      <div class="section-head"><div><h3>أكمل تعلمك</h3><p>ارجع مباشرة إلى المحتوى الذي بدأت به</p></div><button class="btn btn-ghost" onclick="navigate('dashboard')">لوحتي</button></div>
+      <div class="grid grid-4">${courses.length?courses.map(c=>courseCard(c)).join(""):`<div class="empty" style="grid-column:1/-1">لم تبدأ أي كورس بعد.</div>`}</div>
+      <div class="section-head"><div><h3>التخصصات الهندسية</h3><p>مسارات منظمة حسب المجال</p></div><button class="btn btn-ghost" onclick="navigate('categories')">كل التخصصات</button></div>
+      <div class="grid grid-4">${cats.length?cats.map(c=>`<div class="card card-body" onclick="filterCourses('${c.id}')" style="cursor:pointer"><div style="font-size:24px">◈</div><h4>${esc(c.name)}</h4><div class="muted">${esc(c.description||"مسار تدريبي هندسي")}</div></div>`).join(""):`<div class="empty" style="grid-column:1/-1">لم تتم إضافة تخصصات بعد.</div>`}</div>
+      ${sectionCards("أحدث الكورسات",courses.map(courseCard).join(""),"courses")}
+      ${offers.length?sectionCards("أحدث العروض",offers.map(o=>`<div class="card offer-card"><span class="tag">عرض</span><h4>${esc(o.title)}</h4><p class="muted">${esc(o.description)}</p><strong>${esc(o.price||"متاح الآن")}</strong></div>`).join(""),"dashboard"):""}
+      ${jobs.length?sectionCards("أحدث الوظائف",jobs.map(jobCard).join(""),"jobs"):""}
+      ${news.length?sectionCards("الأخبار الهندسية",news.map(newsCard).join(""),"news"):""}
+      <div class="card" style="margin-top:28px;padding:28px;background:linear-gradient(135deg,var(--primary),#155e9d);color:#fff"><h3 style="margin-top:0">تعلم عملي يجهزك لسوق العمل</h3><p style="color:#dcecff">ابدأ مسارك في التوزيع الكهربائي والـFire Alarm والـLow Current والـBIM والطاقة الشمسية وغيرها.</p><button class="btn btn-light" onclick="navigate('courses')">ابدأ الآن</button></div>`;
+  }
+  function sectionCards(title,body,view){return `<div class="section-head"><div><h3>${title}</h3></div><button class="btn btn-ghost" onclick="navigate('${view}')">عرض الكل</button></div><div class="grid grid-3">${body||`<div class="empty" style="grid-column:1/-1">لا يوجد محتوى منشور.</div>`}</div>`}
+  function jobCard(j){return `<div class="card job-card"><div class="top"><span class="tag">وظيفة</span><span class="muted">${esc(j.location||"مصر")}</span></div><h4>${esc(j.title)}</h4><p class="muted">${esc(j.company||"شركة هندسية")} · ${esc(j.type||"دوام كامل")}</p><button class="btn btn-ghost" onclick="window.open('${esc(j.url||"#")}','_blank')">التفاصيل</button></div>`}
+  function newsCard(n){return `<div class="card news-card"><div class="top"><span class="tag">هندسي</span><span class="muted">${fmtDate(n.createdAt)}</span></div><h4>${esc(n.title)}</h4><p class="muted">${esc(n.summary||n.description||"")}</p></div>`}
+
+  async function renderCourses(){
+    const arr=published(state.data.courses);
+    $("view-courses").innerHTML=`<div class="page-title"><div><h2>الكورسات</h2><p>تعلم منظم من المستوى الأساسي إلى التطبيقي</p></div><span class="pill">${arr.length} كورس</span></div>
+    <div class="grid grid-3">${arr.length?arr.map(courseCard).join(""):`<div class="empty" style="grid-column:1/-1">لا توجد كورسات منشورة حاليًا.</div>`}</div>`;
+  }
+  async function renderCategories(){
+    const arr=published(state.data.categories);
+    $("view-categories").innerHTML=`<div class="page-title"><div><h2>التخصصات</h2><p>اختر المجال الذي تريد تطويره</p></div></div><div class="grid grid-3">${arr.length?arr.map(c=>`<div class="card card-body"><div style="font-size:27px">◈</div><h4>${esc(c.name)}</h4><p class="muted">${esc(c.description||"")}</p><div class="muted">${state.data.courses.filter(x=>x.categoryId===c.id).length} كورس</div><button class="btn btn-primary" style="margin-top:12px" onclick="filterCourses('${c.id}')">استكشف الكورسات</button></div>`).join(""):`<div class="empty" style="grid-column:1/-1">لم تتم إضافة تخصصات.</div>`}</div>`;
+  }
+  async function renderLibrary(){
+    const arr=published(state.data.library);
+    $("view-library").innerHTML=`<div class="page-title"><div><h2>المكتبة الهندسية</h2><p>ملفات ومراجع ونماذج PDF عبر Google Drive</p></div></div><div class="grid grid-3">${arr.length?arr.map(x=>`<div class="card card-body"><span class="tag">PDF / ملف</span><h4>${esc(x.title)}</h4><p class="muted">${esc(x.description||"مرجع هندسي")}</p><button class="btn btn-primary" onclick="openDrive('${esc(x.url||"")}')">فتح الملف</button></div>`).join(""):`<div class="empty" style="grid-column:1/-1">المكتبة فارغة حاليًا.</div>`}</div>`;
+  }
+  async function renderJobs(){
+    const arr=published(state.data.jobs);
+    $("view-jobs").innerHTML=`<div class="page-title"><div><h2>الوظائف</h2><p>فرص عمل وتدريب هندسية</p></div></div><div class="grid grid-2">${arr.length?arr.map(jobCard).join(""):`<div class="empty" style="grid-column:1/-1">لا توجد وظائف منشورة.</div>`}</div>`;
+  }
+  async function renderNews(){
+    const arr=published(state.data.news);
+    $("view-news").innerHTML=`<div class="page-title"><div><h2>الأخبار الهندسية</h2><p>مستجدات وفرص ومحتوى مهني</p></div></div><div class="grid grid-3">${arr.length?arr.map(newsCard).join(""):`<div class="empty" style="grid-column:1/-1">لا توجد أخبار منشورة.</div>`}</div>`;
+  }
+  async function renderDashboard(){
+    const progress=await getDocs(query(collection(db,"progress"),where("uid","==",state.user.uid),limit(100))).catch(()=>({docs:[]}));
+    const rows=progress.docs.map(x=>x.data());
+    $("view-dashboard").innerHTML=`<div class="page-title"><div><h2>لوحتي</h2><p>مرحبًا ${esc(state.profile?.name||"بك")} — تابع تقدمك من هنا</p></div></div>
+    <div class="grid grid-4">
+      <div class="card stat"><div class="icon">▣</div><div class="muted">الكورسات</div><div class="num">${state.data.courses.length}</div></div>
+      <div class="card stat"><div class="icon">✓</div><div class="muted">الدروس المكتملة</div><div class="num">${rows.filter(x=>x.completed).length}</div></div>
+      <div class="card stat"><div class="icon">☆</div><div class="muted">المحفوظات</div><div class="num">${(state.profile?.bookmarks||[]).length}</div></div>
+      <div class="card stat"><div class="icon">◈</div><div class="muted">الدور</div><div class="num" style="font-size:18px">${state.role==="admin"?"Admin":"Student"}</div></div>
+    </div>
+    <div class="section-head"><div><h3>معلومات الحساب</h3></div></div>
+    <div class="card card-body"><div class="grid grid-2"><div><span class="muted">الاسم</span><strong style="display:block">${esc(state.profile?.name||"")}</strong></div><div><span class="muted">البريد</span><strong style="display:block">${esc(state.user.email||"")}</strong></div></div></div>`;
+  }
+  async function renderBookmarks(){
+    const ids=state.profile?.bookmarks||[], arr=state.data.courses.filter(x=>ids.includes(x.id));
+    $("view-bookmarks").innerHTML=`<div class="page-title"><div><h2>المحفوظات</h2><p>الكورسات التي حفظتها للرجوع إليها</p></div></div><div class="grid grid-3">${arr.length?arr.map(courseCard).join(""):`<div class="empty" style="grid-column:1/-1">لم تحفظ أي كورسات بعد.</div>`}</div>`;
+  }
+
+  window.openCourse=async id=>{
+    const c=state.data.courses.find(x=>x.id===id); if(!c)return;
+    state.currentCourse=c;
+    const mods=state.data.modules.filter(x=>x.courseId===id && x.published!==false);
+    const lessons=state.data.lessons.filter(x=>x.courseId===id && x.published!==false);
+    $("view-lesson").innerHTML=`<div class="page-title"><div><h2>${esc(c.name)}</h2><p>${esc(c.description||"")}</p></div><button class="btn btn-ghost" onclick="navigate('courses')">العودة للكورسات</button></div>
+      <div class="lesson-layout"><div><div class="card card-body" id="lessonStage"><div class="empty">اختر درسًا من القائمة لبدء التعلم.</div></div></div>
+      <aside class="card card-body"><h3 style="margin-top:0">محتوى الكورس</h3><div class="list">${mods.length?mods.map(m=>`<div><strong style="font-size:13px">${esc(m.name)}</strong>${lessons.filter(l=>l.moduleId===m.id).map(l=>`<div class="lesson-row" onclick="openLesson('${l.id}')"><span>▶</span><span>${esc(l.title)}</span><span class="check" id="check-${l.id}">○</span></div>`).join("")}</div>`).join(""):lessons.map(l=>`<div class="lesson-row" onclick="openLesson('${l.id}')"><span>▶</span><span>${esc(l.title)}</span></div>`).join("")}</div></aside></div>`;
+    document.querySelectorAll(".view").forEach(v=>v.classList.remove("active")); $("view-lesson").classList.add("active"); closeSidebar();
+  };
+
+  window.openLesson=async id=>{
+    const l=state.data.lessons.find(x=>x.id===id);if(!l)return;state.currentLesson=l;
+    const type=l.type||"video";
+    let media="";
+    if(type==="pdf"||l.url?.includes("drive.google.com")) media=`<iframe class="pdf-wrap" src="${drivePreview(l.url)}" allow="autoplay"></iframe>`;
+    else if(l.youtubeUrl||l.url) media=`<div class="video-wrap"><iframe src="${youtubeEmbed(l.youtubeUrl||l.url)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
+    else media=`<div class="empty">لم يتم إضافة رابط محتوى لهذا الدرس.</div>`;
+    $("lessonStage").innerHTML=`${media}<div style="padding-top:16px"><h3>${esc(l.title)}</h3><p class="muted">${esc(l.description||"")}</p><button class="btn btn-primary" onclick="markComplete('${l.id}')">✓ تحديد الدرس كمكتمل</button></div>`;
+  };
+
+  window.markComplete=async id=>{
+    try{await setDoc(doc(db,"progress",`${state.user.uid}_${id}`),{uid:state.user.uid,lessonId:id,courseId:state.currentCourse?.id||"",completed:true,completedAt:serverTimestamp()},{merge:true});toast("تم حفظ تقدمك");const c=$("check-"+id);if(c)c.textContent="✓";}catch(e){toast("تعذر حفظ التقدم","error")}
+  };
+  function youtubeEmbed(url){
+    if(!url)return "";
+    if(url.includes("/embed/"))return url;
+    const m=url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|shorts\/|live\/))([^?&/]+)/);
+    return m?`https://www.youtube.com/embed/${m[1]}`:url;
+  }
+  function drivePreview(url){
+    if(!url)return "";
+    if(url.includes("/preview"))return url;
+    const m=url.match(/drive\.google\.com\/file\/d\/([^/]+)/);
+    return m?`https://drive.google.com/file/d/${m[1]}/preview`:url.replace("/view","/preview");
+  }
+  window.openDrive=url=>{if(url)window.open(drivePreview(url),"_blank","noopener,noreferrer")};
+
+  window.filterCourses=id=>{navigate("courses").then(()=>{const arr=state.data.courses.filter(x=>x.categoryId===id&&x.published!==false);$("view-courses").querySelector(".grid").innerHTML=arr.length?arr.map(courseCard).join(""):`<div class="empty" style="grid-column:1/-1">لا توجد كورسات لهذا التخصص.</div>`})};
+
+  window.globalSearch=async term=>{
+    term=term.trim().toLowerCase();if(!term)return;
+    const hits=[...state.data.courses.map(x=>({...x,_type:"كورس"})),...state.data.library.map(x=>({...x,_type:"ملف"})),...state.data.jobs.map(x=>({...x,_type:"وظيفة"})),...state.data.news.map(x=>({...x,_type:"خبر"}))].filter(x=>JSON.stringify(x).toLowerCase().includes(term)).slice(0,20);
+    if(state.view!=="home") await navigate("home");
+    const home=$("view-home");let old=$("searchResults");if(old)old.remove();
+    const div=document.createElement("div");div.id="searchResults";div.className="card card-body";div.style.marginTop="20px";
+    div.innerHTML=`<h3 style="margin-top:0">نتائج البحث</h3>${hits.length?hits.map(x=>`<div class="lesson-row" style="margin-bottom:7px"><span>${x._type}</span><strong>${esc(x.name||x.title)}</strong></div>`).join(""):`<div class="empty">لا توجد نتائج مطابقة.</div>`}`;
+    home.prepend(div);
+  };
+
+  function renderAdmin(){
+    const tiles=collections.map(c=>`<div class="admin-tile" onclick="adminCollection('${c}')"><span>▣</span><strong>${labels[c]||c}</strong><small class="muted">${state.data[c]?.length||0} عنصر</small></div>`).join("");
+    $("view-admin").innerHTML=`<div class="page-title"><div><h2>لوحة الإدارة</h2><p>إدارة محتوى الأكاديمية بالكامل من مكان واحد</p></div></div>
+      <div class="card card-body" style="margin-bottom:18px"><strong>صلاحية المشرف: Admin</strong><p class="muted">من هنا يمكنك إضافة وتعديل وحذف ونشر المحتوى. الحماية الفعلية للصلاحيات يجب أن تكون عبر Firestore Security Rules.</p></div>
+      <div class="admin-grid">${tiles}</div>`;
+  }
+
+  window.adminCollection=async c=>{
+    if(state.role!=="admin")return;
+    const items=state.data[c]||[];
+    $("view-admin").innerHTML=`<div class="page-title"><div><h2>إدارة ${labels[c]||c}</h2><p>إضافة وتعديل وحذف ونشر المحتوى</p></div><div style="display:flex;gap:7px"><button class="btn btn-primary" onclick="openEditor('${c}')">+ إضافة</button><button class="btn btn-ghost" onclick="renderAdmin()">رجوع</button></div></div>
+      <div class="card table-wrap"><table class="table"><thead><tr><th>العنوان</th><th>الحالة</th><th>التاريخ</th><th>إجراءات</th></tr></thead><tbody>${items.length?items.map(x=>`<tr><td><strong>${esc(x.name||x.title||x.text||"بدون عنوان")}</strong></td><td>${x.published===false?'<span class="tag" style="color:var(--danger)">مخفي</span>':'<span class="tag">منشور</span>'}</td><td>${fmtDate(x.createdAt)}</td><td><button class="btn btn-ghost" onclick="openEditor('${c}','${x.id}')">تعديل</button> <button class="btn btn-danger" onclick="removeItem('${c}','${x.id}')">حذف</button></td></tr>`).join(""):`<tr><td colspan="4"><div class="empty">لا يوجد محتوى.</div></td></tr>`}</tbody></table></div>`;
+  };
+
+  const fieldDefs={
+    categories:[["name","اسم التخصص","text"],["description","الوصف","textarea"]],
+    courses:[["name","اسم الكورس","text"],["categoryId","التخصص","selectCategory"],["description","الوصف","textarea"],["level","المستوى","text"],["lessonsCount","عدد الدروس","number"],["color","لون/خلفية الكارت","text"],["published","منشور","checkbox"]],
+    modules:[["name","اسم الوحدة","text"],["courseId","الكورس","selectCourse"],["description","الوصف","textarea"],["order","الترتيب","number"],["published","منشور","checkbox"]],
+    lessons:[["title","عنوان الدرس","text"],["courseId","الكورس","selectCourse"],["moduleId","الوحدة","selectModule"],["type","نوع المحتوى","selectType"],["url","الرابط","url"],["youtubeUrl","رابط YouTube","url"],["description","الوصف","textarea"],["order","الترتيب","number"],["published","منشور","checkbox"]],
+    library:[["title","عنوان الملف","text"],["description","الوصف","textarea"],["url","رابط Google Drive","url"],["categoryId","التخصص","selectCategory"],["published","منشور","checkbox"]],
+    jobs:[["title","المسمى الوظيفي","text"],["company","الشركة","text"],["location","المكان","text"],["type","نوع الوظيفة","text"],["url","رابط التقديم","url"],["description","الوصف","textarea"],["published","منشور","checkbox"]],
+    news:[["title","عنوان الخبر","text"],["summary","الملخص","textarea"],["url","رابط الخبر","url"],["published","منشور","checkbox"]],
+    offers:[["title","عنوان العرض","text"],["description","الوصف","textarea"],["price","السعر/التفاصيل","text"],["url","الرابط","url"],["published","منشور","checkbox"]],
+    breakingNews:[["title","نص الشريط","text"],["url","الرابط","url"],["published","منشور","checkbox"]],
+    banners:[["title","عنوان البانر","text"],["description","الوصف","textarea"],["image","رابط الصورة","url"],["color","خلفية CSS اختيارية","text"],["published","منشور","checkbox"]],
+    notifications:[["title","العنوان","text"],["body","النص","textarea"],["published","منشور","checkbox"]]
+  };
+
+  window.openEditor=(c,id="")=>{
+    const item=id?(state.data[c]||[]).find(x=>x.id===id)||{}:{};
+    const defs=fieldDefs[c]||[["name","الاسم","text"]];
+    $("modalTitle").textContent=id?`تعديل ${labels[c]||c}`:`إضافة ${labels[c]||c}`;
+    $("modalBody").innerHTML=`<form id="editorForm" class="form-grid">${defs.map(([key,label,type])=>{
+      let v=item[key]??(key==="published"?true:"");
+      if(type==="textarea")return `<div class="field full"><label>${label}</label><textarea name="${key}">${esc(v)}</textarea></div>`;
+      if(type==="checkbox")return `<div class="field full"><label><input name="${key}" type="checkbox" ${v!==false?"checked":""}> ${label}</label></div>`;
+      if(type==="selectCategory")return `<div class="field"><label>${label}</label><select name="${key}"><option value="">اختر</option>${state.data.categories.map(x=>`<option value="${x.id}" ${v===x.id?"selected":""}>${esc(x.name)}</option>`).join("")}</select></div>`;
+      if(type==="selectCourse")return `<div class="field"><label>${label}</label><select name="${key}"><option value="">اختر</option>${state.data.courses.map(x=>`<option value="${x.id}" ${v===x.id?"selected":""}>${esc(x.name)}</option>`).join("")}</select></div>`;
+      if(type==="selectModule")return `<div class="field"><label>${label}</label><select name="${key}"><option value="">اختر</option>${state.data.modules.map(x=>`<option value="${x.id}" ${v===x.id?"selected":""}>${esc(x.name)}</option>`).join("")}</select></div>`;
+      if(type==="selectType")return `<div class="field"><label>${label}</label><select name="${key}"><option value="video" ${v==="video"?"selected":""}>فيديو</option><option value="pdf" ${v==="pdf"?"selected":""}>PDF</option></select></div>`;
+      return `<div class="field"><label>${label}</label><input name="${key}" type="${type}" value="${esc(v)}"></div>`;
+    }).join("")}</form>`;
+    $("modalFoot").innerHTML=`<button class="btn btn-primary" onclick="saveEditor('${c}','${id}')">حفظ</button><button class="btn btn-ghost" onclick="closeModal()">إلغاء</button>`;
+    $("modalBackdrop").classList.add("open");
+  };
+
+  window.saveEditor=async(c,id)=>{
+    const form=$("editorForm");const data={};
+    for(const el of form.elements){if(!el.name)continue;data[el.name]=el.type==="checkbox"?el.checked:el.type==="number"?Number(el.value||0):el.value.trim();}
+    data.updatedAt=serverTimestamp(); if(!id)data.createdAt=serverTimestamp();
+    try{if(id)await updateDoc(doc(db,c,id),data);else await addDoc(collection(db,c),data);closeModal();toast("تم حفظ البيانات");await loadAllData();adminCollection(c);}
+    catch(e){toast("تعذر الحفظ: "+e.message,"error")}
+  };
+  window.removeItem=async(c,id)=>{
+    if(!confirm("هل أنت متأكد من حذف هذا العنصر؟"))return;
+    try{await deleteDoc(doc(db,c,id));toast("تم الحذف");await loadAllData();adminCollection(c)}catch(e){toast("تعذر الحذف","error")}
+  };
+  window.closeModal=()=>{$("modalBackdrop").classList.remove("open")};
+
+  renderShell();
+</script>
+</body>
+</html>
